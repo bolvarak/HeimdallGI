@@ -45,6 +45,17 @@ namespace HeimdallGI {
 	QString DBI::AscendingOrder               = "ASC";
 	QString DBI::DeleteQuery                  = "DELETE FROM :sTable :sWhere;";
 	QString DBI::DescendingOrder              = "DESC";
+	QString DBI::DriverDB2                    = "QDB2";
+	QString DBI::DriverInterBase              = "QIBASE";
+	QString DBI::DriverMySQL                  = "QMYSQL";
+	QString DBI::DriverMySQL3                 = "QMYSQL3";
+	QString DBI::DriverOCI                    = "QOCI";
+	QString DBI::DriverODBC                   = "QODBC";
+	QString DBI::DriverPostgreSQL             = "QPSQL";
+	QString DBI::DriverPostgreSQL7            = "QPSQL7";
+	QString DBI::DriverSQLite                 = "QSQLITE";
+	QString DBI::DriverSQLite2                = "QSQLITE2";
+	QString DBI::DriverSybase                 = "QTDS";
 	QString DBI::EqualityOperator             = "=";
 	QString DBI::FullJoinQuery                = "FULL JOIN :sJoinTable :sAsAlias ON (:sJoinAlias.:sJoinField = :sFromAlias.:sFromField)";
 	QString DBI::GreaterThanOperator          = ">";
@@ -112,7 +123,7 @@ namespace HeimdallGI {
 			strReturn = DBI::PgSQLWrapper;
 		}
 		// Setup the regular expression
-		QRegularExpression qreFunction("/^[a-zA-Z]+\(([a-zA-Z0-9_-`'\.]+)\)$/");
+		QRegularExpression qreFunction("^[a-zA-Z]+\\(([a-zA-Z0-9_-`'\\.]+)\\)$");
 		// Grab the matches
 		QRegularExpressionMatch qremFunction = qreFunction.match(strEntity);
 		// Determine if this is a function call with a column name
@@ -511,6 +522,29 @@ namespace HeimdallGI {
 		}
 		// Emit the signal
 		this->SendStatus(DBI::StatusComplete);
+		// Return the instance
+		return this;
+	}
+
+
+	DBI* DBI::OpenConnection(QString strDriver, QString strHost, int intPort, QString strUsername, QString strPassword, QString strDatabase) {
+		// Add the database connection
+		this->mConnection = QSqlDatabase::addDatabase(strDriver.isNull() ? Configuration::Get("Database.sqlDriver").toString()  : strDriver);
+		// Set the hostname
+		this->mConnection.setHostName(strHost.isNull()                   ? Configuration::Get("Database.serverHost").toString() : strHost);
+		// Set the server port
+		this->mConnection.setPort((intPort == 0)                         ? Configuration::Get("Database.serverPort").toInt()    : intPort);
+		// Set the database name
+		this->mConnection.setDatabaseName(strDatabase.isNull()           ? Configuration::Get("Database.dataBase").toString()   : strDatabase);
+		// Set the username
+		this->mConnection.setUserName(strUsername.isNull()               ? Configuration::Get("Database.userName").toString()   : strUsername);
+		// Set the password
+		this->mConnection.setPassword(strPassword.isNull()               ? Configuration::Get("Database.userPass").toString()   : strPassword);
+		// Open the connection
+		if (!this->mConnection.open()) {
+			// Throw an error
+			qFatal(this->mConnection.lastError().text().toLatin1());
+		}
 		// Return the instance
 		return this;
 	}

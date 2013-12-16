@@ -8,6 +8,7 @@
 #include "QString"
 #include "QVariant"
 #include "CGI.h"
+#include "DBI.h"
 #include "Router.h"
 #include "Template.h"
 #include "TestController.h"
@@ -27,6 +28,8 @@ int main(int intArguments, char* chrArguments[])
 {
 	// Initialize the HeimdallGI application
 	QCoreApplication qcaHeimdallGI(intArguments, chrArguments);
+	// Open the database connection
+	HeimdallGI::DBI::Instance(true)->OpenConnection();
 	// Instantiate the router
 	HeimdallGI::Router* hgiRouter  = new HeimdallGI::Router;
 	// Add the index route

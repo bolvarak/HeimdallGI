@@ -16,11 +16,13 @@
 #include "QRegularExpression"
 #include "QRegularExpressionMatch"
 #include "QtSql/QSqlDatabase"
+#include "QtSql/QSqlError"
 #include "QtSql/QSqlQuery"
 #include "QString"
 #include "QStringList"
 #include "QVariantMap"
 #include "QVariant"
+#include "Configuration.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Namespace ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -338,6 +340,82 @@ namespace HeimdallGI {
 		static QString DescendingOrder;
 
 		/**
+		 * @paragraph This constant contains the IBM DB2 driver name
+		 * @brief HeimdallGI::DBI::DriverDB2
+		 * @var QString
+		 */
+		static QString DriverDB2;
+
+		/**
+		 * @paragraph This constant contains the Borland InterBase driver name
+		 * @brief HeimdallGI::DBI::DriverInterBase
+		 * @var QString
+		 */
+		static QString DriverInterBase;
+
+		/**
+		 * @paragraph This constant contains the MySQL >= 4 driver name
+		 * @brief HeimdallGI::DBI::DriverMySQL
+		 * @var QString
+		 */
+		static QString DriverMySQL;
+
+		/**
+		 * @paragraph This constant contains the MySQL <= 3 driver name
+		 * @brief HeimdallGI::DBI::DriverMySQL3
+		 * @var QString
+		 */
+		static QString DriverMySQL3;
+
+		/**
+		 * @paragraph This constant contains the Oracle Call Interface driver name
+		 * @brief HeimdallGI::DBI::DriverOCI
+		 * @var QString
+		 */
+		static QString DriverOCI;
+
+		/**
+		 * @paragraph This constant contains the ODBC driver name (Includes Microsoft SQL Server)
+		 * @brief HeimdallGI::DBI::DriverODBC
+		 * @var QString
+		 */
+		static QString DriverODBC;
+
+		/**
+		 * @paragraph This constant contains the PostgreSQL >= 8 driver name
+		 * @brief HeimdallGI::DBI::DriverPostgreSQL
+		 * @var QString
+		 */
+		static QString DriverPostgreSQL;
+
+		/**
+		 * @paragraph This constant contains the PostgreSQL <= 7 driver name
+		 * @brief HeimdallGI::DBI::DriverPostgreSQL7
+		 * @var QString
+		 */
+		static QString DriverPostgreSQL7;
+
+		/**
+		 * @paragraph This constant contains the SQLite >= 3 driver name
+		 * @brief HeimdallGI::DBI::DriverSQLite
+		 * @var QString
+		 */
+		static QString DriverSQLite;
+
+		/**
+		 * @paragraph This constant contains the SQLite <= 2 driver name
+		 * @brief HeimdallGI::DBI::DriverSQLite2
+		 * @var QString
+		 */
+		static QString DriverSQLite2;
+
+		/**
+		 * @paragraph This constant contains the Sybase Adaptive Server driver name
+		 * @brief HeimdallGI::DBI::DriverSybase
+		 */
+		static QString DriverSybase;
+
+		/**
 		 * @paragraph This constant contains the = operator
 		 * @brief HeimdallGI::DBI::EqualityOperator
 		 * @var QString
@@ -595,14 +673,15 @@ namespace HeimdallGI {
 		/**
 		 * @paragraph This method opens a connection to the database
 		 * @brief HeimdallGI::DBI::OpenConnection()
+		 * @param QString strDriver [NULL]
 		 * @param QString strHost [NULL]
-		 * @param int intPort [NULL]
+		 * @param int intPort [0]
 		 * @param QString strUsername [NULL]
 		 * @param QString strPassword [NULL]
 		 * @param QString strDatabase [NULL]
 		 * @return HeimdallGI::DBI* HeimdallGI::DBI::mInstance
 		 */
-		DBI* OpenConnection(QString strHost = NULL, int intPort = NULL, QString strUsername = NULL, QString strPassword = NULL, QString strDatabase = NULL);
+		DBI* OpenConnection(QString strDriver = NULL, QString strHost = NULL, int intPort = 0, QString strUsername = NULL, QString strPassword = NULL, QString strDatabase = NULL);
 
 		///////////////////////////////////////////////////////////////////////
 		/// Getters //////////////////////////////////////////////////////////
@@ -740,7 +819,7 @@ namespace HeimdallGI {
 		 * @param int intMinimum [NULL]
 		 * @return HeimdallGI::DBI* HeimdallGI::DBI::mInstance
 		 */
-		DBI* SetLimit(int intMaximum, int intMinimum = NULL);
+		DBI* SetLimit(int intMaximum, int intMinimum = 0);
 
 		/**
 		 * @paragraph This method sets the database password into the instance
