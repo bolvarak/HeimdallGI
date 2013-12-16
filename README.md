@@ -11,7 +11,7 @@ Qt >= 5.0.2 http://qt-project.org/
 Compiling
 =========
 
-1.  ```~:> git clone https://github.com/bolvarak/HeimdallGI.git && cd HeimdallGI```, just for all you beginners.
+1.  ```~:> git clone https://bolvarak@bitbucket.org/bolvarak/heimdallgi.git && cd HeimdallGI```, just for all you beginners.
 2.  ```~:> nano Application.ini``` or vi, your choice, but you should change ```basePath``` and ```templatePath``` under ```Paths``` before you continue or your views will not process and no content will display.
 3.  ```~:> qmake HeimdallGI.pro```
 4.  ```~:> make```
