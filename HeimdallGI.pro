@@ -12,7 +12,9 @@ SOURCES     += main.cpp \
 		Router.cpp \
 		Template.cpp \
 		TestController.cpp \
-		View.cpp
+		View.cpp \
+    GeneticAlgorithm.cpp \
+    GeneticAlgorithmMap.cpp
 
 HEADERS     += \
 		CGI.h \
@@ -22,7 +24,9 @@ HEADERS     += \
 		Router.h \
 		Template.h \
 		TestController.h \
-		View.h
+		View.h \
+    GeneticAlgorithm.h \
+    GeneticAlgorithmMap.h
 
 OTHER_FILES += \
 	Application.ini
