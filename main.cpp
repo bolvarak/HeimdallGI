@@ -27,10 +27,6 @@
  */
 int main(int intArguments, char* chrArguments[])
 {
-	// Load the MySQL driver
-	QPluginLoader qplMySQL("/opt/Qt/5.2.0/gcc_64/plugins/sqldrivers/libqsqlmysql.so");
-	// Execute the loader
-	qplMySQL.load();
 	// Initialize the HeimdallGI application
 	QCoreApplication qcaHeimdallGI(intArguments, chrArguments);
 	// Open the database connection
