@@ -13,8 +13,9 @@ SOURCES     += main.cpp \
 		Template.cpp \
 		TestController.cpp \
 		View.cpp \
-    GeneticAlgorithm.cpp \
-    GeneticAlgorithmMap.cpp
+                # GeneticAlgorithm.cpp \
+                # GeneticAlgorithmMap.cpp \
+                NeuralNetwork.cpp
 
 HEADERS     += \
 		CGI.h \
@@ -25,8 +26,9 @@ HEADERS     += \
 		Template.h \
 		TestController.h \
 		View.h \
-    GeneticAlgorithm.h \
-    GeneticAlgorithmMap.h
+                # GeneticAlgorithm.h \
+                # GeneticAlgorithmMap.h \
+                NeuralNetwork.h
 
 OTHER_FILES += \
 	Application.ini

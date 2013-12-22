@@ -2,14 +2,15 @@
 /// Headers //////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// #include "HeimdallGI"
 #include "QCoreApplication"
 #include "QDebug"
+#include "QList"
 #include "QPluginLoader"
 #include "QString"
 #include "QVariant"
 #include "CGI.h"
 #include "DBI.h"
+#include "NeuralNetwork.h"
 #include "Router.h"
 #include "Template.h"
 #include "TestController.h"
@@ -25,8 +26,18 @@
  * @param char* chrArguments
  * @return int
  */
-int main(int intArguments, char* chrArguments[])
-{
+int main(int intArguments, char* chrArguments[]) {
+	// Define the inputs
+	QList<QVariant> qlInputs;
+	// Add the inputs
+	qlInputs.append(12);
+	qlInputs.append(4);
+	// Create the Perceptron
+	HeimdallGI::Perceptron prnTest(qlInputs);
+	// Fire the perceptron
+	prnTest.activate();
+	// Output the activation
+	qDebug() << QString::number(prnTest.mActivation);
 	// Initialize the HeimdallGI application
 	QCoreApplication qcaHeimdallGI(intArguments, chrArguments);
 	// Open the database connection
@@ -37,9 +48,9 @@ int main(int intArguments, char* chrArguments[])
 	hgiRouter->AddRoute("/index", new TestController, "Index");
 	// Instantiate the CGI
 	HeimdallGI::CGI::Instance()
-			->SetContentType(HeimdallGI::CGI::ContentTypeHTML)                           // Set the content type
+			->SetContentType(HeimdallGI::CGI::ContentTypeHTML)                                     // Set the content type
 			->SetContent(hgiRouter->Execute(HeimdallGI::CGI::Instance(), "/index")->GetTemplate()) // Execute the Router
-			->WriteResponse();                                                           // Send the response
+			->WriteResponse();                                                                     // Send the response
 	// Return the application execution status
 	return 0;
 }

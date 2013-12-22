@@ -106,6 +106,13 @@ namespace HeimdallGI {
 		double mBestFitness;
 
 		/**
+		 * @paragraph This property contains the number of bits for each genome
+		 * @brief HeimdallGI::GeneticAlgorithm::mBits
+		 * @var int
+		 */
+		int mBits;
+
+		/**
 		 * @paragraph This property contains the brain of the network
 		 * @brief HeimdallGI::GeneticAlgorithm::mBrain
 		 * @var HeimdallGI::GeneticAlgorithmMap
@@ -193,22 +200,45 @@ namespace HeimdallGI {
 		/// Methods //////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
 
-
-		int BinaryToInteger(QVector<int> &qviBinary);
-
-
+		/**
+		 * @paragraph This method executes the crossover sequence
+		 * @brief HeimdallGI::GeneticAlgorithm::Crossover()
+		 * @param QVector<int> qviMaternal
+		 * @param QVector<int> qviPaternal
+		 * @param QVector<int> qviOffspringAlpha
+		 * @param QVector<int> qviOffspringBeta
+		 * @return void
+		 */
 		void Crossover(QVector<int> &qviMaternal, QVector<int> &qviPaternal, QVector<int> &qviOffspringAlpha, QVector<int> &qviOffspringBeta);
 
-
+		/**
+		 * @paragraph This method decodes bits
+		 * @brief HeimdallGI::GeneticAlgorithm::Decode()
+		 * @param QVector<int> qviEncodedBits
+		 * @return QVector<int>
+		 */
 		QVector<int> Decode(QVector<int> &qviEncodedBits);
 
-
+		/**
+		 * @paragraph This method executes the mutation sequence
+		 * @brief HeimdallGI::GeneticAlgorithm::Mutate()
+		 * @param QVector<int> qviBits
+		 * @return void
+		 */
 		void Mutate(QVector<int> &qviBits);
 
-
+		/**
+		 * @paragraph This method runs the genome selection sequence
+		 * @brief HeimdallGI::GeneticAlgorithm::Selection()
+		 * @return HeimdallGI::Genome
+		 */
 		Genome& Selection();
 
-
+		/**
+		 * @paragraph This method updates the fitness scrores for the network
+		 * @brief HeimdallGI::GeneticAlgorithm::UpdateFitnessScores()
+		 * @return void
+		 */
 		void UpdateFitnessScores();
 
 	///////////////////////////////////////////////////////////////////////////
@@ -260,6 +290,34 @@ namespace HeimdallGI {
 		explicit GeneticAlgorithm(QObject* qoParent = 0);
 
 		///////////////////////////////////////////////////////////////////////
+		/// Static Methods ///////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method converts binary data to an integer
+		 * @brief HeimdallGI::GeneticAlgorithm::BinaryToInteger()
+		 * @param QVector<int> qviBinary
+		 * @return int
+		 */
+		static int BinaryToInteger(QVector<int> &qviBinary);
+
+		/**
+		 * @paragraph This method returns a random floating point
+		 * @brief HeimdallGI::GeneticAlgorithm::RandomFloatingPoint()
+		 * @return double
+		 */
+		static double RandomFloatingPoint();
+
+		/**
+		 * @paragraph This method returns a random integer
+		 * @brief HeimdallGI::GeneticAlgorithm::RandomInteger()
+		 * @param int intFirst
+		 * @param int intLast
+		 * @return int
+		 */
+		static int RandomInteger(int intFirst, int intLast);
+
+		///////////////////////////////////////////////////////////////////////
 		/// Methods //////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
 
@@ -273,21 +331,35 @@ namespace HeimdallGI {
 		/**
 		 * @paragraph This method executes the network
 		 * @brief HeimdallGI::GeneticAlgorithm::Execute()
-		 * @return void
+		 * @return HeimdallGI::GeneticAlgorithm* HeimdallGI::GeneticAlgorithm::mInstance
 		 */
-		void Execute();
+		GeneticAlgorithm* Execute();
 
 		/**
 		 * @paragraph This method initializes the population of the network
 		 * @brief HeimdallGI::GeneticAlgorithm::InitializePopulation()
-		 * @return void
+		 * @return HeimdallGI::GeneticAlgorithm* HeimdallGI::GeneticAlgorithm::mInstance
 		 */
-		void InitializePopulation();
+		GeneticAlgorithm* InitializePopulation();
 
 
 		///////////////////////////////////////////////////////////////////////
 		/// Getters //////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method returns the number of bits per genome
+		 * @brief HeimdallGI::GeneticAlgorithm::GetBits()
+		 * @return int HeimdallGI::GeneticAlgorithm::mBits
+		 */
+		int GetBits();
+
+		/**
+		 * @paragraph This method returns the crossover rate
+		 * @brief HeimdallGI::GeneticAlgorithm::GetCrossoverRate()
+		 * @return double HeimdallGI::GeneticAlgorithm::mCrossoverRate
+		 */
+		double GetCrossoverRate();
 
 		/**
 		 * @paragraph This method returns the fittest genome
@@ -297,11 +369,32 @@ namespace HeimdallGI {
 		int GetFittest();
 
 		/**
+		 * @paragraph This method returns the gene length
+		 * @brief HeimdallGI::GeneticAlgorithm::GetGeneLength()
+		 * @return int HeimdallGI::GeneticAlgorithm::mGeneLength
+		 */
+		int GetGeneLength();
+
+		/**
 		 * @paragraph This method returns the current generation
 		 * @brief HeimdallGI::GeneticAlgorithm::GetGeneration()
 		 * @return int
 		 */
 		int GetGeneration();
+
+		/**
+		 * @paragraph This method returns the mutation rate
+		 * @brief HeimdallGI::GeneticAlgorithm::GetMutationRate()
+		 * @return double HeimdallGI::GeneticAlgorithm::mMutationRate
+		 */
+		double GetMutationRate();
+
+		/**
+		 * @paragraph This method returns the population size
+		 * @brief HeimdallGI::GeneticAlgorithm::GetPopulation()
+		 * @return int HeimdallGI::GeneticAlgorithm::mPopulation
+		 */
+		int GetPopulation();
 
 		/**
 		 * @paragraph This method returns the status of the network
