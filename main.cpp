@@ -27,17 +27,10 @@
  * @return int
  */
 int main(int intArguments, char* chrArguments[]) {
-	// Define the inputs
-	QList<QVariant> qlInputs;
-	// Add the inputs
-	qlInputs.append(12);
-	qlInputs.append(4);
-	// Create the Perceptron
-	HeimdallGI::Perceptron prnTest(qlInputs);
-	// Fire the perceptron
-	prnTest.activate();
-	// Output the activation
-	qDebug() << QString::number(prnTest.mActivation);
+	/**
+	 * @paragraph Seed the random number generator, this is required if you wish to use HeimdallGI::NeuralNetwork
+	 */
+	srand((unsigned int) time(NULL));
 	// Initialize the HeimdallGI application
 	QCoreApplication qcaHeimdallGI(intArguments, chrArguments);
 	// Open the database connection
@@ -51,6 +44,7 @@ int main(int intArguments, char* chrArguments[]) {
 			->SetContentType(HeimdallGI::CGI::ContentTypeHTML)                                     // Set the content type
 			->SetContent(hgiRouter->Execute(HeimdallGI::CGI::Instance(), "/index")->GetTemplate()) // Execute the Router
 			->WriteResponse();                                                                     // Send the response
+	qDebug() << "\n\n[sigmoid]\t=>\t" << QString::number(HeimdallGI::NeuralNetwork::Sigmoid(12)) << "\n\n";
 	// Return the application execution status
 	return 0;
 }
