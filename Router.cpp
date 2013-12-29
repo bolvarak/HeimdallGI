@@ -146,12 +146,18 @@ namespace HeimdallGI {
 	}
 
 	View* Router::Execute(CGI* objRequest, QString strPath) {
+		// Log the path
+		HeimdallGI::Log::Add("Path", strPath);
 		// Traverse the routes
 		for (int intRoute = 0; intRoute < this->mRoutes.size(); ++intRoute) {
 			// Define the parameter map
 			QVariantMap qvmParameters;
 			// Set the route into the structure
 			Route structRoute = this->mRoutes.at(intRoute);
+			// Log the route
+			HeimdallGI::Log::Add("Controller", QString(structRoute.getController()->metaObject()->className()));
+			HeimdallGI::Log::Add("View", structRoute.getViewMethod());
+			HeimdallGI::Log::Add("Route Path", structRoute.getPath());
 			// Check for a match
 			if (structRoute.getController() && this->ReverseMatchPath(structRoute.getPath(), strPath, qvmParameters)) {
 				// Traverse the parameters map
