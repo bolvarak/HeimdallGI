@@ -19,10 +19,6 @@ void TestController::Index(HeimdallGI::CGI* objRequest, HeimdallGI::View* &objVi
 	objView->SetPageValue("pageTitle", "Hello World!");
 	// Set the page name
 	objView->SetPageValue("pageName", "Hello World");
-	// Add a script
-	objView->AddScript("http://code.jquery.com/jquery-2.0.3.min.js", HeimdallGI::CGI::ContentTypeJS, false, true);
-	// Add another script
-	objView->AddScript("jQuery(document).ready(function($) { alert('Hello World!'); })", HeimdallGI::CGI::ContentTypeJS, true, false);
 	// Set the block file
 	objView->SetTemplate("test/index.hgt");
 	// Create a list for data
