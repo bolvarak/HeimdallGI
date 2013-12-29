@@ -44,11 +44,11 @@ namespace HeimdallGI {
 		// Create the string list
 		QStringList qslDataEntry;
 		// Add the timestamp
-		qslDataEntry[0] = QDateTime::currentDateTime().toString("ddd MMM dd, yyyy @ hh:mm:ss");
+		qslDataEntry.insert(0, QDateTime::currentDateTime().toString("ddd MMM dd, yyyy @ hh:mm:ss"));
 		// Add the key name
-		qslDataEntry[1] = strKey;
+		qslDataEntry.insert(1, strKey);
 		// Add the value
-		qslDataEntry[2] = strValue;
+		qslDataEntry.insert(2, strValue);
 		// Add the data entry
 		this->mData.append(qslDataEntry);
 		// Return the instance
@@ -76,11 +76,11 @@ namespace HeimdallGI {
 				// Create the string list
 				QStringList qslDataEntry;
 				// Add the timestamp
-				qslDataEntry.append(QDateTime::currentDateTime().toString("ddd MMM dd, yyyy @ hh:mm:ss"));
+				qslDataEntry.insert(0, QDateTime::currentDateTime().toString("ddd MMM dd, yyyy @ hh:mm:ss"));
 				// Add the key name
-				qslDataEntry.append(strKey);
+				qslDataEntry.insert(1, strKey);
 				// Add the value
-				qslDataEntry.append(strValue);
+				qslDataEntry.insert(2, strValue);
 				// Replace the entry
 				this->mData.replace(intEntry, qslDataEntry);
 			}
