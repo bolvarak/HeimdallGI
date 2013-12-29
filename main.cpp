@@ -38,13 +38,21 @@ int main(int intArguments, char* chrArguments[]) {
 	// Instantiate the router
 	HeimdallGI::Router* hgiRouter  = new HeimdallGI::Router;
 	// Add the index route
-	hgiRouter->AddRoute("/index", new TestController, "Index");
+	hgiRouter->AddRoute("/index", new TestController, "Index")
+			->AddRoute (NULL,     new TestController, "Index")
+			->AddRoute ("/",      new TestController, "Index");
+	// Define a header string
+	QString strHeaders;
+	// Iterate over the headers
+	for (QMap<QString, QString>::const_iterator itrHeader = HeimdallGI::CGI::Instance()->GetRequestHeaders().constBegin(); itrHeader != HeimdallGI::CGI::Instance()->GetRequestHeaders().constEnd(); ++itrHeader) {
+		// Append the string
+		strHeaders.append("[").append(itrHeader.key()).append("] => ").append(itrHeader.value()).append("\n");
+	}
 	// Instantiate the CGI
 	HeimdallGI::CGI::Instance()
 			->SetContentType(HeimdallGI::CGI::ContentTypeHTML)                                     // Set the content type
-			->SetContent(hgiRouter->Execute(HeimdallGI::CGI::Instance(), "/index")->GetTemplate()) // Execute the Router
+			->SetContent(hgiRouter->Execute(HeimdallGI::CGI::Instance())->GetTemplate().append(strHeaders)) // Execute the Router
 			->WriteResponse();                                                                     // Send the response
-	qDebug() << "\n\n[sigmoid]\t=>\t" << QString::number(HeimdallGI::NeuralNetwork::Sigmoid(12)) << "\n\n";
 	// Return the application execution status
 	return 0;
 }
