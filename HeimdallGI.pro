@@ -33,7 +33,8 @@ HEADERS     += \
     Log.h
 
 OTHER_FILES += \
-	Application.ini
+	Application.ini \
+    run.sh
 
 RESOURCES   += \
 	Resources.qrc

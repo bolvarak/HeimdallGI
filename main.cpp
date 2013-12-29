@@ -43,9 +43,9 @@ int main(int intArguments, char* chrArguments[]) {
 			->AddRoute (NULL,     new TestController, "Index")
 			->AddRoute ("/",      new TestController, "Index");
 	// Iterate over the cookies
-	for (QMap<QString, QString>::const_iterator itrParameter = HeimdallGI::CGI::Instance()->GetCookies().constBegin(); itrParameter != HeimdallGI::CGI::Instance()->GetCookies().constEnd(); ++itrParameter) {
+	for (QMap<QString, QString>::const_iterator itrCookie = HeimdallGI::CGI::Instance()->GetCookies().constBegin(); itrCookie != HeimdallGI::CGI::Instance()->GetCookies().constEnd(); ++itrCookie) {
 		// Add the data to the log
-		HeimdallGI::Log::Instance()->Add(itrParameter.key(), itrParameter.value());
+		HeimdallGI::Log::Instance()->Add(itrCookie.key(), itrCookie.value());
 	}
 	// Iterate over the POST data
 	for (QMap<QString, QString>::const_iterator itrParameter = HeimdallGI::CGI::Instance()->GetPostData().constBegin(); itrParameter != HeimdallGI::CGI::Instance()->GetPostData().constEnd(); ++itrParameter) {
@@ -53,14 +53,14 @@ int main(int intArguments, char* chrArguments[]) {
 		HeimdallGI::Log::Instance()->Add(itrParameter.key(), itrParameter.value());
 	}
 	// Iterate over the query data
-	for (QMap<QString, QString>::const_iterator itrParameter = HeimdallGI::CGI::Instance()->GetQueryData().constBegin(); itrParameter != HeimdallGI::CGI::Instance()->GetQueryData().constEnd(); ++itrParameter) {
+	for (QMap<QString, QString>::const_iterator itrQueryParam = HeimdallGI::CGI::Instance()->GetQueryData().constBegin(); itrQueryParam != HeimdallGI::CGI::Instance()->GetQueryData().constEnd(); ++itrQueryParam) {
 		// Add the data to the log
-		HeimdallGI::Log::Instance()->Add(itrParameter.key(), itrParameter.value());
+		HeimdallGI::Log::Instance()->Add(itrQueryParam.key(), itrQueryParam.value());
 	}
 	// Iterate over the request headers
-	for (QMap<QString, QString>::const_iterator itrParameter = HeimdallGI::CGI::Instance()->GetRequestHeaders().constBegin(); itrParameter != HeimdallGI::CGI::Instance()->GetRequestHeaders().constEnd(); ++itrParameter) {
+	for (QMap<QString, QString>::const_iterator itrHeader = HeimdallGI::CGI::Instance()->GetRequestHeaders().constBegin(); itrHeader != HeimdallGI::CGI::Instance()->GetRequestHeaders().constEnd(); ++itrHeader) {
 		// Add the data to the log
-		HeimdallGI::Log::Instance()->Add(itrParameter.key(), itrParameter.value());
+		HeimdallGI::Log::Instance()->Add(itrHeader.key(), itrHeader.value());
 	}
 	// Instantiate the CGI
 	HeimdallGI::CGI::Instance()

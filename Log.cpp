@@ -44,11 +44,11 @@ namespace HeimdallGI {
 		// Create the string list
 		QStringList qslDataEntry;
 		// Add the timestamp
-		qslDataEntry.append(QDateTime::currentDateTime().toString("ddd MMM dd, yyyy @ hh:mm:ss"));
+		qslDataEntry[0] = QDateTime::currentDateTime().toString("ddd MMM dd, yyyy @ hh:mm:ss");
 		// Add the key name
-		qslDataEntry.append(strKey);
+		qslDataEntry[1] = strKey;
 		// Add the value
-		qslDataEntry.append(strValue);
+		qslDataEntry[2] = strValue;
 		// Add the data entry
 		this->mData.append(qslDataEntry);
 		// Return the instance
@@ -99,7 +99,7 @@ namespace HeimdallGI {
 		// Iterate over the map
 		for (int intEntry = 0; intEntry < this->mData.size(); ++intEntry) {
 			// Append the data to the string
-			strResponse.append(QString("[%1] - [%2] => %2<br>").arg(this->mData.at(intEntry).at(0), this->mData.at(intEntry).at(1), this->mData.at(intEntry).at(2)));
+			strResponse.append(QString("[%1] - [%2] => %2<br>").arg(this->mData.at(intEntry).at(0)).arg(this->mData.at(intEntry).at(1)).arg(this->mData.at(intEntry).at(2)));
 		}
 		// Finalize the string
 		strResponse.append("</pre>");
@@ -137,7 +137,7 @@ namespace HeimdallGI {
 		// Iterate over the map
 		for (int intEntry = 0; intEntry < this->mData.size(); ++intEntry) {
 			// Append the data to the string
-			strResponse.append(QString("[%1] - [%2] => %2\n").arg(this->mData.at(intEntry).at(0), this->mData.at(intEntry).at(1), this->mData.at(intEntry).at(2)));
+			strResponse.append(QString("[%1] - [%2] => %2\n").arg(this->mData.at(intEntry).at(0)).arg(this->mData.at(intEntry).at(1)).arg(this->mData.at(intEntry).at(2)));
 		}
 		// Finalize the string
 		strResponse.append("\n");
