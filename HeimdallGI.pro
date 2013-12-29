@@ -15,7 +15,8 @@ SOURCES     += main.cpp \
 		View.cpp \
                 # GeneticAlgorithm.cpp \
                 # GeneticAlgorithmMap.cpp \
-                NeuralNetwork.cpp
+                NeuralNetwork.cpp \
+    Log.cpp
 
 HEADERS     += \
 		CGI.h \
@@ -28,7 +29,8 @@ HEADERS     += \
 		View.h \
                 # GeneticAlgorithm.h \
                 # GeneticAlgorithmMap.h \
-                NeuralNetwork.h
+                NeuralNetwork.h \
+    Log.h
 
 OTHER_FILES += \
 	Application.ini

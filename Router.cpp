@@ -47,26 +47,6 @@ namespace HeimdallGI {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	bool Router::ReverseMatchPath(QString strPattern, QString strPath, QVariantMap &qvmParameters) {
-		// Check to see if the first character is a forward slash
-		if (!strPath.isEmpty() && (strPattern.at(0) == '/')) {
-			// Remove the forward slash
-			strPattern = strPattern.mid(1);
-		}
-		// Now check the path for the same
-		if (!strPath.isEmpty() && (strPath.at(0) == '/')) {
-			// Remove the forward slash
-			strPath    = strPath.mid(1);
-		}
-		// Check to see if the last character is a forward slash
-		if (!strPath.isEmpty() && (strPattern.at(strPattern.size() - 1) == '/')) {
-			// Remove the forward slash
-			strPattern.chop(1);
-		}
-		// Now check the path for the same thing
-		if (!strPath.isEmpty() && (strPath.at(strPath.size() - 1) == '/')) {
-			// Remove the forward slash
-			strPath.chop(1);
-		}
 		// Split the pattern
 		QStringList qslPattern = strPattern.split('/');
 		// Split the path
