@@ -99,7 +99,14 @@ namespace HeimdallGI {
 		// Iterate over the map
 		for (int intEntry = 0; intEntry < this->mData.size(); ++intEntry) {
 			// Append the data to the string
-			strResponse.append(QString("[%1] - [%2] => %2<br>").arg(this->mData.at(intEntry).at(0)).arg(this->mData.at(intEntry).at(1)).arg(this->mData.at(intEntry).at(2)));
+			strResponse
+					.append(QString("[")
+					.append(this->mData.at(intEntry).at(0))
+					.append("] - [")
+					.append(this->mData.at(intEntry).at(1))
+					.append("] => ")
+					.append(this->mData.at(intEntry).at(2))
+					.append("<br>");
 		}
 		// Finalize the string
 		strResponse.append("</pre>");
@@ -137,7 +144,14 @@ namespace HeimdallGI {
 		// Iterate over the map
 		for (int intEntry = 0; intEntry < this->mData.size(); ++intEntry) {
 			// Append the data to the string
-			strResponse.append(QString("[%1] - [%2] => %2\n").arg(this->mData.at(intEntry).at(0)).arg(this->mData.at(intEntry).at(1)).arg(this->mData.at(intEntry).at(2)));
+			strResponse
+					.append(QString("[")
+					.append(this->mData.at(intEntry).at(0))
+					.append("] - [")
+					.append(this->mData.at(intEntry).at(1))
+					.append("] => ")
+					.append(this->mData.at(intEntry).at(2))
+					.append("\n");
 		}
 		// Finalize the string
 		strResponse.append("\n");
