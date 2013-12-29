@@ -10,6 +10,7 @@
 #include "QVariant"
 #include "CGI.h"
 #include "DBI.h"
+#include "Log.h"
 #include "NeuralNetwork.h"
 #include "Router.h"
 #include "Template.h"
@@ -41,18 +42,31 @@ int main(int intArguments, char* chrArguments[]) {
 	hgiRouter->AddRoute("/index", new TestController, "Index")
 			->AddRoute (NULL,     new TestController, "Index")
 			->AddRoute ("/",      new TestController, "Index");
-	// Define a header string
-	QString strHeaders;
-	// Iterate over the headers
-	for (QMap<QString, QString>::const_iterator itrHeader = HeimdallGI::CGI::Instance()->GetRequestHeaders().constBegin(); itrHeader != HeimdallGI::CGI::Instance()->GetRequestHeaders().constEnd(); ++itrHeader) {
-		// Append the string
-		strHeaders.append("[").append(itrHeader.key()).append("] => ").append(itrHeader.value()).append("\n");
+	// Iterate over the cookies
+	for (QMap<QString, QString>::const_iterator itrParameter = HeimdallGI::CGI::Instance()->GetCookies().constBegin(); itrParameter != HeimdallGI::CGI::Instance()->GetCookies().constEnd(); ++itrParameter) {
+		// Add the data to the log
+		HeimdallGI::Log::Instance()->Add(itrParameter.key(), itrParameter.value());
+	}
+	// Iterate over the POST data
+	for (QMap<QString, QString>::const_iterator itrParameter = HeimdallGI::CGI::Instance()->GetPostData().constBegin(); itrParameter != HeimdallGI::CGI::Instance()->GetPostData().constEnd(); ++itrParameter) {
+		// Add the data to the log
+		HeimdallGI::Log::Instance()->Add(itrParameter.key(), itrParameter.value());
+	}
+	// Iterate over the query data
+	for (QMap<QString, QString>::const_iterator itrParameter = HeimdallGI::CGI::Instance()->GetQueryData().constBegin(); itrParameter != HeimdallGI::CGI::Instance()->GetQueryData().constEnd(); ++itrParameter) {
+		// Add the data to the log
+		HeimdallGI::Log::Instance()->Add(itrParameter.key(), itrParameter.value());
+	}
+	// Iterate over the request headers
+	for (QMap<QString, QString>::const_iterator itrParameter = HeimdallGI::CGI::Instance()->GetRequestHeaders().constBegin(); itrParameter != HeimdallGI::CGI::Instance()->GetRequestHeaders().constEnd(); ++itrParameter) {
+		// Add the data to the log
+		HeimdallGI::Log::Instance()->Add(itrParameter.key(), itrParameter.value());
 	}
 	// Instantiate the CGI
 	HeimdallGI::CGI::Instance()
-			->SetContentType(HeimdallGI::CGI::ContentTypeHTML)                                     // Set the content type
-			->SetContent(hgiRouter->Execute(HeimdallGI::CGI::Instance())->GetTemplate().append(strHeaders)) // Execute the Router
-			->WriteResponse();                                                                     // Send the response
+			->SetContentType(HeimdallGI::CGI::ContentTypeHTML)                                                                          // Set the content type
+			->SetContent(hgiRouter->Execute(HeimdallGI::CGI::Instance())->GetTemplate().append(HeimdallGI::Log::Instance()->GetHTML())) // Execute the Router
+			->WriteResponse();                                                                                                          // Send the response
 	// Return the application execution status
 	return 0;
 }

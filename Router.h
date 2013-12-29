@@ -24,6 +24,7 @@
 #include "QVariantMap"
 #include "QVariant"
 #include "CGI.h"
+#include "Log.h"
 #include "Template.h"
 #include "View.h"
 
