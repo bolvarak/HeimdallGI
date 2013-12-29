@@ -147,7 +147,7 @@ namespace HeimdallGI {
 
 	View* Router::Execute(CGI* objRequest, QString strPath) {
 		// Log the path
-		HeimdallGI::Log::Instance()->Add("Path", strPath);
+		this->mLog->Add("Path", strPath);
 		// Traverse the routes
 		for (int intRoute = 0; intRoute < this->mRoutes.size(); ++intRoute) {
 			// Define the parameter map
@@ -155,9 +155,10 @@ namespace HeimdallGI {
 			// Set the route into the structure
 			Route structRoute = this->mRoutes.at(intRoute);
 			// Log the route
-			HeimdallGI::Log::Instance()->Add("Controller", QString(structRoute.getController()->metaObject()->className()));
-			HeimdallGI::Log::Instance()->Add("View", structRoute.getViewMethod());
-			HeimdallGI::Log::Instance()->Add("Route Path", structRoute.getPath());
+			this->mLog
+					->Add("Controller", QString(structRoute.getController()->metaObject()->className()))
+					->Add("View", structRoute.getViewMethod())
+					->Add("Route Path", structRoute.getPath());
 			// Check for a match
 			if (structRoute.getController() && this->ReverseMatchPath(structRoute.getPath(), strPath, qvmParameters)) {
 				// Traverse the parameters map
@@ -197,6 +198,13 @@ namespace HeimdallGI {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Setters //////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	Router* Router::SetLogger(Log *&objLogger) {
+		// Set the logger into the instance
+		this->mLog = objLogger;
+		// Return the instance
+		return this;
+	}
 
 	Router* Router::SetRequest(CGI* objRequest) {
 		// Set the request object into the instance

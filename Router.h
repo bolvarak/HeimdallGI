@@ -173,6 +173,13 @@ namespace HeimdallGI {
 		static Router* mInstance;
 
 		/**
+		 * @paragraph This property contains the instance of the log
+		 * @brief HeimdallGI::Router::mLog
+		 * @var HeimdallGI::Log*
+		 */
+		Log* mLog;
+
+		/**
 		 * @paragraph This property contains the current Request
 		 * @brief HeimdallGI::Router::mRequest
 		 * @var HeimdallGI::CGI*
@@ -256,6 +263,14 @@ namespace HeimdallGI {
 		///////////////////////////////////////////////////////////////////////
 		/// Setters //////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method sets the logger into the instance
+		 * @brief HeimdallGI::Router::SetLogger()
+		 * @param HeimdallGI::Log* objLogger
+		 * @return HeimdallGI::Router* HeimdallGI::Router::mInstance
+		 */
+		Router* SetLogger(Log* &objLogger);
 
 		/**
 		 * @paragraph This method sets the request object into the instance
