@@ -100,7 +100,7 @@ namespace HeimdallGI {
 		for (int intEntry = 0; intEntry < this->mData.size(); ++intEntry) {
 			// Append the data to the string
 			strResponse
-					.append(QString("[")
+					.append("[")
 					.append(this->mData.at(intEntry).at(0))
 					.append("] - [")
 					.append(this->mData.at(intEntry).at(1))
@@ -145,7 +145,7 @@ namespace HeimdallGI {
 		for (int intEntry = 0; intEntry < this->mData.size(); ++intEntry) {
 			// Append the data to the string
 			strResponse
-					.append(QString("[")
+					.append("[")
 					.append(this->mData.at(intEntry).at(0))
 					.append("] - [")
 					.append(this->mData.at(intEntry).at(1))
