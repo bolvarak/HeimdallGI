@@ -146,6 +146,11 @@ namespace HeimdallGI {
 	}
 
 	View* Router::Execute(CGI* objRequest, QString strPath) {
+		// Check for a path
+		if (strPath.isEmpty()) {
+			// Set the path to the REQUEST_URI
+			strPath = objRequest->GetRequestHeader("REQUEST_URI").replace(QString("?%1").arg(objRequest->GetRequestHeader("QUERY_STRING")), "");
+		}
 		// Log the path
 		this->mLog->Add("Path", strPath);
 		// Traverse the routes
