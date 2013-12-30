@@ -76,5 +76,5 @@ int main(int intArguments, char* chrArguments[]) {
 						 .append(hgiLogger->GetHTML()))       // Execute the Router
 			->WriteResponse();                                // Send the response
 	// Return the application execution status
-	qcaHGI.exit();
+	return 0;
 }
