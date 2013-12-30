@@ -119,6 +119,8 @@ namespace HeimdallGI {
 		QJsonDocument qjdResponse;
 		// Define the JSON array
 		QJsonArray qjaResponse;
+		// Define the JSON object
+		QJsonObject qjoResponse;
 		// Iterate over the data
 		for (int intEntry = 0; intEntry < this->mData.size(); ++intEntry) {
 			// Define the JSON object
@@ -132,8 +134,10 @@ namespace HeimdallGI {
 			// Append the object to the array
 			qjaResponse.append(qjoEntry);
 		}
+		// Add the array to the object
+		qjoResponse.insert("log", qjaResponse);
 		// Set the array into the document
-		qjdResponse.setArray(qjaResponse);
+		qjdResponse.setObject(qjoResponse);
 		// Return the JSON
 		return qjdResponse.toJson(bCompact ? QJsonDocument::Compact : QJsonDocument::Indented);
 	}

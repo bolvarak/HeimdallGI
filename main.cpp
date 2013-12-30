@@ -32,19 +32,22 @@ int main(int intArguments, char* chrArguments[]) {
 	 * @paragraph Seed the random number generator, this is required if you wish to use HeimdallGI::NeuralNetwork
 	 */
 	srand((unsigned int) time(NULL));
-	// Initialize the HeimdallGI application
-	QCoreApplication qcaHeimdallGI(intArguments, chrArguments);
+	// Create the application
+	QCoreApplication qcaHGI(intArguments, chrArguments);
 	// Instantiate the CGI wrapper
 	HeimdallGI::CGI* hgiCGI        = new HeimdallGI::CGI;
 	// Instantiate the router
 	HeimdallGI::Router* hgiRouter  = new HeimdallGI::Router;
 	// Instantiate the logger
 	HeimdallGI::Log* hgiLogger     = new HeimdallGI::Log;
-	// Add the index route
-	hgiRouter
-			->AddRoute("/index", new TestController, "Index")
-			->AddRoute (NULL,    new TestController, "Index")
-			->AddRoute ("/",     new TestController, "Index");
+	// Define the logger
+	hgiRouter->SetLogger(hgiLogger);
+	// Define the index route
+	hgiRouter->AddRoute("/index", new TestController, "Index");
+	hgiRouter->AddRoute (NULL,    new TestController, "Index");
+	hgiRouter->AddRoute ("/",     new TestController, "Index");
+	// Load the view
+	HeimdallGI::View* hgiView      = hgiRouter->Execute(hgiCGI);
 	// Iterate over the cookies
 	for (QMap<QString, QString>::const_iterator itrCookie = hgiCGI->GetCookies().constBegin(); itrCookie != hgiCGI->GetCookies().constEnd(); ++itrCookie) {
 		// Add the data to the log
@@ -68,12 +71,10 @@ int main(int intArguments, char* chrArguments[]) {
 	// Instantiate the CGI
 	hgiCGI
 			->SetContentType(HeimdallGI::CGI::ContentTypeHTML) // Set the content type
-			->SetContent(hgiRouter
-						 ->SetLogger(hgiLogger)
-						 ->Execute(hgiCGI, hgiCGI->GetRequestHeader("REQUEST_URI"))
+			->SetContent(hgiView
 						 ->GetTemplate()
-						 .append(hgiLogger->GetHTML()))      // Execute the Router
-			->WriteResponse();                                 // Send the response
+						 .append(hgiLogger->GetString()))       // Execute the Router
+			->WriteResponse();                                // Send the response
 	// Return the application execution status
-	return 0;
+	qcaHGI.exit();
 }

@@ -156,9 +156,9 @@ namespace HeimdallGI {
 			Route structRoute = this->mRoutes.at(intRoute);
 			// Log the route
 			this->mLog
-					->Add("Controller", QString(structRoute.getController()->metaObject()->className()))
-					->Add("View", structRoute.getViewMethod())
-					->Add("Route Path", structRoute.getPath());
+					->Add(QString("Controller %1").arg(QString::number(intRoute + 1)), QString(structRoute.getController()->metaObject()->className()))
+					->Add(QString("View %1").arg(QString::number(intRoute + 1)), structRoute.getViewMethod())
+					->Add(QString("Route Path %1").arg(QString::number(intRoute + 1)), structRoute.getPath());
 			// Check for a match
 			if (structRoute.getController() && this->ReverseMatchPath(structRoute.getPath(), strPath, qvmParameters)) {
 				// Traverse the parameters map
