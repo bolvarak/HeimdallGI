@@ -1,0 +1,14 @@
+<DOCTYPE html>
+<html>
+    <head>
+	<title><%= $pageTitle %>
+    </head>
+    <body>
+	<h1>Internal Server Error</h1>
+	<hr>
+	<p>Oop...  It looks like something went wrong...</p>
+	<pre>
+	    <%= $stackTrace %>
+	</pre>
+    </body>
+</html>

@@ -2,4 +2,8 @@
     <qresource prefix="/Configuration">
         <file>Application.ini</file>
     </qresource>
+    <qresource prefix="/templates">
+        <file>notFound.hgt</file>
+        <file>serverFault.hgt</file>
+    </qresource>
 </RCC>

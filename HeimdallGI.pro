@@ -18,7 +18,8 @@ SOURCES     += main.cpp \
                 NeuralNetwork.cpp \
 		Log.cpp \
     		Base.cpp \
-    		Model.cpp
+    		Model.cpp \
+    ErrorController.cpp
 
 HEADERS     += \
 		CGI.h \
@@ -34,11 +35,14 @@ HEADERS     += \
                 NeuralNetwork.h \
     		Log.h \
 		Base.h \
-    		Model.h
+    		Model.h \
+    ErrorController.h
 
 OTHER_FILES += \
 	Application.ini \
-    run.sh
+    run.sh \
+    notFound.hgt \
+    serverFault.hgt
 
 RESOURCES   += \
 	Resources.qrc
