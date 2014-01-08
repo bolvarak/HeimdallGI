@@ -73,7 +73,7 @@ int main(int intArguments, char* chrArguments[]) {
 			->SetContentType(HeimdallGI::CGI::ContentTypeHTML) // Set the content type
 			->SetContent(hgiView
 						 ->GetTemplate()
-						 .append(hgiLogger->GetString()))     // Execute the Router
+						 .append(hgiLogger->GetHTML()))       // Execute the Router
 			->WriteResponse();                                // Send the response
 	// Return the application execution status
 	return 0;
