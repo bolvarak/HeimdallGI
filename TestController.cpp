@@ -15,8 +15,10 @@ TestController::TestController(QObject* qoParent) : QObject(qoParent) {}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TestController::Index(HeimdallGI::CGI* &objRequest, HeimdallGI::View* &objView) {
-	// Add a cookie
-	objRequest->AddCookie("testing_cookies", "fubar", QDateTime::currentDateTime().addYears(5));
+	bool bNull;
+	// Delete the cookies
+	objRequest->DeleteCookie("testing_cookies", bNull);
+	objRequest->DeleteCookie("testing cookies", bNull);
 	// Set the page title
 	objView->SetPageValue("pageTitle", "Hello World!");
 	// Set the page name
