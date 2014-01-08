@@ -31,7 +31,7 @@ int main(int intArguments, char* chrArguments[]) {
 	/**
 	 * @paragraph Seed the random number generator, this is required if you wish to use HeimdallGI::NeuralNetwork
 	 */
-	srand((unsigned int) time(NULL));
+	srand((unsigned int) QDateTime::currentDateTimeUtc().toTime_t());
 	// Create the application
 	QCoreApplication qcaHGI(intArguments, chrArguments);
 	// Instantiate the CGI wrapper
@@ -73,7 +73,7 @@ int main(int intArguments, char* chrArguments[]) {
 			->SetContentType(HeimdallGI::CGI::ContentTypeHTML) // Set the content type
 			->SetContent(hgiView
 						 ->GetTemplate()
-						 .append(hgiLogger->GetHTML()))       // Execute the Router
+						 .append(hgiLogger->GetString()))     // Execute the Router
 			->WriteResponse();                                // Send the response
 	// Return the application execution status
 	return 0;

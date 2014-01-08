@@ -10,7 +10,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "QByteArray"
+#include "QDateTime"
 #include "QDebug"
+#include "QList"
 #include "QMap"
 #include "QObject"
 #include "QString"
@@ -31,6 +33,303 @@ namespace HeimdallGI
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Structures ///////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	struct Cookie {
+
+		///////////////////////////////////////////////////////////////////
+		/// Properties ///////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This property contains the domain for the cookie
+		 * @brief HeimdallGI::Cookie::mDomain
+		 * @var QString
+		 */
+		QString mDomain;
+
+		/**
+		 * @paragraph This property contains the expiration of a cookie
+		 * @brief HeimdallGI::Cookie::mExpire
+		 * @var QDateTime
+		 */
+		QDateTime mExpire;
+
+		/**
+		 * @paragraph This property notates an HTTP only cookie
+		 * @brief HeimdallGI::Cookie::mHttpOnly
+		 * @var bool
+		 */
+		bool mHttpOnly;
+
+		/**
+		 * @paragraph This property contains the name of the cookie
+		 * @brief HeimdallGI::Cookie::mName
+		 * @var QString
+		 */
+		QString mName;
+
+		/**
+		 * @paragraph This property contains the path for the cookie
+		 * @brief HeimdallGI::Cookie::mPath
+		 * @var QString
+		 */
+		QString mPath;
+
+		/**
+		 * @paragraph This property notates a secure cookie
+		 * @brief HeimdallGI::Cookie::mSecure
+		 * @var bool
+		 */
+		bool mSecure;
+
+		/**
+		 * @paragraph This property contains the value of the cookie
+		 * @brief HeimdallGI::Cookie::mValue
+		 * @var QString
+		 */
+		QString mValue;
+
+		///////////////////////////////////////////////////////////////////
+		/// Constructors /////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This constructor simply initializes a new cookie structure
+		 * @brief HeimdallGI::Cookie::Cookie()
+		 */
+		Cookie() : mExpire(QDateTime()), mHttpOnly(false), mSecure(false) {}
+
+		/**
+		 * @paragraph This constructor initializes and sets up a new cookie structure
+		 * @brief HeimdallGI::Cookie::Cookie()
+		 * @param QString strName
+		 * @param QString strValue
+		 * @param QDateTime qdtExpiration [QDateTime()]
+		 * @param QString strDomain [NULL]
+		 * @param QString strPath [NULL]
+		 * @param bool bHttpOnly [false]
+		 * @param bool bSecure [false]
+		 */
+		Cookie(QString strName, QString strValue, QDateTime qdtExpiration = QDateTime(), QString strDomain = NULL, QString strPath = NULL, bool bHttpOnly = false, bool bSecure = false) {
+			// Set the name
+			mName     = strName;
+			// Set the value
+			mValue    = strValue;
+			// Set the expiration
+			mExpire   = qdtExpiration;
+			// Set the domain name
+			mDomain   = strDomain;
+			// Set the path
+			mPath     = strPath;
+			// Set the HTTP only notator
+			mHttpOnly = bHttpOnly;
+			// Set the secure notator
+			mSecure   = bSecure;
+		}
+
+		///////////////////////////////////////////////////////////////////
+		/// Converters ///////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method converts the cookie to an HTTP header string
+		 * @brief HeimdallGI::Cookie::toHeaderValue()
+		 * @return QString
+		 */
+		QString toHeaderValue() {
+			// Create the header value container
+			QString strHeaderValue = "Set-Cookie:  ";
+			// Add the name and value
+			strHeaderValue.append(QString("%1=%2; ").arg(QString(QUrl::toPercentEncoding(mName))).arg(QString(QUrl::toPercentEncoding(mValue))));
+			// Check for an expiration
+			if (mExpire.isNull() == false) {
+				// Add the expiration
+				strHeaderValue.append(QString("Expires=%1; ").arg(mExpire.toString("ddd, dd MMM yyyy HH:mm:ss").append(" GMT")));
+			}
+			// Check for a domain
+			if (mDomain.isEmpty() == false) {
+				// Add the domain
+				strHeaderValue.append(QString("Domain=%1; ").arg(mDomain));
+			}
+			// Check for a path
+			if (mPath.isEmpty() == false) {
+				// Add the path
+				strHeaderValue.append(QString("Path=%1; ").arg(QString(QUrl::toPercentEncoding(mPath))));
+			}
+			// Check for a secure flag
+			if (mSecure == true) {
+				// Set the secure flag
+				strHeaderValue.append("Secure; ");
+			}
+			// Check for an HttpOnly flag
+			if (mHttpOnly == true) {
+				// Set the HttpOnly flag
+				strHeaderValue.append("HttpOnly; ");
+			}
+			// Trim the last character if it's a semi colon
+			if (strHeaderValue.at(strHeaderValue.size() - 1) == ';') {
+				// Remove the last character
+				strHeaderValue.remove((strHeaderValue.size() - 1), 1);
+			}
+			// Return the string
+			return strHeaderValue;
+		}
+
+		///////////////////////////////////////////////////////////////////////
+		/// Getters //////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method returns the cookie's domain
+		 * @brief HeimdallGI::Cookie::getDomain()
+		 * @return QString HeimdallGI::Cookie::mDomain
+		 */
+		QString getDomain() {
+			// Return the domain
+			return mDomain;
+		}
+
+		/**
+		 * @paragraph This method returns the cookie's expiration
+		 * @brief HeimdallGI::Cookie::getExpiration()
+		 * @return QDateTime HeimdallGI::Cookie::mExpire
+		 */
+		QDateTime getExpiration() {
+			// Return the expiration timestamp
+			return mExpire;
+		}
+
+		/**
+		 * @paragraph This method returns the cookie's HttpOnly flag status
+		 * @brief HeimdallGI::Cookie::getHttpOnlyFlag()
+		 * @return bool HeimdallGI::Cookie::mHttpOnly
+		 */
+		bool getHttpOnlyFlag() {
+			// Return the HttpOnly flag
+			return mHttpOnly;
+		}
+
+		/**
+		 * @paragraph This method returns the cookie's name
+		 * @brief HeimdallGI::Cookie::getName()
+		 * @return QString HeimdallGI::Cookie::mName
+		 */
+		QString getName() {
+			// Return the name
+			return mName;
+		}
+
+		/**
+		 * @paragraph This method returns the cookie's path
+		 * @brief HeimdallGI::Cookie::getPath()
+		 * @return QString HeimdallGI::Cookie::mPath
+		 */
+		QString getPath() {
+			// Return the path
+			return mPath;
+		}
+
+		/**
+		 * @paragraph This method returns the cookie's secure flag status
+		 * @brief HeimdallGI::Cookie::getSecureFlag()
+		 * @return bool HeimdallGI::Cookie::mSecure
+		 */
+		bool getSecureFlag() {
+			// Return the secure flag
+			return mSecure;
+		}
+
+		/**
+		 * @paragraph This method returns the cookie's value
+		 * @brief HeimdallGI::Cookie::getValue()
+		 * @return QString HeimdallGI::Cookie::mValue
+		 */
+		QString getValue() {
+			// Return the value
+			return mValue;
+		}
+
+		///////////////////////////////////////////////////////////////////////
+		/// Setters //////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method sets the cookie's domain
+		 * @brief HeimdallGI::Cookie::setDomain()
+		 * @param QString strDomain
+		 * @return void
+		 */
+		void setDomain(QString strDomain) {
+			// Set the domain
+			mDomain = strDomain;
+		}
+
+		/**
+		 * @paragraph This method sets the cookie's expiration
+		 * @brief HeimdallGI::Cookie::setExpiration()
+		 * @param QDateTime qdtExpire
+		 * @return void
+		 */
+		void setExpiration(QDateTime qdtExpire) {
+			// Set the expiration
+			mExpire = qdtExpire;
+		}
+
+		/**
+		 * @paragraph This method sets the cookie's HttpOnly flag
+		 * @brief HeimdallGI::Cookie::setHttpOnlyFlag()
+		 * @param bool bHttpOnly
+		 * @return void
+		 */
+		void setHttpOnlyFlag(bool bHttpOnly) {
+			// Set the flag
+			mHttpOnly = bHttpOnly;
+		}
+
+		/**
+		 * @paragraph This method sets the cookie's name
+		 * @brief HeimdallGI::Cookie::setName()
+		 * @param QString strName
+		 * @return void
+		 */
+		void setName(QString strName) {
+			// Set the name
+			mName = strName;
+		}
+
+		/**
+		 * @paragraph This method sets the cookie's path
+		 * @brief HeimdallGI::Cookie::setPath()
+		 * @param QString strPath
+		 * @return void
+		 */
+		void setPath(QString strPath) {
+			// Set the path
+			mPath = strPath;
+		}
+
+		/**
+		 * @paragraph This method sets the cookie's security flag
+		 * @brief HeimdallGI::Cookie::setSecureFlag()
+		 * @param bool bSecure
+		 * @return void
+		 */
+		void setSecureFlag(bool bSecure) {
+			// Set the flag
+			mSecure = bSecure;
+		}
+
+		/**
+		 * @paragraph This method sets the cookie's value
+		 * @brief HeimdallGI::Cookie::setValue()
+		 * @param QString strValue
+		 * @return void
+		 */
+		void setValue(QString strValue) {
+			// Set the value
+			mValue = strValue;
+		}
+	};
 
 	struct StackEntry {
 
@@ -122,9 +421,38 @@ namespace HeimdallGI
 		/// Setters //////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
 
+		/**
+		 * @paragraph This method sets the filename into the structure
+		 * @brief HeimdallGI::StackEntry::setFile()
+		 * @param QString strFilename
+		 * @return void
+		 */
+		void setFile(QString strFilename) {
+			// Set the filename
+			mFile = strFilename;
+		}
 
+		/**
+		 * @paragraph This method sets the line number into the structure
+		 * @brief HeimdallGI::StackEntry::setLine()
+		 * @param int intLineNumber
+		 * @return void
+		 */
+		void setLine(int intLineNumber) {
+			// Set the line number
+			mLineNumber = intLineNumber;
+		}
 
-
+		/**
+		 * @paragraph This method sets the snippet into the structure
+		 * @brief HeimdallGI::StackEntry::setSnippet()
+		 * @param QString strSnippet
+		 * @return void
+		 */
+		void setSnippet(QString strSnippet) {
+			// Set the snippet
+			mSnippet = strSnippet;
+		}
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,6 +487,13 @@ namespace HeimdallGI
 		static CGI* mInstance;
 
 		/**
+		 * @paragraph This property contains the callstack for the instance
+		 * @brief HeimdallGI::StackEntry::mCallStack
+		 * @var QList<HeimdallGI::StackEntry>
+		 */
+		QList<StackEntry> mCallStack;
+
+		/**
 		 * @paragraph This property contains the response content
 		 * @brief CGI::mContent
 		 * @var QString
@@ -185,6 +520,13 @@ namespace HeimdallGI
 		 * @var QMap<QString, QString>
 		 */
 		QMap<QString, QString> mGetParameters;
+
+		/**
+		 * @paragraph This property contains a list of new cookies to set
+		 * @brief HeimdallGI::CGI::mNewCookies
+		 * @var QList<Cookie>
+		 */
+		QList<Cookie> mNewCookies;
 
 		/**
 		 * @paragraph This property contains the POST data
@@ -642,6 +984,20 @@ namespace HeimdallGI
 		/////////////////////////////////////////////////////////////////////
 
 		/**
+		 * @paragraph This method adds a cookie to the instance
+		 * @brief HeimdallGI::CGI::AddCookie()
+		 * @param QString strName
+		 * @param QString strValue
+		 * @param QDateTime qdtExpiration [QDateTime()]
+		 * @param QString strDomain [NULL]
+		 * @param QString strPath [NULL]
+		 * @param bool bHttpOnly [false]
+		 * @param bool bSecure [false]
+		 * @return HeimdallGI::CGI* HeimdallGI::CGI::mInstance
+		 */
+		CGI* AddCookie(QString strName, QString strValue, QDateTime qdtExpiration = QDateTime(), QString strDomain = NULL, QString strPath = NULL, bool bHttpOnly = false, bool bSecure = false);
+
+		/**
 		 * @paragraph This method is a helper for the router to add parameters from URL routes
 		 * @brief HeimdallGI::CGI::AddParameter()
 		 * @param QString strName
@@ -660,6 +1016,16 @@ namespace HeimdallGI
 		CGI* AddResponseHeader(QString strName, QString strValue);
 
 		/**
+		 * @paragraph This method adds a stack entry into the stack trace
+		 * @brief HeimdallGI::CGI::AddStackEntry()
+		 * @param QString strFilename
+		 * @param int intLineNumber
+		 * @param QString strSnippet
+		 * @return HeimdallGI::CGI* HeimdallGI::CGI::mInstance
+		 */
+		CGI* AddStackEntry(QString strFilename, int intLineNumber, QString strSnippet);
+
+		/**
 		 * @paragraph This method decodes a query string into a query map
 		 * @brief CGI::DecodeQuery()
 		 * @param QString strQuery
@@ -667,6 +1033,15 @@ namespace HeimdallGI
 		 * @return QMap<QString, QString>
 		 */
 		QMap<QString, QString> DecodeQuery(QString strQuery, QString strPairSeparator = "&");
+
+		/**
+		 * @paragraph This method deletes a cookie from the request
+		 * @brief HeimdallGI::CGI::DeleteCookie()
+		 * @param QString strName
+		 * @param bool bSuccess [false]
+		 * @return HeimdallGI::CGI* HeimdallGI::CGI::mInstance
+		 */
+		CGI* DeleteCookie(QString strName, bool &bSuccess);
 
 		/**
 		 * @paragraph This method encodes a query map into a query string

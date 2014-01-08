@@ -17,6 +17,7 @@
 #include "QVariant"
 #include "QVector"
 #include "Log.h"
+#include "iostream"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Namespace ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,7 +252,7 @@ namespace HeimdallGI {
 		 */
 		Neuron(float fltInput, float fltWeight) {
 			// Seed the random number generator
-			srand((unsigned int) time(NULL));
+			srand((unsigned int) QDateTime::currentDateTimeUtc().toTime_t());
 			// Set the input
 			mInput  = fltInput;
 			// Set the weight

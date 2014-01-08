@@ -106,21 +106,21 @@ namespace HeimdallGI {
 				// Make sure we have the right number of arguments
 				if (qlArgumentTypes.isEmpty() || (qlArgumentTypes.size() < 2)) {
 					// Send the error
-					qDebug() << "[WARN]\tThe view method '" << qbaMethod << "' must accept at least two arguments.";
+					this->mLog->Add("WARN", QString("The view method '%1' must accept at least two argument.").arg(QString(qbaMethod)));
 					// There was an error
 					bSuccess = false;
 				}
 				// Make sure the first argument is HeimdallGI::CGI
-				if ((qlArgumentTypes[0] != "HeimdallGI::CGI*")) {
+				if ((qlArgumentTypes[0] != "HeimdallGI::CGI*&")) {
 					// Send the error
-					qDebug() << "[WARN]\tThe view method '" << qbaMethod << "' should have its first argument as the type HeimdallGI::CGI. (" << qlArgumentTypes[0] << ")";
+					this->mLog->Add("WARN", QString("The view method '%1' should have its first argument as the type HeimdallGI::CGI*&.  (%2)").arg(QString(qbaMethod), QString(qlArgumentTypes.at(0))));
 					// There was an error
 					bSuccess = false;
 				}
 				// Make sure the second argument is HeimdallGI::View
 				if ((qlArgumentTypes[1] != "HeimdallGI::View*&")) {
 					// Send the error
-					qDebug() << "[WARN]\tThe view method '" << qbaMethod << "' should have its second argument as the type HeimdallGI::View. (" << qlArgumentTypes[1] << ")";
+					this->mLog->Add("WARN", QString("The view method '%1' should have its second argument as the type HeimdallGI::View*&.  (%2)").arg(QString(qbaMethod), QString(qlArgumentTypes.at(1))));
 					// There was an error
 					bSuccess = false;
 				}
@@ -145,7 +145,7 @@ namespace HeimdallGI {
 		return this;
 	}
 
-	View* Router::Execute(CGI* objRequest, QString strPath) {
+	View* Router::Execute(CGI* &objRequest, QString strPath) {
 		// Check for a path
 		if (strPath.isEmpty()) {
 			// Set the path to the REQUEST_URI
@@ -176,7 +176,7 @@ namespace HeimdallGI {
 				// Define the invoke argument list
 				QList<QGenericArgument> qlArguments;
 				// Add the firs argument (HeimdallGI::CGI*)
-				qlArguments << Q_ARG(HeimdallGI::CGI*, objRequest);
+				qlArguments << Q_ARG(HeimdallGI::CGI*&, objRequest);
 				// Add the second argument (HeimdallGI::View*)
 				qlArguments << Q_ARG(HeimdallGI::View*&, viewResponse);
 				// Provide filler arguments, if need be
@@ -187,7 +187,7 @@ namespace HeimdallGI {
 				// Invoke the controller and view
 				if (!QMetaObject::invokeMethod(structRoute.getController(), structRoute.getViewMethod(), Qt::DirectConnection, qlArguments[0], qlArguments[1], qlArguments[2], qlArguments[3], qlArguments[4], qlArguments[5], qlArguments[6], qlArguments[7], qlArguments[8], qlArguments[9]) || !viewResponse) {
 					// Send the error
-					qDebug() << "Unable to load the view.  (HeimdallGI::Router Line 157)";
+					this->mLog->Add("ERROR", "Unable to loaf the view.  (HeimdallGI::Router Line 157)");
 				}
 				// Setup the template
 				Template::Instance()
@@ -211,7 +211,7 @@ namespace HeimdallGI {
 		return this;
 	}
 
-	Router* Router::SetRequest(CGI* objRequest) {
+	Router* Router::SetRequest(CGI* &objRequest) {
 		// Set the request object into the instance
 		this->mRequest = objRequest;
 		// Return the instance

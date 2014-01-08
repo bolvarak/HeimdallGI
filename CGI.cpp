@@ -256,6 +256,13 @@ namespace HeimdallGI {
 			// Print the header
 			std::cout << itrHeaders.key().toStdString().c_str() << ": " << itrHeaders.value().toStdString().c_str() << "\r\n";
 		}
+		// Iterate over the cookies
+		for (int intCookie = 0; intCookie < this->mNewCookies.size(); ++intCookie) {
+			// Localize the cookie
+			Cookie structNewCookie = this->mNewCookies.at(intCookie);
+			// Send the cookie to the browser
+			std::cout << structNewCookie.toHeaderValue().toStdString().c_str() << "\r\n";
+		}
 		// Send an extra newline
 		std::cout << "\r\n";
 		// Return the instance
@@ -265,6 +272,27 @@ namespace HeimdallGI {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Public Methods ///////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	CGI* CGI::AddCookie(QString strName, QString strValue, QDateTime qdtExpiration, QString strDomain, QString strPath, bool bHttpOnly, bool bSecure) {
+		// Iterate over the existing new cookies
+		for (int intCookie = 0; intCookie < this->mNewCookies.size(); ++intCookie) {
+			// Localize the cookie
+			Cookie structNewCookie = this->mNewCookies.at(intCookie);
+			// Check the name
+			if (structNewCookie.getName() == strName) {
+				// Delete the cookie
+				this->mNewCookies.removeAt(intCookie);
+				// We're done
+				break;
+			}
+		}
+		// Create the new structure
+		Cookie structNewCookie(strName, strValue, qdtExpiration, strDomain, strPath, bHttpOnly, bSecure);
+		// Add the cookie to the instance
+		this->mNewCookies.append(structNewCookie);
+		// Return the instance
+		return this;
+	}
 
 	/**
 	 * @paragraph This method is a helper for the router to add parameters from URL routes
@@ -294,6 +322,15 @@ namespace HeimdallGI {
 		return this;
 	}
 
+	CGI* CGI::AddStackEntry(QString strFilename, int intLineNumber, QString strSnippet) {
+		// Create the stack entry structure
+		StackEntry structStackEntry(strFilename, intLineNumber, strSnippet);
+		// Add the entry to the instance
+		this->mCallStack.append(structStackEntry);
+		// Return the instance
+		return this;
+	}
+
 	/**
 	 * @paragraph This method decodes a query string into a query map
 	 * @brief CGI::DecodeQuery()
@@ -315,6 +352,43 @@ namespace HeimdallGI {
 		}
 		// Return the map
 		return qmQuery;
+	}
+
+	CGI* CGI::DeleteCookie(QString strName, bool &bSuccess) {
+		// Iterate over the new cookies
+		for (int intCookie = 0; intCookie < this->mNewCookies.size(); ++intCookie) {
+			// Localize the structure
+			Cookie structCookie = this->mNewCookies.at(intCookie);
+			// Check the name of the cookie
+			if (structCookie.getName() == strName) {
+				// Delete the cookie
+				this->mNewCookies.removeAt(intCookie);
+				// Set the success boolean
+				bSuccess = true;
+				// We're done
+				return this;
+			}
+		}
+		// Check the cookie map
+		if (this->mCookies.contains(strName)) {
+			// Remove the cookie from the map
+			if (this->mCookies.remove(strName) > 0) {
+				// Create the date time object
+				QDateTime qdtExpiration;
+				// Set the timestamp
+				qdtExpiration.setTime_t(0);
+				// Add the cookie to the new cookies to be deleted
+				this->AddCookie(strName, "", qdtExpiration);
+				// Set the success boolean
+				bSuccess = true;
+				// We're done
+				return this;
+			}
+		}
+		// Set the success boolean
+		bSuccess = false;
+		// Return the instance
+		return this;
 	}
 
 	/**

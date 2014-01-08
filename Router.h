@@ -258,7 +258,7 @@ namespace HeimdallGI {
 		 * @param QString strPath [NULL]
 		 * @return HeimdallGI::View*
 		 */
-		View* Execute(CGI* objRequest, QString strPath = NULL);
+		View* Execute(CGI* &objRequest, QString strPath = NULL);
 
 		///////////////////////////////////////////////////////////////////////
 		/// Setters //////////////////////////////////////////////////////////
@@ -278,7 +278,7 @@ namespace HeimdallGI {
 		 * @param HeimdallGI::CGI* objRequest
 		 * @return HeimdallGI::Router* HeimdallGI::Router::mInstance
 		 */
-		Router* SetRequest(CGI* objRequest);
+		Router* SetRequest(CGI* &objRequest);
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
