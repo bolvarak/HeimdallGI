@@ -40,11 +40,7 @@ namespace HeimdallGI {
 	/// Handlers ////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void ErrorController::NotFound(CGI*& objRequest, View*& objResponse) {
-		// Define the template
-		QString strTemplate = Configuration::Get("Templates.notFound").toString();
-		// Set the view file
-		objResponse->SetTemplate(strTemplate.isEmpty() ? ":/templates/notFound.hgt" : strTemplate);
+	void ErrorController::NotFound(CGI* &objRequest, View* &objResponse) {
 		// Set the page title
 		objResponse->SetPageValue("pageTitle", "404 Not Found");
 		// Set the page name
@@ -55,13 +51,13 @@ namespace HeimdallGI {
 		objResponse->SetPageValue("showStackTrace", Configuration::Get("Environment.showDebug").toBool());
 		// Set the stack trace
 		objResponse->SetPageValue("stackTrace", "${STACK_TRACE}");
+		// Define the template
+		QString strTemplate = Configuration::Get("Templates.notFound").toString();
+		// Set the view file
+		objResponse->SetTemplate(strTemplate.isEmpty() ? ":/templates/notFound.hgt" : strTemplate);
 	}
 
-	void ErrorController::ServerFault(CGI*& objRequest, View*& objResponse, QString strMessage) {
-		// Define the themplate
-		QString strTemplate = Configuration::Get("Template.serverFault").toString();
-		// Set the view file
-		objResponse->SetTemplate(strTemplate.isEmpty() ? ":/templates/serverFault.hgt" : strTemplate);
+	void ErrorController::ServerFault(CGI* &objRequest, View* &objResponse, QString strMessage) {
 		// Set the page title
 		objResponse->SetPageValue("pageTitle", "500 Internal Server Error");
 		// Set the page name
@@ -72,6 +68,10 @@ namespace HeimdallGI {
 		objResponse->SetPageValue("showStackTrace", Configuration::Get("Environment.showDebug").toBool());
 		// Set the stack trace
 		objResponse->SetPageValue("stackTrace", "${STACK_TRACE}");
+		// Define the themplate
+		QString strTemplate = Configuration::Get("Template.serverFault").toString();
+		// Set the view file
+		objResponse->SetTemplate(strTemplate.isEmpty() ? ":/templates/serverFault.hgt" : strTemplate);
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

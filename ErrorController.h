@@ -87,7 +87,7 @@ namespace HeimdallGI {
 		 * @param HeimdallGI::View* &objResponse
 		 * @return void
 		 */
-		void NotFound(CGI*& objRequest, View*& objResponse);
+		void NotFound(CGI* &objRequest, View* &objResponse);
 
 		/**
 		 * @paragraph This method prettyfies the 505 error
@@ -97,7 +97,7 @@ namespace HeimdallGI {
 		 * @param QString strMessage
 		 * @return void
 		 */
-		void ServerFault(CGI*& objRequest, View*& objResponse, QString strMessage);
+		void ServerFault(CGI* &objRequest, View* &objResponse, QString strMessage);
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
