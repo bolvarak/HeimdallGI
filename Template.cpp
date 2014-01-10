@@ -49,7 +49,7 @@ namespace HeimdallGI {
 
 	void Template::DetermineTemplatePath(QString strTemplate) {
 		// Reset the template
-		strTemplate = (strTemplate.isEmpty() ? strTemplate : this->mView->GetTemplate());
+		strTemplate = (strTemplate.isEmpty() ? this->mView->GetTemplate() : strTemplate);
 		// Determine if the template has a file extension
 		if (strTemplate.contains(Configuration::Get("Environment.templateExtension").toString().prepend(".")) == false) {
 			// Append the file extension
