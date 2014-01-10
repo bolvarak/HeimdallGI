@@ -167,7 +167,12 @@ namespace HeimdallGI {
 					->Add(QString("View %1").arg(QString::number(intRoute + 1)), structRoute.getViewMethod())
 					->Add(QString("Route Path %1").arg(QString::number(intRoute + 1)), structRoute.getPath());
 			// Check for a match
-			if (structRoute.getController() && this->ReverseMatchPath(structRoute.getPath(), strPath, qvmParameters)) {
+			if (structRoute.getController() && this->ReverseMatchPath(structRoute.getPath(), strPath, qvmParameters) == false) {
+				// Log
+				this->mLog->Add("ReverseMatch", "FAIL");
+				// Break out
+				break;
+			} else {
 				// Log the match
 				this->mLog->Add("ReverseMatch", "SUCCESS");
 				// Traverse the parameters map
@@ -201,8 +206,6 @@ namespace HeimdallGI {
 				// Return the response
 				return viewResponse->SetTemplate(Template::Instance()->GetTemplate());
 			}
-			// Log the match
-			this->mLog->Add("ReverseMatch", "FAIL");
 		}
 		// If we get down to this point, execute the error controller
 		if (!QMetaObject::invokeMethod(new ErrorController, "NotFound", Qt::DirectConnection, Q_ARG(HeimdallGI::CGI*&, objRequest), Q_ARG(HeimdallGI::View*&, viewResponse))) {
