@@ -207,11 +207,15 @@ namespace HeimdallGI {
 				return viewResponse->SetTemplate(Template::Instance()->GetTemplate());
 			}
 		}
+		// Log
+		this->mLog->Add("404", "EXECUTING");
 		// If we get down to this point, execute the error controller
 		if (!QMetaObject::invokeMethod(new ErrorController, "NotFound", Qt::DirectConnection, Q_ARG(HeimdallGI::CGI*&, objRequest), Q_ARG(HeimdallGI::View*&, viewResponse))) {
 			// Execute a server fault
 			QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::DirectConnection, Q_ARG(HeimdallGI::CGI*&, objRequest), Q_ARG(HeimdallGI::View*&, viewResponse), Q_ARG(QString, "Unable to execute HeimdallGI::ErrorController::NotFound()"));
 		}
+		// Log
+		this->mLog->Add("404", "SUCCESS");
 		// Setup the template
 		Template::Instance()
 			->SetLogger(this->mLog)
