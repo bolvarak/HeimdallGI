@@ -24,7 +24,7 @@ void TestController::Index(HeimdallGI::CGI* &objRequest, HeimdallGI::View* &objV
 	// Set the page name
 	objView->SetPageValue("pageName", "Hello World");
 	// Set the block file
-	objView->SetTemplate("test/index.hgt");
+	objView->SetTemplate("test/index");
 	// Create a list for data
 	QStringList qslPageValue;
 	// Loop to 25
