@@ -122,10 +122,10 @@ namespace HeimdallGI {
 			// Run the condition
 			if (this->IsTrue(strPageValue, strOperator, strOperand) == true) {
 				// Make the replacement
-				strLine.replace(qreConditional.match(strLine).captured(0), tplConditional->ProcessString(strTruthValue, this->mView)->GetTemplate());
+				strLine.replace(qreConditional.match(strLine).captured(0), tplConditional->SetRequest(this->mRequest)->SetLogger(this->mLog)->ProcessString(strTruthValue, this->mView)->GetTemplate());
 			} else {
 				// Make the replacement
-				strLine.replace(qreConditional.match(strLine).captured(0), tplConditional->ProcessString(strFalseValue, this->mView)->GetTemplate());
+				strLine.replace(qreConditional.match(strLine).captured(0), tplConditional->SetRequest(this->mRequest)->SetLogger(this->mLog)->ProcessString(strFalseValue, this->mView)->GetTemplate());
 			}
 		}
 		// Reset the pattern to a simple pattern
@@ -145,7 +145,7 @@ namespace HeimdallGI {
 				// Instantiate the template class
 				Template* tplConditional = new Template;
 				// Make the replacement
-				strLine.replace(qreConditional.match(strLine).captured(0), tplConditional->ProcessString(strTruthValue, this->mView)->GetTemplate());
+				strLine.replace(qreConditional.match(strLine).captured(0), tplConditional->SetRequest(this->mRequest)->SetLogger(this->mLog)->ProcessString(strTruthValue, this->mView)->GetTemplate());
 			} else {
 				// Make the replacement
 				strLine.replace(qreConditional.match(strLine).captured(0), "");
@@ -181,7 +181,7 @@ namespace HeimdallGI {
 				// Instantiate the template class
 				Template* tplForEach = new Template;
 				// Process the string
-				strForEach.append(tplForEach->ProcessString(qreForEach.match(strLine).captured(3), this->mView)->GetTemplate());
+				strForEach.append(tplForEach->SetRequest(this->mRequest)->SetLogger(this->mLog)->ProcessString(qreForEach.match(strLine).captured(3), this->mView)->GetTemplate());
 			}
 			// Remove the page value
 			this->mView->GetPageValues().remove(strVariable);
@@ -198,7 +198,7 @@ namespace HeimdallGI {
 			// Instantiate the template
 			Template* tplInclude = new Template;
 			// Process the template
-			tplInclude->Process(this->mView, qreInclude.match(strLine).captured(1));
+			tplInclude->SetRequest(this->mRequest)->SetLogger(this->mLog)->Process(this->mView, qreInclude.match(strLine).captured(1));
 			// Reset the line
 			strLine.replace(qreInclude.match(strLine).captured(0), tplInclude->GetTemplate());
 		}
