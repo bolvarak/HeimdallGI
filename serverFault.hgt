@@ -8,7 +8,7 @@
     <hr>
     <h3>Oop...  It looks like something went wrong...</h3>
     <p><%= $errorMessage %></p>
-    <% if ($showStackTrace) %>
+    <% if ($showStackTrace == "1") %>
       <pre>
         <%= $stackTrace %>
 	    </pre>

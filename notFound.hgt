@@ -7,7 +7,7 @@
     <h1>404 Not Found</h1>
     <hr>
       <p>No route found to <%= $requestURI %></p>
-      <% if ($showStackTrace) %>
+      <% if ($showStackTrace == "1") %>
         <pre>
           <%= $stackTrace %>
         </pre>
