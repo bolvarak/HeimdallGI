@@ -533,7 +533,7 @@ namespace HeimdallGI {
 		// Process variable assignments
 		this->DoAssignments(this->mTemplate);
 		// Process comments
-		// this->DoComments(this->mTemplate);
+		this->DoComments(this->mTemplate);
 		// Process inclusions
 		this->DoInclusion(this->mTemplate);
 		// Process foreach loops
@@ -565,7 +565,7 @@ namespace HeimdallGI {
 		// Process variable assignments
 		this->DoAssignments(this->mTemplate);
 		// Process comments
-		// this->DoComments(this->mTemplate);
+		this->DoComments(this->mTemplate);
 		// Process inclusions
 		this->DoInclusion(this->mTemplate);
 		// Process foreach loops
