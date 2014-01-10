@@ -40,7 +40,7 @@ namespace HeimdallGI {
 	/// Handlers ////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void ErrorController::NotFound(HeimdallGI::CGI* &objRequest, HeimdallGI::View* &objResponse) {
+	void ErrorController::NotFound(CGI*& objRequest, View*& objResponse) {
 		// Define the template
 		QString strTemplate = Configuration::Get("Templates.notFound").toString();
 		// Set the view file
@@ -53,7 +53,7 @@ namespace HeimdallGI {
 		objResponse->SetPageValue("stackTrace", "${STACK_TRACE}");
 	}
 
-	void ErrorController::ServerFault(HeimdallGI::CGI* &objRequest, HeimdallGI::View* &objResponse, QString strMessage) {
+	void ErrorController::ServerFault(CGI*& objRequest, View*& objResponse, QString strMessage) {
 		// Define the themplate
 		QString strTemplate = Configuration::Get("Template.serverFault").toString();
 		// Set the view file
