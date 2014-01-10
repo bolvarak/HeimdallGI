@@ -45,6 +45,8 @@ namespace HeimdallGI {
 		QString strTemplate = Configuration::Get("Templates.notFound").toString();
 		// Set the view file
 		objResponse->SetTemplate(strTemplate.isEmpty() ? ":/templates/notFound.hgt" : strTemplate);
+		// Set the page title
+		objResponse->SetPageValue("pageTitle", "404 Not Found");
 		// Set the REQUEST_URI
 		objResponse->SetPageValue("requestUri", objRequest->GetRequestHeader("REQUEST_URI"));
 		// Set debug output
@@ -58,6 +60,8 @@ namespace HeimdallGI {
 		QString strTemplate = Configuration::Get("Template.serverFault").toString();
 		// Set the view file
 		objResponse->SetTemplate(strTemplate.isEmpty() ? ":/templates/serverFault.hgt" : strTemplate);
+		// Set the page title
+		objResponse->SetPageValue("pageTitle", "500 Internal Server Error");
 		// Set the error message
 		objResponse->SetPageValue("errorMessage", strMessage);
 		// Set debug output
