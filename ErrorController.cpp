@@ -41,8 +41,10 @@ namespace HeimdallGI {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void ErrorController::NotFound(HeimdallGI::CGI* &objRequest, HeimdallGI::View* &objResponse) {
+		// Define the template
+		QString strTemplate = Configuration::Get("Templates.notFound").toString();
 		// Set the view file
-		objResponse->SetTemplate(Configuration::Get("Templates.notFound").toString());
+		objResponse->SetTemplate(strTemplate.isEmpty() ? ":/templates/notFound" : strTemplate);
 		// Set the REQUEST_URI
 		objResponse->SetPageValue("requestUri", objRequest->GetRequestHeader("REQUEST_URI"));
 		// Set debug output
@@ -52,8 +54,10 @@ namespace HeimdallGI {
 	}
 
 	void ErrorController::ServerFault(HeimdallGI::CGI* &objRequest, HeimdallGI::View* &objResponse, QString strMessage) {
+		// Define the themplate
+		QString strTemplate = Configuration::Get("Template.serverFault").toString();
 		// Set the view file
-		objResponse->SetTemplate(Configuration::Get("Template.serverFault").toString());
+		objResponse->SetTemplate(strTemplate.isEmpty() ? ":/templates/serverFault" : strTemplate);
 		// Set the error message
 		objResponse->SetPageValue("errorMessage", strMessage);
 		// Set debug output
