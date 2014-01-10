@@ -510,8 +510,6 @@ namespace HeimdallGI {
 		QFile qfTemplate(this->mTemplateFile);
 		// Try to open the file
 		if (!qfTemplate.open(QFile::ReadOnly|QFile::Text)) {
-			// Instantiate the error controller
-			ErrorController* errTemplate = new ErrorController;
 			// Execute the route
 			QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::DirectConnection, Q_ARG(CGI*&, this->mRequest), Q_ARG(View*&, objView), Q_ARG(QString, QString("Unable to load view file:  %1").arg(this->mTemplateFile)));
 			// Set the template file
