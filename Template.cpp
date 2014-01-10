@@ -509,9 +509,17 @@ namespace HeimdallGI {
 		// Define our handle
 		QFile qfTemplate(this->mTemplateFile);
 		// Try to open the file
-		if (!qfTemplate.open(QIODevice::ReadOnly)) {
-			// Issue a warning
-			// qFatal() << "Unable to open template file at '" << this->mView->GetTemplate() << "'.";
+		if (!qfTemplate.open(QFile::ReadOnly|QFile::Text)) {
+			// Instantiate the error controller
+			ErrorController* errTemplate = new ErrorController;
+			// Execute the route
+			QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::DirectConnection, Q_ARG(CGI*&, this->mRequest), Q_ARG(View*&, objView));
+			// Set the template file
+			this->mTemplateFile = objView->GetTemplate();
+			// Process the error route
+			qfTemplate.setFileName(this->mTemplateFile);
+			// Open the file
+			qfTemplate.open(QFile::ReadOnly|QFile::Text);
 		}
 		// Create the file stream
 		QTextStream qtsTemplate(&qfTemplate);

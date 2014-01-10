@@ -47,6 +47,8 @@ namespace HeimdallGI {
 		objResponse->SetTemplate(strTemplate.isEmpty() ? ":/templates/notFound.hgt" : strTemplate);
 		// Set the page title
 		objResponse->SetPageValue("pageTitle", "404 Not Found");
+		// Set the page name
+		objResponse->SetPageValue("pageName", "404 Not Found");
 		// Set the REQUEST_URI
 		objResponse->SetPageValue("requestURI", objRequest->GetRequestHeader("REQUEST_URI"));
 		// Set debug output
@@ -62,6 +64,8 @@ namespace HeimdallGI {
 		objResponse->SetTemplate(strTemplate.isEmpty() ? ":/templates/serverFault.hgt" : strTemplate);
 		// Set the page title
 		objResponse->SetPageValue("pageTitle", "500 Internal Server Error");
+		// Set the page name
+		objResponse->SetPageValue("pageName", "500 Internal Server Error");
 		// Set the error message
 		objResponse->SetPageValue("errorMessage", strMessage);
 		// Set debug output

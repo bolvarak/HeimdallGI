@@ -24,6 +24,7 @@
 #include "QtXml/QDomElement"
 #include "QtXml/QDomText"
 #include "Configuration.h"
+#include "ErrorController.h"
 #include "Log.h"
 #include "View.h"
 
