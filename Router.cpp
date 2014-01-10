@@ -57,7 +57,7 @@ namespace HeimdallGI {
 			return false;
 		}
 		// Define the pattern parameter pattern
-		QRegularExpression qrePatternParameter("^[:[a-zA-Z0-9_-]+]$");
+		QRegularExpression qrePatternParameter("^\\[:[a-zA-Z0-9_-]+\\]$");
 		// Loop through the pattern
 		for (int intPart = 0; intPart < qslPattern.size(); ++intPart) {
 			// Grab the matches
@@ -168,6 +168,8 @@ namespace HeimdallGI {
 					->Add(QString("Route Path %1").arg(QString::number(intRoute + 1)), structRoute.getPath());
 			// Check for a match
 			if (structRoute.getController() && this->ReverseMatchPath(structRoute.getPath(), strPath, qvmParameters)) {
+				// Log the match
+				this->mLog->Add("ReverseMatch", "SUCCESS");
 				// Traverse the parameters map
 				for (QVariantMap::const_iterator itrParameters = qvmParameters.begin(); itrParameters != qvmParameters.end(); ++itrParameters) {
 					// Add the parameter to the CGI request
@@ -199,6 +201,8 @@ namespace HeimdallGI {
 				// Return the response
 				return viewResponse->SetTemplate(Template::Instance()->GetTemplate());
 			}
+			// Log the match
+			this->mLog->Add("ReverseMatch", "FAIL");
 		}
 		// If we get down to this point, execute the error controller
 		if (!QMetaObject::invokeMethod(new ErrorController, "NotFound", Qt::DirectConnection, Q_ARG(HeimdallGI::CGI*&, objRequest), Q_ARG(HeimdallGI::View*&, viewResponse))) {
@@ -212,8 +216,6 @@ namespace HeimdallGI {
 			->Process(viewResponse);
 		// Return the response
 		return viewResponse->SetTemplate(Template::Instance()->GetTemplate());
-		// Return an empty response
-		return 0;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
