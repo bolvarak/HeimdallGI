@@ -193,6 +193,8 @@ namespace HeimdallGI {
 				}
 				// Invoke the controller and view
 				if (!QMetaObject::invokeMethod(structRoute.getController(), structRoute.getViewMethod(), Qt::DirectConnection, qlArguments[0], qlArguments[1], qlArguments[2], qlArguments[3], qlArguments[4], qlArguments[5], qlArguments[6], qlArguments[7], qlArguments[8], qlArguments[9]) || !viewResponse) {
+					// Reset the view response
+					viewResponse = new View;
 					// Send the error to the log
 					this->mLog->Add("ERROR", "Unable to load the view.  (HeimdallGI::Router Line 157)");
 					// Execute a server fault
@@ -209,6 +211,8 @@ namespace HeimdallGI {
 				return viewResponse->SetTemplate(tplRoute->GetTemplate());
 			}
 		}
+		// Reset the view response
+		viewResponse = new View;
 		// Log
 		this->mLog->Add("404", "EXECUTING");
 		// If we get down to this point, execute the error controller
