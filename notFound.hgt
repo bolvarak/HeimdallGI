@@ -1,7 +1,7 @@
 <DOCTYPE html>
 <html>
   <head>
-    <title><%= $pageTitle %>
+    <title><%= $pageTitle %></title>
   </head>
   <body>
     <h1>404 Not Found</h1>

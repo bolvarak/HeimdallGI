@@ -48,7 +48,7 @@ namespace HeimdallGI {
 		// Set the page title
 		objResponse->SetPageValue("pageTitle", "404 Not Found");
 		// Set the REQUEST_URI
-		objResponse->SetPageValue("requestUri", objRequest->GetRequestHeader("REQUEST_URI"));
+		objResponse->SetPageValue("requestURI", objRequest->GetRequestHeader("REQUEST_URI"));
 		// Set debug output
 		objResponse->SetPageValue("showStackTrace", Configuration::Get("Environment.showDebug").toBool());
 		// Set the stack trace
