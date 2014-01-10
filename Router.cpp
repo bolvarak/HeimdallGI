@@ -153,6 +153,8 @@ namespace HeimdallGI {
 		}
 		// Log the path
 		this->mLog->Add("Path", strPath);
+		// Define the response
+		View* viewResponse = new HeimdallGI::View;
 		// Traverse the routes
 		for (int intRoute = 0; intRoute < this->mRoutes.size(); ++intRoute) {
 			// Define the parameter map
@@ -171,8 +173,6 @@ namespace HeimdallGI {
 					// Add the parameter to the CGI request
 					objRequest->AddParameter(itrParameters.key(), itrParameters.value().toString());
 				}
-				// Define the response
-				View* viewResponse = new HeimdallGI::View;
 				// Define the invoke argument list
 				QList<QGenericArgument> qlArguments;
 				// Add the firs argument (HeimdallGI::CGI*)
@@ -186,16 +186,32 @@ namespace HeimdallGI {
 				}
 				// Invoke the controller and view
 				if (!QMetaObject::invokeMethod(structRoute.getController(), structRoute.getViewMethod(), Qt::DirectConnection, qlArguments[0], qlArguments[1], qlArguments[2], qlArguments[3], qlArguments[4], qlArguments[5], qlArguments[6], qlArguments[7], qlArguments[8], qlArguments[9]) || !viewResponse) {
-					// Send the error
-					this->mLog->Add("ERROR", "Unable to loaf the view.  (HeimdallGI::Router Line 157)");
+					// Send the error to the log
+					this->mLog->Add("ERROR", "Unable to load the view.  (HeimdallGI::Router Line 157)");
+					// Execute a server fault
+					QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::DirectConnection, Q_ARG(HeimdallGI::CGI*&, objRequest), Q_ARG(HeimdallGI::View*&, viewResponse), Q_ARG(QString, QString("Unable to process view method:  ").append(structRoute.getViewMethod())));
 				}
 				// Setup the template
 				Template::Instance()
+						->SetLogger(this->mLog)
+						->SetRequest(objRequest)
 						->Process(viewResponse);
 				// Return the response
 				return viewResponse->SetTemplate(Template::Instance()->GetTemplate());
 			}
 		}
+		// If we get down to this point, execute the error controller
+		if (!QMetaObject::invokeMethod(new ErrorController, "NotFound", Qt::DirectConnection, Q_ARG(HeimdallGI::CGI*&, objRequest), Q_ARG(HeimdallGI::View*&, viewResponse))) {
+			// Execute a server fault
+			QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::DirectConnection, Q_ARG(HeimdallGI::CGI*&, objRequest), Q_ARG(HeimdallGI::View*&, viewResponse), Q_ARG(QString, "Unable to execute HeimdallGI::ErrorController::NotFound()"));
+		}
+		// Setup the template
+		Template::Instance()
+			->SetLogger(this->mLog)
+			->SetRequest(objRequest)
+			->Process(viewResponse);
+		// Return the response
+		return viewResponse->SetTemplate(Template::Instance()->GetTemplate());
 		// Return an empty response
 		return 0;
 	}

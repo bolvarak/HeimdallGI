@@ -20,9 +20,21 @@ namespace HeimdallGI {
 	/// Public Static Settings ///////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	QVariant Configuration::Get(QString strKey) {
+	QVariant Configuration::Get(QString strKey, QMap<QString, QString> qmsReplacements) {
 		// Load the configuration
 		QSettings qssConfiguration(":/Configuration/Application.ini", QSettings::IniFormat);
+		// Check for replacements
+		if (!qmsReplacements.isEmpty()) {
+			// Load the property 
+			QString strProperty = qssConfiguration.value(strKey.replace(".", "/")).toString();
+			// Traverse the replacements
+			for (QMap<QString, QString>::const_iterator itrReplacement = qmsReplacements.constBegin(); itrReplacement != qmsReplacements.constEnd(); ++itrReplacement) {
+				// Make the replacement
+				strProperty.replace(QString("${%1}").arg(itrReplacement.key()), itrReplacement.value());
+			}
+			// Return the property
+			return QVariant(strProperty);
+		}
 		// Return the property
 		return qssConfiguration.value(strKey.replace(".", "/"));
 	}

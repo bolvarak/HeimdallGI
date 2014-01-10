@@ -11,6 +11,7 @@
 
 #include "QObject"
 #include "Base.h"
+#include "Configuration.h"
 #include "CGI.h"
 #include "Log.h"
 #include "View.h"
@@ -68,16 +69,30 @@ namespace HeimdallGI {
 		/// Constructor //////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
 
-		explicit ErrorController(QObject *parent = 0);
+		explicit ErrorController(QObject* qoParent = 0);
 
 		///////////////////////////////////////////////////////////////////////
 		/// Methods //////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
 
+		/**
+		 * @paragraph This method prettyfies the 404 errors
+		 * @brief HeimdallGI::ErrorController::NotFound()
+		 * @param HeimdallGI::CGI* &objRequest
+		 * @param HeimdallGI::View* &objResponse
+		 * @return void
+		 */
+		void NotFound(HeimdallGI::CGI* &objRequest, HeimdallGI::View* &objResponse);
 
-		void NotFound(CGI* objRequest, View* &objResponse);
-
-
+		/**
+		 * @paragraph This method prettyfies the 505 error
+		 * @brief HeimdallGI::ErrorController::ServerFault()
+		 * @param HeimdallGI::CGI* &objRequest
+		 * @param HeimdallGI::View* &objResponse
+		 * @param QString strMessage
+		 * @return void
+		 */
+		void ServerFault(HeimdallGI::CGI* &objRequest, HeimdallGI::View* &objResponse, QString strMessage);
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

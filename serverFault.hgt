@@ -1,14 +1,17 @@
 <DOCTYPE html>
 <html>
-    <head>
-	<title><%= $pageTitle %>
-    </head>
-    <body>
-	<h1>Internal Server Error</h1>
-	<hr>
-	<p>Oop...  It looks like something went wrong...</p>
-	<pre>
-	    <%= $stackTrace %>
-	</pre>
-    </body>
+  <head>
+    <title><%= $pageTitle %>
+  </head>
+  <body>
+    <h1>Internal Server Error</h1>
+    <hr>
+    <h3>Oop...  It looks like something went wrong...</h3>
+    <p><%= $errorMessage %></p>
+    <% if ($showStackTrace) %>
+      <pre>
+        <%= $stackTrace %>
+	    </pre>
+    <% endif %>
+  </body>
 </html>

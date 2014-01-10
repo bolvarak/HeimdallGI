@@ -47,6 +47,27 @@ namespace HeimdallGI {
 	/// Protected Methods ////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	void Template::DetermineTemplatePath(CGI* objRequest, QString strTemplate) {
+		// Reset the template
+		strTemplate = (strTemplate.isEmpty() ? strTemplate : this->mView->GetTemplate());
+		// Determine if the template has a file extension
+		if (strTemplate.contains(Configuration::Get("Environment.templateExtension").toString().prepend(".")) == false) {
+			// Append the file extension
+			strTemplate.append(".").append(Configuration::Get("Environment.templateExtension").toString());
+		}
+		// Load the file path
+		QString strTemplatePath = Configuration::Get("Paths.templatePath", objRequest->GetRequestHeaders()).toString();
+		// Check the last character of the template path for a directory separator
+		if (strTemplatePath.at(strTemplatePath.size() - 1) != '/') {
+			// Append a directory separator
+			strTemplatePath.append("/");
+		}
+		// Combine the paths and set them into the instance
+		this->mTemplateFile = QDir::toNativeSeparators(strTemplatePath.append(strTemplate));
+		// Log the path
+		this->mLog->Add("TemplatePath", this->mTemplateFile);
+	}
+
 	void Template::DoAssignments(QString &strLine) {
 		// Define the pattern
 		QRegularExpression qreAssignment("<%\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\=\\s*?(\"|')(.*)(\"|')\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
@@ -470,14 +491,6 @@ namespace HeimdallGI {
 			// Set the view into the instance
 			this->mView = objView;
 		}
-		// Check for a template in the arguments
-		if (strTemplate.isEmpty()) {
-			// Set the template into the instance
-			this->mTemplateFile = Configuration::Get("Paths.templatePath").toString().append(objView->GetTemplate());
-		} else {
-			// Set the template into the instance
-			this->mTemplateFile = Configuration::Get("Paths.templatePath").toString().append(strTemplate);
-		}
 		// Define our handle
 		QFile qfTemplate(this->mTemplateFile);
 		// Try to open the file
@@ -562,6 +575,20 @@ namespace HeimdallGI {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Setters //////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	Template* Template::SetLogger(Log* &objLogger) {
+		// Set the logger object into the instance
+		this->mLog = objLogger;
+		// Return the instance
+		return this;
+	}
+
+	Template* Template::SetRequest(CGI* objRequest) {
+		// Set the request object into the instance
+		this->mRequest = objRequest;
+		// Return the instance
+		return this;
+	}
 
 	Template* Template::SetView(View* objView) {
 		// Set the view object into the instance

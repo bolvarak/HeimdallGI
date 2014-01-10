@@ -57,9 +57,10 @@ namespace HeimdallGI {
 		 * @paragraph This method searches the configuration for a property
 		 * @brief HeimdallGI::Configuration::Get()
 		 * @param QString strKey
+		 * @param QMap<QString, QString> qmsReplacements
 		 * @return QVariant
 		 */
-		static QVariant Get(QString strKey);
+		static QVariant Get(QString strKey, QMap<QString, QString> qmsReplacements = QMap<QString, QString>::QMap());
 
 		/**
 		 * @paragraph This method sets a configuration property

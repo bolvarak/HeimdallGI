@@ -10,6 +10,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "QBuffer"
+#include "QDir"
 #include "QFile"
 #include "QJsonDocument"
 #include "QJsonObject"
@@ -60,6 +61,20 @@ namespace HeimdallGI {
 		static Template* mInstance;
 
 		/**
+		 * @paragraph This property contains the logger
+		 * @brief HeimdallGI::Template::mLog
+		 * @var HeimdallGI::Log*
+		 */
+		Log* mLog;
+
+		/**
+		 * @paragraph This property contains the request object
+		 * @brief HeimdallGI::Template::mRequest
+		 * @var HeimdallGI::CGI*
+		 */
+		CGI* mRequest;
+
+		/**
 		 * @paragraph This property contains the list of substitutions
 		 * @brief HeimdallGI::Template::mSubstitutions
 		 * @var QVariantMap
@@ -89,6 +104,16 @@ namespace HeimdallGI {
 		///////////////////////////////////////////////////////////////////////
 		/// Methods //////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method determines the full template path
+		 * @brief HeimdallGI::Template::DetermineTemplatePath()
+		 * @param HeimdallGI::CGI* objRequest
+		 * @param HeimdallGI::View* objResponse
+		 * @param QString strTemplate [NULL]
+		 * @return void
+		 */
+		void DetermineTemplatePath(CGI* objRequest, QString strTemplate = NULL);
 
 		/**
 		 * @paragraph This method processes all of the in-view variable assignments
@@ -290,6 +315,22 @@ namespace HeimdallGI {
 		///////////////////////////////////////////////////////////////////////
 		/// Setters //////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This methos sets the logger instance into the class
+		 * @brief HeimdallGI::Template::SetLogger()
+		 * @param HeimdallGI::Log* &objLogger
+		 * @return HeimdallGI::Template* HeimdallGI::Template::mInstance
+		 */
+		Template* SetLogger(Log* &objLogger);
+
+		/**
+		 * @paragraph This method sets the request object into the instance
+		 * @brief HeimdallGI::Template::SetRequest()
+		 * @param HeimdallGI::CGI* objRequest
+		 * @return HeimdallGI::Template* HeimdallGI::Template::mInstance
+		 */
+		Template* SetRequest(CGI* objRequest);
 
 		/**
 		 * @paragraph This method sets the view object into the instance

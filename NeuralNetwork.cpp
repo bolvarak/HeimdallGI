@@ -184,7 +184,8 @@ namespace HeimdallGI {
 	}
 
 	NeuralNetwork* NeuralNetwork::AutoConnect() {
-
+		// Return the instance
+		return this;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -192,7 +193,10 @@ namespace HeimdallGI {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	QVector<int> NeuralNetwork::FeedForward() {
-
+		// Create a return placeholder (DELETE)
+		QVector<int> qviReturn;
+		// Return
+		return qviReturn;
 	}
 
 	QVector<int> NeuralNetwork::FeedForward(QVector<float> vecInputs) {
@@ -201,7 +205,10 @@ namespace HeimdallGI {
 			// Add the neuron
 			this->AddNeuron(vecInputs.at(intInput), NeuralNetwork::RandomWeight(), NeuralNetwork::InputLayer);
 		}
-
+		// Create a return placeholder (DELETE)
+		QVector<int> qviReturn;
+		// Return
+		return qviReturn;
 	}
 
 	QVector<int> NeuralNetwork::FeedForward(int intNumberOfInputs, ...) {
@@ -216,6 +223,10 @@ namespace HeimdallGI {
 		}
 		// Clean up
 		va_end(lstArguments);
+		// Create a return placeholder (DELETE)
+		QVector<int> qviReturn;
+		// Return
+		return qviReturn;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

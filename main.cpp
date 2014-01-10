@@ -16,6 +16,11 @@
 #include "Template.h"
 #include "TestController.h"
 
+// Check for Windows
+#ifdef WIN32
+#include <tchar.h>
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Main() ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,7 +32,12 @@
  * @param char* chrArguments
  * @return int
  */
+#ifdef WIN32
+// Use the WIN32 main function
+int _tmain(int intArguments, _TCHAR* chrArguments[]) {
+#else
 int main(int intArguments, char* chrArguments[]) {
+#endif
 	/**
 	 * @paragraph Seed the random number generator, this is required if you wish to use HeimdallGI::NeuralNetwork
 	 */
@@ -72,8 +82,8 @@ int main(int intArguments, char* chrArguments[]) {
 	hgiCGI
 			->SetContentType(HeimdallGI::CGI::ContentTypeHTML) // Set the content type
 			->SetContent(hgiView
-						 ->GetTemplate()
-						 .append(hgiLogger->GetHTML()))       // Execute the Router
+			->GetTemplate()
+				.append(hgiLogger->GetHTML()))            // Execute the Router
 			->WriteResponse();                                // Send the response
 	// Return the application execution status
 	return 0;
