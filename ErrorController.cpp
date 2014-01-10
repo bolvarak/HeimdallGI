@@ -48,7 +48,7 @@ namespace HeimdallGI {
 		// Set the REQUEST_URI
 		objResponse->SetPageValue("requestURI", objRequest->GetRequestHeader("REQUEST_URI"));
 		// Set debug output
-		objResponse->SetPageValue("showStackTrace", Configuration::Get("Environment.showDebug").toInt());
+		objResponse->SetPageValue("showStackTrace", Configuration::Get("Environment.showDebug").toString());
 		// Set the stack trace
 		objResponse->SetPageValue("stackTrace", "${STACK_TRACE}");
 		// Define the template
@@ -65,7 +65,7 @@ namespace HeimdallGI {
 		// Set the error message
 		objResponse->SetPageValue("errorMessage", strMessage);
 		// Set debug output
-		objResponse->SetPageValue("showStackTrace", Configuration::Get("Environment.showDebug").toInt());
+		objResponse->SetPageValue("showStackTrace", Configuration::Get("Environment.showDebug").toString());
 		// Set the stack trace
 		objResponse->SetPageValue("stackTrace", "${STACK_TRACE}");
 		// Define the themplate
