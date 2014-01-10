@@ -108,12 +108,10 @@ namespace HeimdallGI {
 		/**
 		 * @paragraph This method determines the full template path
 		 * @brief HeimdallGI::Template::DetermineTemplatePath()
-		 * @param HeimdallGI::CGI* objRequest
-		 * @param HeimdallGI::View* objResponse
 		 * @param QString strTemplate [NULL]
 		 * @return void
 		 */
-		void DetermineTemplatePath(CGI* objRequest, QString strTemplate = NULL);
+		void DetermineTemplatePath(QString strTemplate = NULL);
 
 		/**
 		 * @paragraph This method processes all of the in-view variable assignments

@@ -47,7 +47,7 @@ namespace HeimdallGI {
 	/// Protected Methods ////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void Template::DetermineTemplatePath(CGI* objRequest, QString strTemplate) {
+	void Template::DetermineTemplatePath(QString strTemplate) {
 		// Reset the template
 		strTemplate = (strTemplate.isEmpty() ? strTemplate : this->mView->GetTemplate());
 		// Determine if the template has a file extension
@@ -56,7 +56,7 @@ namespace HeimdallGI {
 			strTemplate.append(".").append(Configuration::Get("Environment.templateExtension").toString());
 		}
 		// Load the file path
-		QString strTemplatePath = Configuration::Get("Paths.templatePath", objRequest->GetRequestHeaders()).toString();
+		QString strTemplatePath = Configuration::Get("Paths.templatePath", this->mRequest->GetRequestHeaders()).toString();
 		// Check the last character of the template path for a directory separator
 		if (strTemplatePath.at(strTemplatePath.size() - 1) != '/') {
 			// Append a directory separator
@@ -491,6 +491,8 @@ namespace HeimdallGI {
 			// Set the view into the instance
 			this->mView = objView;
 		}
+		// Determine the template path
+		this->DetermineTemplatePath(strTemplate);
 		// Define our handle
 		QFile qfTemplate(this->mTemplateFile);
 		// Try to open the file

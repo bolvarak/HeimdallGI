@@ -60,7 +60,7 @@ namespace HeimdallGI {
 		 * @param QMap<QString, QString> qmsReplacements
 		 * @return QVariant
 		 */
-		static QVariant Get(QString strKey, QMap<QString, QString> qmsReplacements = QMap<QString, QString>::QMap());
+		static QVariant Get(QString strKey, QMap<QString, QString> qmsReplacements = QMap<QString, QString>());
 
 		/**
 		 * @paragraph This method sets a configuration property
