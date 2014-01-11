@@ -567,6 +567,13 @@ namespace HeimdallGI {
 		QList<Script> mScripts;
 
 		/**
+		 * @paragraph This property sets a flag that determines whether the view should be shown or not
+		 * @brief HeimdallGI::View::mShowView
+		 * @var bool
+		 */
+		bool mShowView;
+
+		/**
 		 * @paragraph This property contains the stylesheets for the header
 		 * @brief HeimdallGI::View::mStyles
 		 * @var QList<Style>
@@ -695,6 +702,13 @@ namespace HeimdallGI {
 		 */
 		QString GetTemplate();
 
+		/**
+		 * @paragraph This method returns the view status
+		 * @brief HeimdallGI::View::GetViewStatus()
+		 * @return bool HeimdallGI::View::mShowView
+		 */
+		bool GetViewStatus();
+
 		///////////////////////////////////////////////////////////////////////
 		/// Setters //////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
@@ -715,6 +729,14 @@ namespace HeimdallGI {
 		 * @return HeimdallGI::View* HeimdallGI::View::mInstance
 		 */
 		View* SetTemplate(QString strTemplate);
+
+		/**
+		 * @paragraph This method sets the view status
+		 * @brief HeimdallGI::View::SetViewStatus()
+		 * @param bool bShowView [false]
+		 * @return HeimdallGI::View* HeimdallGI::View::mInstance
+		 */
+		View* SetViewStatus(bool bShowView = false);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// End HeimdallGI::View Class Definition ////////////////////////////////////////////////////////////////////////
