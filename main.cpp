@@ -50,12 +50,14 @@ int main(int intArguments, char* chrArguments[]) {
 	HeimdallGI::Router* hgiRouter  = new HeimdallGI::Router;
 	// Instantiate the logger
 	HeimdallGI::Log* hgiLogger     = new HeimdallGI::Log;
+	// Instantiate the controller
+	TestController* ctrlTest       = new TestController;
 	// Define the logger
 	hgiRouter->SetLogger(hgiLogger);
 	// Define the index route
-	hgiRouter->AddRoute("/index", new TestController, "Index");
+	hgiRouter->AddRoute("/index", ctrlTest->SetLogger(hgiLogger), "Index");
 	// Load the view
-	HeimdallGI::View* hgiView      = hgiRouter->Execute(hgiCGI);
+	HeimdallGI::View* hgiView      = hgiRouter->Execute(hgiCGI, "/index");
 	// Iterate over the cookies
 	for (QMap<QString, QString>::const_iterator itrCookie = hgiCGI->GetCookies().constBegin(); itrCookie != hgiCGI->GetCookies().constEnd(); ++itrCookie) {
 		// Add the data to the log

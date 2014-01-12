@@ -393,6 +393,18 @@ namespace HeimdallGI {
 		return strValue;
 	}
 
+	QVariantMap DBI::RecordToMap(QSqlRecord qsrRecord) {
+		// Create the record container
+		QVariantMap qvmRecord;
+		// Iterate over the columns
+		for (int intColumn = 0; intColumn < qsrRecord.count(); ++intColumn) {
+			// Insert the field into the map
+			qvmRecord.insert(qsrRecord.fieldName(intColumn), qsrRecord.value(qsrRecord.indexOf(qsrRecord.fieldName(intColumn))));
+		}
+		// Return the map
+		return qvmRecord;
+	}
+
 	void DBI::SendStatus(int intStatusCode, QString strError) {
 		// Emit the signal
 		emit this->CurrentStatus(intStatusCode, this->mQuery, strError);
@@ -526,24 +538,51 @@ namespace HeimdallGI {
 		return this;
 	}
 
+	void DBI::Execute(QString strQuery) {
+		// Check for a query
+		if (strQuery.isEmpty() == false) {
+			// Set the query
+			this->mQuery = strQuery;
+		}
+		// Check for a connection
+		if (this->mConnection.isOpen() == false) {
+			// Open the connection
+			this->OpenConnection();
+		}
+		// Set the statement
+		QSqlQuery* qsqQuery = new QSqlQuery(this->mConnection);
+		// Execute the query
+		qsqQuery->exec(this->mQuery);
+		// Set the row count
+		this->mRecordCount = (qsqQuery->numRowsAffected() ? qsqQuery->numRowsAffected() : qsqQuery->size());
+		// Iterate over the query
+		while (qsqQuery->next()) {
+			qDebug() << qsqQuery;
+			// Emit the signal
+			this->Row(qsqQuery->record());
+			// Append the record to the instance
+			this->mRecords.append(this->RecordToMap(qsqQuery->record()));
+		}
+	}
+
 
 	DBI* DBI::OpenConnection(QString strDriver, QString strHost, int intPort, QString strUsername, QString strPassword, QString strDatabase) {
 		// Add the database connection
-		this->mConnection = QSqlDatabase::addDatabase(strDriver.isNull() ? Configuration::Get("Database.sqlDriver").toString()  : strDriver);
+		this->mConnection = QSqlDatabase::addDatabase(strDriver.isEmpty() ? Configuration::Get("Database.sqlDriver").toString()  : strDriver);
 		// Set the hostname
-		this->mConnection.setHostName(strHost.isNull()                   ? Configuration::Get("Database.serverHost").toString() : strHost);
+		this->mConnection.setHostName(strHost.isEmpty()                   ? Configuration::Get("Database.serverHost").toString() : strHost);
 		// Set the server port
-		this->mConnection.setPort((intPort == 0)                         ? Configuration::Get("Database.serverPort").toInt()    : intPort);
+		this->mConnection.setPort((intPort == 0)                          ? Configuration::Get("Database.serverPort").toInt()    : intPort);
 		// Set the database name
-		this->mConnection.setDatabaseName(strDatabase.isNull()           ? Configuration::Get("Database.dataBase").toString()   : strDatabase);
+		this->mConnection.setDatabaseName(strDatabase.isEmpty()           ? Configuration::Get("Database.dataBase").toString()   : strDatabase);
 		// Set the username
-		this->mConnection.setUserName(strUsername.isNull()               ? Configuration::Get("Database.userName").toString()   : strUsername);
+		this->mConnection.setUserName(strUsername.isEmpty()               ? Configuration::Get("Database.userName").toString()   : strUsername);
 		// Set the password
-		this->mConnection.setPassword(strPassword.isNull()               ? Configuration::Get("Database.userPass").toString()   : strPassword);
+		this->mConnection.setPassword(strPassword.isEmpty()               ? Configuration::Get("Database.userPass").toString()   : strPassword);
 		// Open the connection
 		if (!this->mConnection.open()) {
 			// Throw an error
-			qFatal(this->mConnection.lastError().text().toLatin1());
+			qDebug() << this->mConnection.lastError().text();
 		}
 		// Return the instance
 		return this;
@@ -562,6 +601,16 @@ namespace HeimdallGI {
 	QString DBI::GetQuery() {
 		// Return the query
 		return this->mQuery;
+	}
+
+	int DBI::GetRowCount() {
+		// Return the record count
+		return this->mRecordCount;
+	}
+
+	QList<QVariantMap> DBI::GetRows() {
+		// Return the rows from this instance
+		return this->mRecords;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

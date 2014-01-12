@@ -17,7 +17,9 @@
 #include "QRegularExpressionMatch"
 #include "QtSql/QSqlDatabase"
 #include "QtSql/QSqlError"
+#include "QtSql/QSqlField"
 #include "QtSql/QSqlQuery"
+#include "QtSql/QSqlRecord"
 #include "QString"
 #include "QStringList"
 #include "QVariantMap"
@@ -164,6 +166,20 @@ namespace HeimdallGI {
 		QMap<QString, bool> mQueryStatus;
 
 		/**
+		 * @paragraph This property contains the record count
+		 * @brief HeimdallGI::DBI::mRecordCount
+		 * @var int
+		 */
+		int mRecordCount;
+
+		/**
+		 * @paragraph This property contains the rows
+		 * @brief HeimdallGI::DBI::mRecords
+		 * @var QList<QVariantMap>
+		 */
+		QList<QVariantMap> mRecords;
+
+		/**
 		 * @paragraph This property contains the table name to query
 		 * @brief HeimdallGI::DBI::mTable
 		 * @var QString
@@ -273,6 +289,14 @@ namespace HeimdallGI {
 		 * @return QString
 		 */
 		QString QuoteTrueValue(QString strValue);
+
+		/**
+		 * @paragraph This method converts a QSqlRecord to QVariantMap
+		 * @brief HeimdallGI::DBI::RecordToMap()
+		 * @param QSqlRecord qsrRecord
+		 * @return QVariantMap
+		 */
+		QVariantMap RecordToMap(QSqlRecord qsrRecord);
 
 		/**
 		 * @paragraph This is just a helper method to emit a signal
@@ -672,6 +696,14 @@ namespace HeimdallGI {
 		DBI* Build();
 
 		/**
+		 * @paragraph This method executes a query
+		 * @brief HeimdallGI::DBI::Execute()
+		 * @param QString strQuery [NULL]
+		 * @return void
+		 */
+		void Execute(QString strQuery = NULL);
+
+		/**
 		 * @paragraph This method opens a connection to the database
 		 * @brief HeimdallGI::DBI::OpenConnection()
 		 * @param QString strDriver [NULL]
@@ -885,6 +917,14 @@ namespace HeimdallGI {
 		 * @return void
 		 */
 		void CurrentStatus(int intStatusCode, QString strQuery, QString strError);
+
+		/**
+		 * @paragraph This signal fires when a record is fetched
+		 * @brief HeimdallGI::DBI::Row()
+		 * @param QSqlRecord qsrRow
+		 * @return void
+		 */
+		void Row(QSqlRecord qsrRow);
 	};
 }
 

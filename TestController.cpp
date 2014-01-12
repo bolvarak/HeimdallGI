@@ -34,4 +34,47 @@ void TestController::Index(HeimdallGI::CGI* &objRequest, HeimdallGI::View* &objV
 	}
 	// Set the page value
 	objView->SetPageValue("iterationTest", qslPageValue);
+	// Instantiate the DBI
+	HeimdallGI::DBI* hgiDbc = new HeimdallGI::DBI;
+	// Setup the DBI
+	hgiDbc
+		->SetQuery(HeimdallGI::DBI::SelectQuery)
+		->SetTable("testimonials")
+		->AddColumn(HeimdallGI::DBI::Wildcard)
+		->SetInterface(HeimdallGI::DBI::InterfaceMySQL)
+		->Build()
+		->OpenConnection()
+		->Execute();
+	// Localize the map
+	QList<QVariantMap> qlRecord = hgiDbc->GetRows();
+	// Traverse the records
+	for (int intRecord = 0; intRecord < qlRecord.size(); ++intRecord) {
+		// Log the record
+		this->mLogger->Add(qlRecord.at(intRecord).value("Id").toString(), qlRecord.at(intRecord).value("Name").toString());
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Slots ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void TestController::RowFetched(QSqlRecord qsrRow) {
+	// Create the row container
+	QVariantMap qvmRow;
+	// Set the row data
+	qvmRow.insert("ID",   qsrRow.value(qsrRow.indexOf("Id")));
+	qvmRow.insert("Name", qsrRow.value(qsrRow.indexOf("Name")));
+	// Append the row to the instance
+	this->mRecords.append(qvmRow);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Setters //////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TestController* TestController::SetLogger(HeimdallGI::Log *&objLogger) {
+	// Set the logger into the instance
+	this->mLogger = objLogger;
+	// Return the instance
+	return this;
 }
