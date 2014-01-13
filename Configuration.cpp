@@ -24,6 +24,7 @@ namespace HeimdallGI {
 		qDebug() << "\n" << HGI_CONFIG_FILE << "\n";
 		// Load the configuration
 		QSettings qssConfiguration(HGI_CONFIG_FILE, QSettings::IniFormat);
+		qDebug() << "\n" << qssConfiguration.allKeys() << "\n";
 		// Check for replacements
 		if (!qmsReplacements.isEmpty()) {
 			// Load the property 
