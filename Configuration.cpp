@@ -22,7 +22,7 @@ namespace HeimdallGI {
 
 	QVariant Configuration::Get(QString strKey, QMap<QString, QString> qmsReplacements) {
 		// Load the configuration
-		QSettings qssConfiguration(HGI_CONFIG_FILE, QSettings::IniFormat);
+		QSettings qssConfiguration(QString(HGI_CONFIG_FILE), QSettings::IniFormat);
 		qDebug() << "\n" << qssConfiguration.fileName() << "\n";
 		// Check for replacements
 		if (!qmsReplacements.isEmpty()) {
