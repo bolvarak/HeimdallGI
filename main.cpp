@@ -59,7 +59,7 @@ int main(int intArguments, char* chrArguments[]) {
 		->AddRoute("/index", ctrlTest->SetLogger(hgiLogger), "Index")
 		->AddRoute("/",      ctrlTest->SetLogger(hgiLogger), "Index");
 	// Iterate over the routes
-	for (int intRoute = 0; intRoute < hgiRouter->GetRoutes(); ++intRoute) {
+	for (int intRoute = 0; intRoute < hgiRouter->GetRoutes().size(); ++intRoute) {
 		// Localize the route
 		HeimdallGI::Route hgiRoute = hgiRouter->GetRoutes().at(intRoute);
 		// Log the data
