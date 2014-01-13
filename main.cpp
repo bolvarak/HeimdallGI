@@ -66,7 +66,7 @@ int main(int intArguments, char* chrArguments[]) {
 		hgiLogger->Add(hgiRoute.getPath(), QString(hgiRoute.getViewMethod()));
 	}
 	// Load the view
-	HeimdallGI::View* hgiView      = hgiRouter->Execute(hgiCGI, (hgiCGI->GetRequestHeader("REQUEST_URI").isEmpty() ? "/index" : hgiCGI->GetRequestHeader("REQUEST_URI")));
+	HeimdallGI::View* hgiView      = hgiRouter->Execute(hgiCGI);
 	// Iterate over the cookies
 	for (QMap<QString, QString>::const_iterator itrCookie = hgiCGI->GetCookies().constBegin(); itrCookie != hgiCGI->GetCookies().constEnd(); ++itrCookie) {
 		// Add the data to the log
