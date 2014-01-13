@@ -55,7 +55,10 @@ int main(int intArguments, char* chrArguments[]) {
 	// Define the logger
 	hgiRouter->SetLogger(hgiLogger);
 	// Define the index route
-	hgiRouter->AddRoute("/index", ctrlTest->SetLogger(hgiLogger), "Index");
+	hgiRouter
+		->AddRoute(NULL,     ctrlTest->SetLogger(hgiLogger), "Index")
+		->AddRoute("",       ctrlTest->SetLogger(hgiLogger), "Index")
+		->AddRoute("/index", ctrlTest->SetLogger(hgiLogger), "Index");
 	// Load the view
 	HeimdallGI::View* hgiView      = hgiRouter->Execute(hgiCGI, (hgiCGI->GetRequestHeader("REQUEST_URI").isEmpty() ? "/index" : hgiCGI->GetRequestHeader("REQUEST_URI")));
 	// Iterate over the cookies
