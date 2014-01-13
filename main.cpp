@@ -58,6 +58,13 @@ int main(int intArguments, char* chrArguments[]) {
 	hgiRouter
 		->AddRoute("/index", ctrlTest->SetLogger(hgiLogger), "Index")
 		->AddRoute("/",      ctrlTest->SetLogger(hgiLogger), "Index");
+	// Iterate over the routes
+	for (int intRoute = 0; intRoute < hgiRouter->GetRoutes(); ++intRoute) {
+		// Localize the route
+		HeimdallGI::Route hgiRoute = hgiRouter->GetRoutes().at(intRoute);
+		// Log the data
+		hgiLogger->Add(hgiRoute.getPath(), hgiRoute.getViewMethod());
+	}
 	// Load the view
 	HeimdallGI::View* hgiView      = hgiRouter->Execute(hgiCGI, (hgiCGI->GetRequestHeader("REQUEST_URI").isEmpty() ? "/index" : hgiCGI->GetRequestHeader("REQUEST_URI")));
 	// Iterate over the cookies
