@@ -169,12 +169,7 @@ namespace HeimdallGI {
 					->Add(QString("View %1").arg(QString::number(intRoute + 1)), structRoute.getViewMethod())
 					->Add(QString("Route Path %1").arg(QString::number(intRoute + 1)), structRoute.getPath());
 			// Check for a match
-			if (structRoute.getController() && this->ReverseMatchPath(structRoute.getPath(), strPath, qvmParameters) == false) {
-				// Log
-				this->mLog->Add("ReverseMatch", "FAIL");
-				// Break out
-				break;
-			} else {
+			if (structRoute.getController() && this->ReverseMatchPath(structRoute.getPath(), strPath, qvmParameters) == true) {
 				// Log the match
 				this->mLog->Add("ReverseMatch", "SUCCESS");
 				// Traverse the parameters map
@@ -218,6 +213,8 @@ namespace HeimdallGI {
 				return viewResponse;
 			}
 		}
+		// Log the match fail
+		this->mLog->Add("ReverseMatch", "FAIL");
 		// Reset the view response
 		viewResponse = new View;
 		// Log
