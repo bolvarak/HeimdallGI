@@ -63,7 +63,7 @@ int main(int intArguments, char* chrArguments[]) {
 		// Localize the route
 		HeimdallGI::Route hgiRoute = hgiRouter->GetRoutes().at(intRoute);
 		// Log the data
-		hgiLogger->Add(hgiRoute.getPath(), hgiRoute.getViewMethod());
+		hgiLogger->Add(hgiRoute.getPath(), QString(hgiRoute.getViewMethod()));
 	}
 	// Load the view
 	HeimdallGI::View* hgiView      = hgiRouter->Execute(hgiCGI, (hgiCGI->GetRequestHeader("REQUEST_URI").isEmpty() ? "/index" : hgiCGI->GetRequestHeader("REQUEST_URI")));
