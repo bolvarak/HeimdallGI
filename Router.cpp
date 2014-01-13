@@ -47,6 +47,8 @@ namespace HeimdallGI {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	bool Router::ReverseMatchPath(QString strPattern, QString strPath, QVariantMap &qvmParameters) {
+		// Log the path and pattern
+		this->mLog->Add(strPath, strPattern);
 		// Split the pattern
 		QStringList qslPattern = strPattern.split('/');
 		// Split the path
