@@ -21,6 +21,7 @@ namespace HeimdallGI {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	QVariant Configuration::Get(QString strKey, QMap<QString, QString> qmsReplacements) {
+		Log::Instance()->Add("HGI Configuration", QString(HGI_CONFIG_FILE));
 		// Load the configuration
 		QSettings qssConfiguration(QString(HGI_CONFIG_FILE), QSettings::IniFormat);
 		// Check for replacements
@@ -41,7 +42,7 @@ namespace HeimdallGI {
 
 	bool Configuration::Set(QString strKey, QVariant qvValue) {
 		// Load the configuration
-		QSettings qssConfiguration(":/Configuration/Application.ini", QSettings::IniFormat);
+		QSettings qssConfiguration(QString(HGI_CONFIG_FILE), QSettings::IniFormat);
 		// Set the property
 		return qssConfiguration.setProperty(strKey.replace(".", "/").toLatin1(), qvValue);
 	}
