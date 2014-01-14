@@ -83,7 +83,7 @@ namespace HeimdallGI {
 
 	void Template::DoAssignments(QString &strLine) {
 		// Define the pattern
-		QRegularExpression qreAssignment("<%\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\=\\s*?(\"|')(.*)(\"|')\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreAssignment("<%\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\=\\s*?(\"|')(.*)(\"|')\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches and replace them
 		while (qreAssignment.match(strLine).hasMatch()) {
 			this->mView->SetPageValue(qreAssignment.match(strLine).captured(1), qreAssignment.match(strLine).captured(3).replace("\\\"", "\"").replace("\\'", "'"));
@@ -94,7 +94,7 @@ namespace HeimdallGI {
 
 	void Template::DoComments(QString &strLine) {
 		// Define the patters
-		QRegularExpression qreComment("<%(\\-|\\*){2}\\s*?(.*)\\s*?(\\-|\\*){2}%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreComment("<%(\\-|\\*){2}\\s*?(.*)\\s*?(\\-|\\*){2}%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches and replace them
 		while (qreComment.match(strLine).hasMatch()) {
 			// Remove the comment from the view
@@ -104,7 +104,7 @@ namespace HeimdallGI {
 
 	void Template::DoConditional(QString &strLine) {
 		// Create the complex pattern
-		QRegularExpression qreConditional("<%\\s*?if\\s*?\\(\\$*?([a-zA-Z0-9_-]+)\\s*?([<>=]{1,2})\\s*?\"*?'*?(\\$*?.*)\"*?'*?\\s*?\\)\\s*%>(.*)<%\\s*?else\\s*?%>(.*)<%\\s*?endif\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreConditional("<%\\s*?if\\s*?\\(\\$*?([a-zA-Z0-9_-]+)\\s*?([<>=]{1,2})\\s*?\"*?'*?(\\$*?.*)\"*?'*?\\s*?\\)\\s*%>(.*)<%\\s*?else\\s*?%>(.*)<%\\s*?endif\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches and replace them
 		while (qreConditional.match(strLine).hasMatch()) {
 			// Localize the page value
@@ -155,7 +155,8 @@ namespace HeimdallGI {
 
 	void Template::DoForEach(QString &strLine) {
 		// Create the pattern
-		QRegularExpression qreForEach("<%\\s*?foreach\\s*?\\((\\$[a-zA-Z0-9_-]+)\\s+?as\\s+?(\\$[a-zA-Z0-9_-]+)\\)\\s*?%>(.*)(<%\\s*?endforeach\\s*?%>)", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreForEach("<%\\s*?foreach\\s*?\\((\\$[a-zA-Z0-9_-]+)\\s+?as\\s+?(\\$[a-zA-Z0-9_-]+)\\)\\s*?%>(.*)(<%\\s*?endforeach\\s*?%>)", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
+		// Grab the matches
 		// Check for matches and replace them
 		while (qreForEach.match(strLine).hasMatch()) {
 			// Check for a close to the foreach loop
@@ -193,7 +194,7 @@ namespace HeimdallGI {
 
 	void Template::DoInclusion(QString &strLine) {
 		// Define the pattern
-		QRegularExpression qreInclude("<%\\s*?include\\s*?\\(\\s*?\"([a-zA-Z0-9\\/\\_-]+\\.[a-zA-Z]{3,5})\"\\s*?\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreInclude("<%\\s*?include\\s*?\\(\\s*?\"([a-zA-Z0-9\\/\\_-]+\\.[a-zA-Z]{3,5})\"\\s*?\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption);
 		// Check for matches and replace them
 		while (qreInclude.match(strLine).hasMatch()) {
 			// Instantiate the template
@@ -207,7 +208,7 @@ namespace HeimdallGI {
 
 	void Template::DoJSON(QString &strLine) {
 		// Define the pattern
-		QRegularExpression qreJSON("<%\\s*?getJson\\((\\$[a-zA-Z0-9-_]+)\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreJSON("<%\\s*?getJson\\((\\$[a-zA-Z0-9-_]+)\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption);
 		// Check for matches and replace them
 		while (qreJSON.match(strLine).hasMatch()) {
 			// Check for a full scope
@@ -268,7 +269,7 @@ namespace HeimdallGI {
 
 	void Template::DoMetaTags(QString &strLine) {
 		// Define the pattern
-		QRegularExpression qreMetaTags("<%\\s*?getMetaTags\\(\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreMetaTags("<%\\s*?getMetaTags\\(\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches and replace them
 		while (qreMetaTags.match(strLine).hasMatch()) {
 			// Replace the styles
@@ -278,7 +279,7 @@ namespace HeimdallGI {
 
 	void Template::DoScripts(QString &strLine) {
 		// Define the pattern
-		QRegularExpression qreScripts("<%\\s*?getScripts\\(\"(footer|header)\"\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreScripts("<%\\s*?getScripts\\(\"(footer|header)\"\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches and replace them
 		while (qreScripts.match(strLine).hasMatch()) {
 			// Check for header/footer
@@ -294,7 +295,7 @@ namespace HeimdallGI {
 
 	void Template::DoStyles(QString &strLine) {
 		// Define the patter
-		QRegularExpression qreStyles("<%\\s*?getStyles\\(\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreStyles("<%\\s*?getStyles\\(\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches and replace them
 		while (qreStyles.match(strLine).hasMatch()) {
 			// Replace the styles
@@ -304,7 +305,7 @@ namespace HeimdallGI {
 
 	void Template::DoSubstitution(QString &strLine) {
 		// Define the pattern
-		QRegularExpression qreSubstitution("<%=\\s*?\\$([a-zA-Z0-9_-]+)->([a-zA-Z0-9_-]+)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreSubstitution("<%=\\s*?\\$([a-zA-Z0-9_-]+)->([a-zA-Z0-9_-]+)\\s*?%>", QRegularExpression::DotMatchesEverythingOption);
 		// Check for matches and replace them
 		while (qreSubstitution.match(strLine).hasMatch()) {
 			// Make sure the parent can convert
@@ -343,7 +344,7 @@ namespace HeimdallGI {
 
 	bool Template::IsBoolean(QString strVariable) {
 		// Create the pattern
-		QRegularExpression qreBooleanTest("^(false|true)$", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreBooleanTest("^(false|true)$", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches
 		if (qreBooleanTest.match(strVariable).hasMatch()) {
 			// This is a boolean
@@ -355,7 +356,7 @@ namespace HeimdallGI {
 
 	bool Template::IsFloat(QString strVariable) {
 		// Create the pattern
-		QRegularExpression qreFloatTest("^([0-9]+\\.[0-9]+)$", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreFloatTest("^([0-9]+\\.[0-9]+)$", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches
 		if (qreFloatTest.match(strVariable).hasMatch()) {
 			// This is a float
@@ -367,7 +368,7 @@ namespace HeimdallGI {
 
 	bool Template::IsInteger(QString strVariable) {
 		// Create the pattern
-		QRegularExpression qreIntegerTest("^([0-9]+)$", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreIntegerTest("^([0-9]+)$", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches
 		if (qreIntegerTest.match(strVariable).hasMatch()) {
 			// This is an integer
@@ -379,7 +380,7 @@ namespace HeimdallGI {
 
 	bool Template::IsNumeric(QString strVariable) {
 		// Create the pattern
-		QRegularExpression qreNumericTest("^[0-9]+\\.?[0-9]+?$", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreNumericTest("^[0-9]+\\.?[0-9]+?$", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches
 		if (qreNumericTest.match(strVariable).hasMatch()) {
 			// This is numeric
