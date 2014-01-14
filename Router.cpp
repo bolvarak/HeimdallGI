@@ -157,7 +157,7 @@ namespace HeimdallGI {
 		// Check the last character for a slash
 		if (strPath.at(strPath.size() - 1) == '/') {
 			// Remove the last character
-			strPath.remove(strPath.size() - 1);
+			strPath.chop(1);
 		}
 		// Log the path
 		this->mLog->Add("Path", strPath);
