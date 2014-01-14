@@ -174,14 +174,17 @@ namespace HeimdallGI {
 			}
 			// Create the data placeholder
 			QString strForEach;
-			// Loop over the page value
-			for (int intIteration = 0; intIteration < this->mView->GetPageValue(strPageValue).toList().size(); ++intIteration) {
-				// Set the page value
-				this->mView->SetPageValue(strVariable, this->mView->GetPageValue(strPageValue).toList().at(intIteration));
-				// Instantiate the template class
-				Template* tplForEach = new Template;
-				// Process the string
-				strForEach.append(tplForEach->SetRequest(this->mRequest)->SetLogger(this->mLog)->ProcessString(qreForEach.match(strLine).captured(3), this->mView)->GetTemplate());
+			// Check for an empty loop
+			if (this->mView->GetPageValue(strPageValue).toList().isEmpty() == false) {
+				// Loop over the page value
+				for (int intIteration = 0; intIteration < this->mView->GetPageValue(strPageValue).toList().size(); ++intIteration) {
+					// Set the page value
+					this->mView->SetPageValue(strVariable, this->mView->GetPageValue(strPageValue).toList().at(intIteration));
+					// Instantiate the template class
+					Template* tplForEach = new Template;
+					// Process the string
+					strForEach.append(tplForEach->SetRequest(this->mRequest)->SetLogger(this->mLog)->ProcessString(qreForEach.match(strLine).captured(3), this->mView)->GetTemplate());
+				}
 			}
 			// Remove the page value
 			this->mView->GetPageValues().remove(strVariable);
