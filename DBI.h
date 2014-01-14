@@ -175,9 +175,9 @@ namespace HeimdallGI {
 		/**
 		 * @paragraph This property contains the rows
 		 * @brief HeimdallGI::DBI::mRecords
-		 * @var QList<QVariantMap>
+		 * @var QList<QVariant>
 		 */
-		QList<QVariantMap> mRecords;
+		QList<QVariant> mRecords;
 
 		/**
 		 * @paragraph This property contains the table name to query
@@ -294,9 +294,9 @@ namespace HeimdallGI {
 		 * @paragraph This method converts a QSqlRecord to QVariantMap
 		 * @brief HeimdallGI::DBI::RecordToMap()
 		 * @param QSqlRecord qsrRecord
-		 * @return QVariantMap
+		 * @return QMap<QString, QVariant>
 		 */
-		QVariantMap RecordToMap(QSqlRecord qsrRecord);
+		QMap<QString, QVariant> RecordToMap(QSqlRecord qsrRecord);
 
 		/**
 		 * @paragraph This is just a helper method to emit a signal
@@ -774,9 +774,9 @@ namespace HeimdallGI {
 		/**
 		 * @paragraph This method returns the entire resultset
 		 * @brief HeimdallGI::DBI::GetRows()
-		 * @return QList<QVariantMap>
+		 * @return QList<QVariant>
 		 */
-		QList<QVariantMap> GetRows();
+		QList<QVariant> GetRows();
 
 		/**
 		 * @paragraph This method returns the current statement

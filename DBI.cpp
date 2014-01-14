@@ -393,7 +393,7 @@ namespace HeimdallGI {
 		return strValue;
 	}
 
-	QVariantMap DBI::RecordToMap(QSqlRecord qsrRecord) {
+	QMap<QString, QVariant> DBI::RecordToMap(QSqlRecord qsrRecord) {
 		// Create the record container
 		QVariantMap qvmRecord;
 		// Iterate over the columns
@@ -561,7 +561,7 @@ namespace HeimdallGI {
 			// Emit the signal
 			this->Row(qsqQuery->record());
 			// Append the record to the instance
-			this->mRecords.append(this->RecordToMap(qsqQuery->record()));
+			this->mRecords.append(QVariant(this->RecordToMap(qsqQuery->record())));
 		}
 	}
 
@@ -608,7 +608,7 @@ namespace HeimdallGI {
 		return this->mRecordCount;
 	}
 
-	QList<QVariantMap> DBI::GetRows() {
+	QList<QVariant> DBI::GetRows() {
 		// Return the rows from this instance
 		return this->mRecords;
 	}
