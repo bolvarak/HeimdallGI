@@ -104,7 +104,7 @@ namespace HeimdallGI {
 
 	void Template::DoConditional(QString &strLine) {
 		// Create the complex pattern
-		QRegularExpression qreConditional("<%\\s*?if\\s*?\\(\\$*?([a-zA-Z0-9_-]+)\\s*?([<>=]{1,2})\\s*?\"*?'*?(\\$*?.*)\"*?'*?\\s*?\\)\\s*%>(.*)<%\\s*?else\\s*?%>(.*)<%\\s*?endif\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
+		QRegularExpression qreConditional("<%\\s*?if\\s*?\\(\\$*?([a-zA-Z0-9_-]+)\\s*?([<>=]{1,2})\\s*?\"*?'*?(\\$*?.*)\"*?'*?\\s*?\\)\\s*%>(.*?)<%\\s*?else\\s*?%>(.*?)<%\\s*?endif\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches and replace them
 		while (qreConditional.match(strLine).hasMatch()) {
 			// Localize the page value
@@ -129,7 +129,7 @@ namespace HeimdallGI {
 			}
 		}
 		// Reset the pattern to a simple pattern
-		qreConditional.setPattern("<%\\s*?if\\s*?\\(\\$*?([a-zA-Z0-9_-]+)\\s*?([<>=]{1,2})\\s*?\"*?'*?(\\$*?.*)\"*?'*?\\s*?\\)\\s*%>(.*)<%\\s*?endif\\s*?%>");
+		qreConditional.setPattern("<%\\s*?if\\s*?\\(\\$*?([a-zA-Z0-9_-]+)\\s*?([<>=]{1,2})\\s*?\"*?'*?(\\$*?.*)\"*?'*?\\s*?\\)\\s*%>(.*?)<%\\s*?endif\\s*?%>");
 		// Check for matches and replace them
 		while (qreConditional.match(strLine).hasMatch()) {
 			// Localize the page value
@@ -155,7 +155,7 @@ namespace HeimdallGI {
 
 	void Template::DoForEach(QString &strLine) {
 		// Create the pattern
-		QRegularExpression qreForEach("<%\\s*?foreach\\s*?\\((\\$[a-zA-Z0-9_-]+)\\s+?as\\s+?(\\$[a-zA-Z0-9_-]+)\\)\\s*?%>(.*)(<%\\s*?endforeach\\s*?%>)", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
+		QRegularExpression qreForEach("<%\\s*?foreach\\s*?\\((\\$[a-zA-Z0-9_-]+)\\s+?as\\s+?(\\$[a-zA-Z0-9_-]+)\\)\\s*?%>(.*?)(<%\\s*?endforeach\\s*?%>)", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Grab the matches
 		// Check for matches and replace them
 		while (qreForEach.match(strLine).hasMatch()) {
