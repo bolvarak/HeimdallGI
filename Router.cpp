@@ -153,6 +153,7 @@ namespace HeimdallGI {
 			// Set the path to the REQUEST_URI
 			strPath = objRequest->GetRequestHeader("REQUEST_URI").replace(QString("?%1").arg(objRequest->GetRequestHeader("QUERY_STRING")), "");
 		}
+		this->mLog->Add("InitialPath", strPath);
 		// Check the last character for a slash
 		if (strPath.at(strPath.size() - 1) == '/') {
 			// Remove the last character
