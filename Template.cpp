@@ -168,7 +168,7 @@ namespace HeimdallGI {
 			// Grab the temproary variable name
 			QString strVariable  = qreForEach.match(strLine).captured(2).replace("$", "");
 			// Check to see if the page value is a list
-			if (!this->mView->GetPageValue(strPageValue).canConvert(QMetaType::QStringList)) {
+			if (!this->mView->GetPageValue(strPageValue).canConvert(QMetaType::QVariantList)) {
 				// There is an error, make the replacement
 				strLine.replace(qreForEach.match(strLine).captured(0), QString("ERROR:  Variable \"$%1\" is not a list.").arg(strVariable));
 			}
