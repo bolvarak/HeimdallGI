@@ -309,9 +309,9 @@ namespace HeimdallGI {
 			// Make sure the parent can convert
 			if (this->mView->GetPageValue(qreSubstitution.match(strLine).captured(1)).canConvert(QMetaType::QVariantMap)) {
 				// Localize the parent
-				QVariantMap qvmSubstitution = this->mView->GetPageValue(qreSubstitution.match(strLine).captured(1)).toMap();
+				QMap<QString, QVariant> qvmSubstitution = this->mView->GetPageValue(qreSubstitution.match(strLine).captured(1)).toMap();
 				// Check for the child
-				if (qvmSubstitution.contains(this->mView->GetPageValue(qreSubstitution.match(strLine).captured(2)).toString())) {
+				if (qvmSubstitution.contains(qreSubstitution.match(strLine).captured(2)).toString()) {
 					// Make the replacement
 					strLine.replace(qreSubstitution.match(strLine).captured(0), qvmSubstitution.value(qreSubstitution.match(strLine).captured(2)).toString());
 				} else {
