@@ -320,7 +320,7 @@ namespace HeimdallGI {
 				}
 			} else {
 				// Set the variable with the warning
-				strLine.replace(qreSubstitution.match(strLine).captured(0), QString("WARNING:  Variable \"%1\" is undefined!").arg(qreSubstitution.match(strLine).captured(1).prepend("$"));
+				strLine.replace(qreSubstitution.match(strLine).captured(0), QString("WARNING:  Variable \"$%1\" is undefined!").arg(qreSubstitution.match(strLine).captured(1)));
 			}
 		}
 		// Reset the pattern to a plain variable
