@@ -563,7 +563,7 @@ namespace HeimdallGI {
 			// Emit the signal
 			this->Row(qsqQuery->record());
 			// Append the record to the instance
-			this->mRecords.append(QVariant(this->RecordToMap(qsqQuery->record())));
+			this->mRecords.append(this->RecordToMap(qsqQuery->record()));
 		}
 	}
 
