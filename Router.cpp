@@ -216,6 +216,15 @@ namespace HeimdallGI {
 						// Execute a server fault
 						QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::DirectConnection, Q_ARG(CGI*&, objRequest), Q_ARG(View*&, viewResponse), Q_ARG(QString, "Unable to execute HeimdallGI::ErrorController::NotFound()"));
 					}
+					// Instantiat the template
+					Template* tplError = new Template;
+					// Setup the template
+					tplError
+						->SetLogger(this->mLog)
+						->SetRequest(objRequest)
+						->Process(viewResponse);
+					// Return the response
+					return viewResponse->SetTemplate(tplError->GetTemplate());
 				}
 				// Return the view
 				return viewResponse;
