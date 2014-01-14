@@ -311,7 +311,7 @@ namespace HeimdallGI {
 				// Localize the parent
 				QMap<QString, QVariant> qvmSubstitution = this->mView->GetPageValue(qreSubstitution.match(strLine).captured(1)).toMap();
 				// Check for the child
-				if (qvmSubstitution.contains(qreSubstitution.match(strLine).captured(2)).toString()) {
+				if (qvmSubstitution.contains(qreSubstitution.match(strLine).captured(2))) {
 					// Make the replacement
 					strLine.replace(qreSubstitution.match(strLine).captured(0), qvmSubstitution.value(qreSubstitution.match(strLine).captured(2)).toString());
 				} else {
