@@ -209,6 +209,8 @@ namespace HeimdallGI {
 					// Set the template into the view
 					viewResponse->SetTemplate(tplRoute->GetTemplate());
 				} else {
+					// Reset the view response
+					viewResponse = new View;
 					// If we get down to this point, execute the error controller
 					if (!QMetaObject::invokeMethod(new ErrorController, "NotFound", Qt::DirectConnection, Q_ARG(CGI*&, objRequest), Q_ARG(View*&, viewResponse))) {
 						// Execute a server fault
