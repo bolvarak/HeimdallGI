@@ -549,6 +549,8 @@ namespace HeimdallGI {
 			// Open the connection
 			this->OpenConnection();
 		}
+		// Build the query
+		this->Build();
 		// Set the statement
 		QSqlQuery* qsqQuery = new QSqlQuery(this->mConnection);
 		// Execute the query
