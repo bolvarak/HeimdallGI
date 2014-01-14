@@ -186,8 +186,6 @@ namespace HeimdallGI {
 					strForEach.append(tplForEach->SetRequest(this->mRequest)->SetLogger(this->mLog)->ProcessString(qreForEach.match(strLine).captured(3), this->mView)->GetTemplate());
 				}
 			}
-			// Remove the page value
-			this->mView->GetPageValues().remove(strVariable);
 			// Make the replacement
 			strLine.replace(qreForEach.match(strLine).captured(0), strForEach);
 		}
