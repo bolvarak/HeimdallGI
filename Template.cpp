@@ -192,7 +192,7 @@ namespace HeimdallGI {
 
 	void Template::DoInclusion(QString &strLine) {
 		// Define the pattern
-		QRegularExpression qreInclude("<%\\s*?include\\(\"([a-zA-Z0-9\\/\\_-]+\\.[a-zA-Z]{3,5})\"\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreInclude("<%\\s*?include\\s*?\\(\\s*?\"([a-zA-Z0-9\\/\\_-]+\\.[a-zA-Z]{3,5})\"\\s*?\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::MultilineOption);
 		// Check for matches and replace them
 		while (qreInclude.match(strLine).hasMatch()) {
 			// Instantiate the template
