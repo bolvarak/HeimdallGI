@@ -198,7 +198,7 @@ namespace HeimdallGI {
 					QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::DirectConnection, Q_ARG(CGI*&, objRequest), Q_ARG(View*&, viewResponse), Q_ARG(QString, QString("Unable to process view method:  ").append(structRoute.getViewMethod())));
 				}
 				// Check the view for file processing
-				if (viewResponse->GetViewStatus() == true) {
+				if ((viewResponse->GetViewStatus() == true) && (viewResponse->GetTemplate().isEmpty() == false)) {
 					// Instantiate the template
 					Template* tplRoute = new Template;
 					// Setup the template
