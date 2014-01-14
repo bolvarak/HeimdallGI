@@ -175,9 +175,9 @@ namespace HeimdallGI {
 			// Create the data placeholder
 			QString strForEach;
 			// Loop over the page value
-			for (int intIteration = 0; intIteration < this->mView->GetPageValue(strPageValue).toStringList().size(); ++intIteration) {
+			for (int intIteration = 0; intIteration < this->mView->GetPageValue(strPageValue).toList().size(); ++intIteration) {
 				// Set the page value
-				this->mView->SetPageValue(strVariable, this->mView->GetPageValue(strPageValue).toStringList().at(intIteration));
+				this->mView->SetPageValue(strVariable, this->mView->GetPageValue(strPageValue).toList().at(intIteration));
 				// Instantiate the template class
 				Template* tplForEach = new Template;
 				// Process the string
@@ -303,7 +303,28 @@ namespace HeimdallGI {
 
 	void Template::DoSubstitution(QString &strLine) {
 		// Define the pattern
-		QRegularExpression qreSubstitution("<%=\\s*?\\$([a-zA-Z0-9_-]+)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::MultilineOption);
+		QRegularExpression qreSubstitution("<%=\\s*?\\$([a-zA-Z0-9_-]+)->([a-zA-Z0-9_-]+)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::MultilineOption);
+		// Check for matches and replace them
+		while (qreSubstitution.match(strLine).hasMatch()) {
+			// Make sure the parent can convert
+			if (this->mView->GetPageValue(qreSubstitution.match(strLine).captured(1)).canConvert(QMetaType::QVariantMap)) {
+				// Localize the parent
+				QVariantMap qvmSubstitution = this->mView->GetPageValue(qreSubstitution.match(strLine).captured(1)).toMap();
+				// Check for the child
+				if (qvmSubstitution.contains(this->mView->GetPageValue(qreSubstitution.match(strLine).captured(2)))) {
+					// Make the replacement
+					strLine.replace(qreSubstitution.match(strLine).captured(0), qvmSubstitution.value(qreSubstitution.match(strLine).captured(2)).toString());
+				} else {
+					// Set the warning
+					strLine.replace(qreSubstitution.match(strLine).captured(0), QString("WARNING:  Variable \"$%1\" has no property:  %2").arg(qreSubstitution.match(strLine).captured(1), qreSubstitution.match(strLine).captured(2)));
+				}
+			} else {
+				// Set the variable with the warning
+				strLine.replace(qreSubstitution.match(strLine).captured(0), QString("WARNING:  Variable \"%1\" is undefined!").arg(qreSubstitution.match(strLine).captured(1).prepend("$"));
+			}
+		}
+		// Reset the pattern to a plain variable
+		qreSubstitution.setPattern("<%=\\s*?\\$([a-zA-Z0-9_-]+)\\s*?%>");
 		// Check for matches and replace them
 		while (qreSubstitution.match(strLine).hasMatch()) {
 			// Grab the variable
