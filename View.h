@@ -546,6 +546,13 @@ namespace HeimdallGI {
 		static View* mInstance;
 
 		/**
+		 * @paragraph This property contains the layout view file
+		 * @brief HeimdallGI::View::mLayout
+		 * @var QString
+		 */
+		QString mLayout;
+
+		/**
 		 * @paragraph This property contains a list of meta tags for the header
 		 * @brief HeimdallGI::View::mMetaTags
 		 * @var QList<MetaTag>
@@ -659,6 +666,13 @@ namespace HeimdallGI {
 		/////////////////////////////////////////////////////////////////////
 
 		/**
+		 * @paragraph This method returns the layout from the instance
+		 * @brief HeimdallGI::View::GetLayout()
+		 * @return QString HeimdallGI::View::mLayout
+		 */
+		QString GetLayout();
+
+		/**
 		 * @paragraph This method returns the meta tags for the view
 		 * @brief HeimdallGI::View::GetMetaTags()
 		 * @return QString
@@ -712,6 +726,14 @@ namespace HeimdallGI {
 		///////////////////////////////////////////////////////////////////////
 		/// Setters //////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method sets the layout into the instance
+		 * @brief HeimdallGI::View::SetLayout()
+		 * @param QString strLayout
+		 * @return HeimdallGI::View* HeimdallGI::View::mInstance
+		 */
+		View* SetLayout(QString strLayout);
 
 		/**
 		 * @paragraph This method sets a variable into the view

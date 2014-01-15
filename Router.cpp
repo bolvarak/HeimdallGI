@@ -205,15 +205,30 @@ namespace HeimdallGI {
 				}
 				// Check the view for file processing
 				if ((viewResponse->GetViewStatus() == true) && (viewResponse->GetTemplate().isEmpty() == false)) {
-					// Instantiate the template
-					Template* tplRoute = new Template;
-					// Setup the template
-					tplRoute
-						->SetLogger(this->mLog)
-						->SetRequest(objRequest)
-						->Process(viewResponse);
-					// Set the template into the view
-					viewResponse->SetTemplate(tplRoute->GetTemplate());
+					// Check for a layout
+					if (viewResponse->GetLayout().isEmpty() == false) {
+						// Instantiate the route template
+						Template* tplRoute = new Template;
+						// Instantiate the view template
+						Template* tplView  = new Template;
+						// Process and set the body
+						viewResponse->SetPageValue("body", tplView->SetLogger(this->mLog)->SetRequest(objRequest)->Process(viewResponse)->GetTemplate());
+						// Process the layout
+						tplRoute
+							->SetLogger(this->mLog)
+							->SetRequest(objRequest)
+							->Process(viewResponse);
+					} else {
+						// Instantiate the template
+						Template* tplRoute = new Template;
+						// Setup the template
+						tplRoute
+							->SetLogger(this->mLog)
+							->SetRequest(objRequest)
+							->Process(viewResponse);
+						// Set the template into the view
+						viewResponse->SetTemplate(tplRoute->GetTemplate());
+					}
 				} else {
 					// Reset the view response
 					viewResponse = new View;
