@@ -217,7 +217,7 @@ namespace HeimdallGI {
 						tplRoute
 							->SetLogger(this->mLog)
 							->SetRequest(objRequest)
-							->Process(viewResponse);
+							->Process(viewResponse, viewResponse->GetLayout());
 						// Set the template
 						viewResponse->SetTemplate(tplRoute->GetTemplate());
 					} else {
