@@ -218,6 +218,8 @@ namespace HeimdallGI {
 							->SetLogger(this->mLog)
 							->SetRequest(objRequest)
 							->Process(viewResponse);
+						// Set the template
+						viewResponse->SetTemplate(tplRoute->GetTemplate());
 					} else {
 						// Instantiate the template
 						Template* tplRoute = new Template;
