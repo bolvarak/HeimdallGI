@@ -155,7 +155,7 @@ namespace HeimdallGI {
 		}
 		this->mLog->Add("InitialPath", strPath);
 		// Check the last character for a slash
-		if (strPath.at(strPath.size() - 1) == '/') {
+		if ((strPath.at(strPath.size() - 1) == '/') && (strPath != "/")) {
 			// Remove the last character
 			strPath.chop(1);
 		}
