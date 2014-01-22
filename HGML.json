@@ -1,81 +1,121 @@
 {
     "Interpreter": {
+
+        "Classes": {
+
+        },
+
         "Functions": {
+
             "dump": {
-                "Arguments": [{"Type": "string", "Required": true}],
-                "Method":    "interpretDump",
-                "Returns":   ["mixed", "null", "number", "string"]
+                "Arguments":  [{"Type": "string", "Required": true}],
+                "Expression": "^\\s*?dump\\s*?\\(\\s*?\\$([a-zA-Z0-9_-])\\s*?\\)\\s*?;$",
+                "Method":     "interpretDump",
+                "Returns":    ["mixed", "null", "number", "string"]
             },
+
             "echo": {
                 "Arguments": [{"Type": "string", "Required": true}],
                 "Method":    "interpretEcho",
                 "Returns":   ["mixed", "null", "number", "string"]
             },
+
             "fromHtmlEntities": {
                 "Arguments": [{"Type": "string","Required": true}],
                 "Method":    "interpretFromHTMLEntities",
                 "Returns":   ["string"]
             },
+
             "fromJson": {
                 "Arguments": [{"Type": "string", "Required": true}, {"Type": "string", "Required": false}],
                 "Method":    "interpretFromJSON",
                 "Returns":   ["object"]
             },
+
             "fromUrlEncoded": {
                 "Arguments": [{"Type": "string", "Required": true}, {"Type": "string", "Required": false}],
                 "Method":    "interpretFromURLEncoded",
                 "Returns":   ["object"]
             },
+
             "fromXml": {
                 "Arguments": [{"Type": "string", "Required": true}, {"Type": "string", "Required": false}],
                 "Method":    "interpretFromXML",
                 "Returns":   ["object"]
             },
+
             "get": {
                 "Arguments": [{"Type": "string", "Required": true}],
                 "Method":    "interpretGetVariable",
                 "Returns":   ["mixed"]
             },
+
             "getConfigurationValue": {
                 "Arguments": [{"Type": "string", "Required": true}, {"Type": "mixed", "Required": false, "Default": null}],
                 "Method":    "interpretGetConfigurationValue",
                 "Returns":   ["boolean", "number", "string"]
             },
+
             "print": {
                 "Arguments": [{"Type": "string", "Required": true}],
                 "Method":    "interpretEcho",
                 "Returns":   ["mixed", "null", "number", "string"]
             },
+
             "set": {
                 "Arguments": [{"Type": "string", "Required": true}, {"Type": "mixed", "Required": true}],
                 "Method":    "interpretSetVariable",
                 "Returns":   ["boolean"]
             },
+
             "setConfgigurationValue": {
                 "Arguments": [{"Type": "string", "Required": true}, {"Type": "mixed", "Required": true}],
                 "Method":    "interpretSetConfigurationValue",
                 "Returns":   ["boolean"]
             },
+
             "toHtmlEntities": {
                 "Arguments": [{"Type": "string", "Required": true}],
                 "Method":    "interpretToHTMLEntities",
                 "Returns":   ["string"]
             },
+
             "toJson": {
                 "Arguments": [{"Type": "mixed", "Required": true}],
                 "Method":    "interpretToJSON",
                 "Returns":   ["string"]
             },
+
             "toUrlEncoded": {
                 "Arguments": [{"Type": "string", "Required": true}],
                 "Method":    "interpretToURLEncoded",
                 "Returns":   ["string"]
             },
+
             "toXml": {
                 "Arguments": [{"Type": "mixed", "Required": true}],
                 "Method":    "interpretToXML",
                 "Returns":   ["string"]
             }
+        },
+
+        "Operators": {
+
+        },
+
+        "Types": {
+
+            "array":   ["^new\\s+?array\\s*?\\(\\s*?(.*?,{1}?\\s*?)+?\\s*?\\)\\s*?;$", "^\\s+?array\\s*?\\(\\s*?(.*?,{1}?\\s*?)+?\\s*?\\)\\s*?;$", "^\\s*?\\[\\s*?(.*?,{1}\\s*?)+?\\s*?\\]\\s*?;$"],
+
+            "boolean": ["^(true|false);$"],
+
+            "number":  ["^\\s*?(-*?[0-9]+)\\s*?;$", "^\\s*?(-*?[0-9]+\\.[0-9]+)\\s*?;$"],
+
+            "null":    ["^(null);$"],
+
+            "string":  ["^new\\s+?string\\s*?\\(\\s*?'|\"(.*?)'|\"\\s*?\\)\\s*?;$", "^\\s*?'(.*?)'\\s*?;", "\\s*?\"(.*?)\"\\s*?;$"],
+
+
         }
     }
 }

@@ -51,7 +51,7 @@ namespace HeimdallGI {
 	bool Interpreter::Process(QString strSource, QString strOperation) {
 		// Fire the signal
 		emit this->Status(Processing);
-
+		//
 		return true;
 	}
 
