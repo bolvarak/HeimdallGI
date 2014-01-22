@@ -34,24 +34,6 @@ void TestController::Index(HeimdallGI::CGI* &objRequest, HeimdallGI::View* &objV
 	}
 	// Set the page value
 	objView->SetPageValue("iterationTest", qslPageValue);
-	// Instantiate the DBI
-	HeimdallGI::DBI* hgiDbc = new HeimdallGI::DBI;
-	// Setup the DBI
-	hgiDbc
-		->SetQuery(HeimdallGI::DBI::SelectQuery)
-		->SetTable("testimonials")
-		->AddColumn(HeimdallGI::DBI::Wildcard)
-		->SetInterface(HeimdallGI::DBI::InterfaceMySQL)
-		->Build()
-		->OpenConnection()
-		->Execute();
-	// Localize the map
-	QList<QVariantMap> qlRecord = hgiDbc->GetRows();
-	// Traverse the records
-	for (int intRecord = 0; intRecord < qlRecord.size(); ++intRecord) {
-		// Log the record
-		this->mLogger->Add(qlRecord.at(intRecord).value("Id").toString(), qlRecord.at(intRecord).value("Name").toString());
-	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

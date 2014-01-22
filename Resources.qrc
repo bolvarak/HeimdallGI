@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/Configuration">
         <file>Application.ini</file>
+        <file>HGML.ini</file>
     </qresource>
     <qresource prefix="/templates">
         <file>notFound.hgt</file>

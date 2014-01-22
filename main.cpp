@@ -10,9 +10,11 @@
 #include "QVariant"
 #include "CGI.h"
 #include "DBI.h"
+#include "Interpreter.h"
 #include "Log.h"
 #include "NeuralNetwork.h"
 #include "Router.h"
+#include "Singleton.h"
 #include "Template.h"
 #include "TestController.h"
 
@@ -89,11 +91,19 @@ int main(int intArguments, char* chrArguments[]) {
 	}
 	// Instantiate the CGI
 	hgiCGI
-			->SetContentType(HeimdallGI::CGI::ContentTypeHTML) // Set the content type
-			->SetContent(hgiView
-			->GetTemplate()
-				.append(hgiLogger->GetHTML()))            // Execute the Router
-			->WriteResponse();                                // Send the response
+		->SetContentType(HeimdallGI::CGI::ContentTypeHTML) // Set the content type
+		->SetContent    (hgiView
+		->GetTemplate   ()
+			.append (hgiLogger->GetString()))          // Execute the Router
+		->WriteResponse ();                                // Send the response
+	// Create the singleton
+	QObject* objSingleton = &HeimdallGI::Singleton<QObject>::Instance();
+	// Set an object property
+	objSingleton->setProperty("fooBar", "booBaz");
+	// Log the property
+	qDebug() << "\n\n" << objSingleton->property("fooBar").toString() << "\n\n";
+	// Log the interpreter functions
+	qDebug() << "\n\n" << HeimdallGI::Interpreter::HGMLFunctions << "\n\n";
 	// Return the application execution status
 	return 0;
 }
