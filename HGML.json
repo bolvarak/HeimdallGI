@@ -17,112 +17,128 @@
 
             "dump": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?dump\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
-                "Method":     "interpretDump",
+                "Method":     "Dump",
                 "Returns":    ["mixed", "null", "number", "string"]
             },
 
             "echo": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?echo\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
-                "Method":     "interpretEcho",
+                "Method":     "Echo",
                 "Returns":    ["mixed", "null", "number", "string"]
             },
 
             "fromHtmlEntities": {
                 "Arguments":  [{"Type": "string","Required": true, "Name": "$varName"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?fromHtmlEntities\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
-                "Method":     "interpretFromHTMLEntities",
+                "Method":     "FromHTMLEntities",
                 "Returns":    ["string"]
             },
 
             "fromJson": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?fromJson\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
-                "Method":     "interpretFromJSON",
+                "Method":     "FromJSON",
                 "Returns":    ["object"]
             },
 
             "fromUrlEncoded": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?fromUrlEncoded\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
-                "Method":     "interpretFromURLEncoded",
+                "Method":     "FromURLEncoded",
                 "Returns":    ["object"]
             },
 
             "fromXml": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?fromXml\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
-                "Method":     "interpretFromXML",
+                "Method":     "FromXML",
                 "Returns":    ["object"]
             },
 
             "get": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?get\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
-                "Method":     "interpretGetVariable",
+                "Method":     "GetVariable",
                 "Returns":    ["mixed"]
             },
 
             "getConfigurationValue": {
                 "Arguments": [{"Type": "string", "Required": true}, {"Type": "mixed", "Required": false, "Default": null}],
-                "Method":    "interpretGetConfigurationValue",
+                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Method":    "GetConfigurationValue",
                 "Returns":   ["boolean", "number", "string"]
             },
 
             "isDefined": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?isDefined\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
-                "Method":     "interpretIsDefined",
+                "Method":     "IsDefined",
                 "Returns":    "boolean"
             },
 
             "print": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?print\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
-                "Method":     "interpretEcho",
+                "Method":     "Echo",
                 "Returns":    ["mixed", "null", "number", "string"]
             },
 
             "set": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}, {"Type": "mixed", "Required": true, "Name": "$value"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?set\\s*?\\(\\s*?(\"|'{1}?\\${1}?[a-zA-Z0-9_-]+\"|'{1}?)\\s*?,\\s*?(.*?)\\s*?\\)\\s*?;",
-                "Method":     "interpretSetVariable",
+                "Method":     "SetVariable",
                 "Returns":    ["boolean"]
             },
 
             "setConfgigurationValue": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}, {"Type": "mixed", "Required": true, "Name": "$value"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?setConfigurationValue\\s*?\\(\\s*?(\"|'{1}?\\${1}?[a-zA-Z0-9_-]+\"|'{1}?)\\s*?,\\s*?(.*?)\\s*?\\)\\s*?;",
-                "Method":     "interpretSetConfigurationValue",
+                "Method":     "SetConfigurationValue",
                 "Returns":    ["boolean"]
             },
 
             "toHtmlEntities": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?toHtmlEntities\\s*?\\(\\s*?(\"|'.*?\"|')\\s*?\\)\\s*?;",
-                "Method":     "interpretToHTMLEntities",
+                "Method":     "ToHTMLEntities",
                 "Returns":    ["string"]
             },
 
             "toJson": {
                 "Arguments": [{"Type": "mixed", "Required": true, "Name": "$varName"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?toJson\\s*?\\(\\s*?(\"|'.*?\"|')\\s*?\\)\\s*?;",
-                "Method":    "interpretToJSON",
+                "Method":    "ToJSON",
                 "Returns":   ["string"]
             },
 
             "toUrlEncoded": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?toUrlEncoded\\s*?\\(\\s*?(\"|'.*?\"|')\\s*?\\)\\s*?;",
-                "Method":     "interpretToURLEncoded",
+                "Method":     "ToURLEncoded",
                 "Returns":    ["string"]
             },
 
             "toXml": {
                 "Arguments":  [{"Type": "mixed", "Required": true, "Name": "$varName"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
                 "Expression": "\\s*?toXml\\s*?\\(\\s*?(\"|'.*?\"|')\\s*?\\)\\s*?;",
-                "Method":     "interpretToXML",
+                "Method":     "ToXML",
                 "Returns":    ["string"]
             }
         },

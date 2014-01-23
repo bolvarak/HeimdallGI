@@ -41,7 +41,10 @@ namespace HeimdallGI {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	Interpreter::Interpreter(QObject* qoParent) : QObject(qoParent) {
-		this->ReloadCore();
+		// Reload the HGML Engine
+		this->ReloadEngine();
+		// Add the Functions interpreter
+		this->AddInterpretationClass("HeimdallGI::Interpreter::Functions", new HeimdallGI::Interpreter::Functions);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +58,7 @@ namespace HeimdallGI {
 		return true;
 	}
 
-	void Interpreter::ReloadCore() {
+	void Interpreter::ReloadEngine() {
 		// Read the HGML backend core file
 		QFile qfHGML(":/Configuration/HGML.json");
 		// Open the HGML core file
@@ -71,6 +74,13 @@ namespace HeimdallGI {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Public Methods ///////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	Interpreter* Interpreter::AddInterpretationClass(QString strName, QObject* hgiInterpreterInstance) {
+		// Add the class to the instance
+		this->mInterpretationClasses.insert(strName, hgiInterpreterInstance);
+		// Return the instance
+		return this;
+	}
 
 	Interpreter* Interpreter::Execute() {
 		// Setup the expression

@@ -30,6 +30,7 @@ SOURCES        += \
 		Base.cpp \
 		Model.cpp \
 		ErrorController.cpp \
+    Interpreter/Functions.cpp
 
 HEADERS        +=  \
 		CGI.h \
@@ -47,6 +48,7 @@ HEADERS        +=  \
 		Base.h \
 		Model.h \
 		ErrorController.h \
+    Interpreter/Functions.h
 
 OTHER_FILES    += \
 		Application.ini \

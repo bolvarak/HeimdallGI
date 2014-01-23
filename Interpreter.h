@@ -30,6 +30,7 @@
 #include "Configuration.h"
 #include "Log.h"
 #include "View.h"
+#include "Interpreter/Functions.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Namespace ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,6 +74,13 @@ namespace HeimdallGI {
 		 * @var QVariantMap
 		 */
 		QMap<QString, QVariant> mCore;
+
+		/**
+		 * @paragraph This property contains a map of interpretation classes for extensibility
+		 * @brief HeimdallGI::Interpreter::mInterpretationClasses
+		 * @var QMap<QString, QObject*>
+		 */
+		QMap<QString, QObject*> mInterpretationClasses;
 
 		/**
 		 * @paragraph This property contains the last exception that occurred
@@ -124,10 +132,10 @@ namespace HeimdallGI {
 
 		/**
 		 * @paragraph This method refreshes the HGML core backend into the instance
-		 * @brief HeimdallGI::Interpreter::ReloadCore()
+		 * @brief HeimdallGI::Interpreter::ReloadEngine()
 		 * @return void
 		 */
-		void ReloadCore();
+		void ReloadEngine();
 
 	///////////////////////////////////////////////////////////////////////
 	/// Public Methods & Properties //////////////////////////////////////
@@ -192,6 +200,15 @@ namespace HeimdallGI {
 		///////////////////////////////////////////////////////////////
 		/// Methods //////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method adds an interpretation class to the instance
+		 * @brief HeimdallGI::Interpreter::AddInterpretationClass()
+		 * @param QString strName
+		 * @param QObject* hgiInterpreterInstance
+		 * @return HeimdallGI::Interpreter* HeimdallGI::Interpreter::mInstance
+		 */
+		Interpreter* AddInterpretationClass(QString strName, QObject* hgiInterpreterInstance);
 
 		/**
 		 * @paragraph This method executes the interpretation of an HGML file
