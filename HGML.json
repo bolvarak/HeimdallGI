@@ -1,53 +1,67 @@
 {
     "Interpreter": {
 
+        "BareWords": {
+
+        },
+
         "Classes": {
+
+        },
+
+        "Constants": {
 
         },
 
         "Functions": {
 
             "dump": {
-                "Arguments":  [{"Type": "string", "Required": true}],
-                "Expression": "^\\s*?dump\\s*?\\(\\s*?\\$([a-zA-Z0-9_-])\\s*?\\)\\s*?;$",
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Expression": "\\s*?dump\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
                 "Method":     "interpretDump",
                 "Returns":    ["mixed", "null", "number", "string"]
             },
 
             "echo": {
-                "Arguments": [{"Type": "string", "Required": true}],
-                "Method":    "interpretEcho",
-                "Returns":   ["mixed", "null", "number", "string"]
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Expression": "\\s*?echo\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
+                "Method":     "interpretEcho",
+                "Returns":    ["mixed", "null", "number", "string"]
             },
 
             "fromHtmlEntities": {
-                "Arguments": [{"Type": "string","Required": true}],
-                "Method":    "interpretFromHTMLEntities",
-                "Returns":   ["string"]
+                "Arguments":  [{"Type": "string","Required": true, "Name": "$varName"}],
+                "Expression": "\\s*?fromHtmlEntities\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
+                "Method":     "interpretFromHTMLEntities",
+                "Returns":    ["string"]
             },
 
             "fromJson": {
-                "Arguments": [{"Type": "string", "Required": true}, {"Type": "string", "Required": false}],
-                "Method":    "interpretFromJSON",
-                "Returns":   ["object"]
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Expression": "\\s*?fromJson\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
+                "Method":     "interpretFromJSON",
+                "Returns":    ["object"]
             },
 
             "fromUrlEncoded": {
-                "Arguments": [{"Type": "string", "Required": true}, {"Type": "string", "Required": false}],
-                "Method":    "interpretFromURLEncoded",
-                "Returns":   ["object"]
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Expression": "\\s*?fromUrlEncoded\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
+                "Method":     "interpretFromURLEncoded",
+                "Returns":    ["object"]
             },
 
             "fromXml": {
-                "Arguments": [{"Type": "string", "Required": true}, {"Type": "string", "Required": false}],
-                "Method":    "interpretFromXML",
-                "Returns":   ["object"]
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Expression": "\\s*?fromXml\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
+                "Method":     "interpretFromXML",
+                "Returns":    ["object"]
             },
 
             "get": {
-                "Arguments": [{"Type": "string", "Required": true}],
-                "Method":    "interpretGetVariable",
-                "Returns":   ["mixed"]
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Expression": "\\s*?get\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
+                "Method":     "interpretGetVariable",
+                "Returns":    ["mixed"]
             },
 
             "getConfigurationValue": {
@@ -56,47 +70,65 @@
                 "Returns":   ["boolean", "number", "string"]
             },
 
+            "isDefined": {
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Expression": "\\s*?isDefined\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
+                "Method":     "interpretIsDefined",
+                "Returns":    "boolean"
+            },
+
             "print": {
-                "Arguments": [{"Type": "string", "Required": true}],
-                "Method":    "interpretEcho",
-                "Returns":   ["mixed", "null", "number", "string"]
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Expression": "\\s*?print\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
+                "Method":     "interpretEcho",
+                "Returns":    ["mixed", "null", "number", "string"]
             },
 
             "set": {
-                "Arguments": [{"Type": "string", "Required": true}, {"Type": "mixed", "Required": true}],
-                "Method":    "interpretSetVariable",
-                "Returns":   ["boolean"]
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}, {"Type": "mixed", "Required": true, "Name": "$value"}],
+                "Expression": "\\s*?set\\s*?\\(\\s*?(\"|'{1}?\\${1}?[a-zA-Z0-9_-]+\"|'{1}?)\\s*?,\\s*?(.*?)\\s*?\\)\\s*?;",
+                "Method":     "interpretSetVariable",
+                "Returns":    ["boolean"]
             },
 
             "setConfgigurationValue": {
-                "Arguments": [{"Type": "string", "Required": true}, {"Type": "mixed", "Required": true}],
-                "Method":    "interpretSetConfigurationValue",
-                "Returns":   ["boolean"]
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}, {"Type": "mixed", "Required": true, "Name": "$value"}],
+                "Expression": "\\s*?setConfigurationValue\\s*?\\(\\s*?(\"|'{1}?\\${1}?[a-zA-Z0-9_-]+\"|'{1}?)\\s*?,\\s*?(.*?)\\s*?\\)\\s*?;",
+                "Method":     "interpretSetConfigurationValue",
+                "Returns":    ["boolean"]
             },
 
             "toHtmlEntities": {
-                "Arguments": [{"Type": "string", "Required": true}],
-                "Method":    "interpretToHTMLEntities",
-                "Returns":   ["string"]
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Expression": "\\s*?toHtmlEntities\\s*?\\(\\s*?(\"|'.*?\"|')\\s*?\\)\\s*?;",
+                "Method":     "interpretToHTMLEntities",
+                "Returns":    ["string"]
             },
 
             "toJson": {
-                "Arguments": [{"Type": "mixed", "Required": true}],
+                "Arguments": [{"Type": "mixed", "Required": true, "Name": "$varName"}],
+                "Expression": "\\s*?toJson\\s*?\\(\\s*?(\"|'.*?\"|')\\s*?\\)\\s*?;",
                 "Method":    "interpretToJSON",
                 "Returns":   ["string"]
             },
 
             "toUrlEncoded": {
-                "Arguments": [{"Type": "string", "Required": true}],
-                "Method":    "interpretToURLEncoded",
-                "Returns":   ["string"]
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
+                "Expression": "\\s*?toUrlEncoded\\s*?\\(\\s*?(\"|'.*?\"|')\\s*?\\)\\s*?;",
+                "Method":     "interpretToURLEncoded",
+                "Returns":    ["string"]
             },
 
             "toXml": {
-                "Arguments": [{"Type": "mixed", "Required": true}],
-                "Method":    "interpretToXML",
-                "Returns":   ["string"]
+                "Arguments":  [{"Type": "mixed", "Required": true, "Name": "$varName"}],
+                "Expression": "\\s*?toXml\\s*?\\(\\s*?(\"|'.*?\"|')\\s*?\\)\\s*?;",
+                "Method":     "interpretToXML",
+                "Returns":    ["string"]
             }
+        },
+
+        "Globals": {
+
         },
 
         "Operators": {
