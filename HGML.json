@@ -3,6 +3,41 @@
 
         "BareWords": {
 
+            "do": {
+
+            },
+
+            "else": {
+
+            },
+
+            "elif": {
+
+            },
+
+            "for": {
+
+            },
+
+            "foreach": {
+
+            },
+
+            "forever": {
+
+            },
+
+            "loop": {
+
+            },
+
+            "until": {
+
+            },
+
+            "while": {
+
+            }
         },
 
         "Classes": {
@@ -12,27 +47,33 @@
         "Constants": {
 
             "BINARY_PATH": {
-
+                "Class" : "HeimdallGI::Interpretation::Constants",
+                "Method": "BinaryPath"
             },
 
             "DIRECTORY_SEPARATOR": {
-
+                "Class" : "HeimdallGI::Interpretation::Constants",
+                "Method": "DirectorySeparator"
             },
 
             "PATH_SEPARATOR": {
-
+                "Class" : "HeimdallGI::Interpretation::Constants",
+                "Method": "PathSeparator"
             },
 
             "PWD": {
-
+                "Class" : "HeimdallGI::Interpretation::Constants",
+                "Method": "CurrentWorkingDirectory"
             },
 
             "STATIC_PATH": {
-
+                "Class" : "HeimdallGI::Interpretation::Constants",
+                "Method": "StaticPath"
             },
 
             "VIEW_PATH": {
-
+                "Class" : "HeimdallGI::Interpretation::Constants",
+                "Method": "ViewPath"
             },
         },
 
@@ -40,15 +81,31 @@
 
             "cast": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}, {"Type": "string", "Required": true, "Name": "$type"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?cast\\s*?\\(\\s*?(\"|'{1}?\\${1}?[a-zA-Z0-9_-]+\"|'{1}?)\\s*?,\\s*?(.*?)\\s*?\\)\\s*?;",
                 "Method":     "Cast",
                 "Returns":    "mixed"
             },
 
+            "constant": {
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$constantName"}, {"Type": "mixed", "Required": true, "Name": "$value"}],
+                "Class":      "HeimdallGI::Interpretation::Functions",
+                "Expression": "\\s*?constant\\s*?\\(\\s*?(\"|'{1}?\\${1}?[a-zA-Z0-9_-]+\"|'{1}?)\\s*?,\\s*?(.*?)\\s*?\\)\\s*?;",
+                "Method":     "Constant",
+                "Returns":    ["boolean"]
+            },
+
+            "deleteCookie": {
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$cookieName"}],
+                "Class":      "HeimdallGI::Interpretation::Functions",
+                "Expression": "\\s*?deleteCookie\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
+                "Method":     "DeleteCookie",
+                "Returns":    ["mixed"]
+            },
+
             "dump": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?dump\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
                 "Method":     "Dump",
                 "Returns":    ["mixed", "null", "number", "string"]
@@ -56,7 +113,7 @@
 
             "echo": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?echo\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
                 "Method":     "Echo",
                 "Returns":    ["mixed", "null", "number", "string"]
@@ -64,7 +121,7 @@
 
             "fromHtmlEntities": {
                 "Arguments":  [{"Type": "string","Required": true, "Name": "$varName"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?fromHtmlEntities\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
                 "Method":     "FromHTMLEntities",
                 "Returns":    ["string"]
@@ -72,7 +129,7 @@
 
             "fromJson": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?fromJson\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
                 "Method":     "FromJSON",
                 "Returns":    ["object"]
@@ -80,7 +137,7 @@
 
             "fromUrlEncoded": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?fromUrlEncoded\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
                 "Method":     "FromURLEncoded",
                 "Returns":    ["object"]
@@ -88,7 +145,7 @@
 
             "fromXml": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?fromXml\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
                 "Method":     "FromXML",
                 "Returns":    ["object"]
@@ -96,7 +153,7 @@
 
             "get": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?get\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
                 "Method":     "GetVariable",
                 "Returns":    ["mixed"]
@@ -104,14 +161,22 @@
 
             "getConfigurationValue": {
                 "Arguments": [{"Type": "string", "Required": true}, {"Type": "mixed", "Required": false, "Default": null}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Method":    "GetConfigurationValue",
                 "Returns":   ["boolean", "number", "string"]
             },
 
+            "getCookie": {
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$cookieName"}],
+                "Class":      "HeimdallGI::Interpretation::Functions",
+                "Expression": "\\s*?getCookie\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
+                "Method":     "GetCookie",
+                "Returns":    ["mixed"]
+            },
+
             "isDefined": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?isDefined\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
                 "Method":     "IsDefined",
                 "Returns":    "boolean"
@@ -119,7 +184,7 @@
 
             "print": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?print\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
                 "Method":     "Echo",
                 "Returns":    ["mixed", "null", "number", "string"]
@@ -127,7 +192,7 @@
 
             "set": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}, {"Type": "mixed", "Required": true, "Name": "$value"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?set\\s*?\\(\\s*?(\"|'{1}?\\${1}?[a-zA-Z0-9_-]+\"|'{1}?)\\s*?,\\s*?(.*?)\\s*?\\)\\s*?;",
                 "Method":     "SetVariable",
                 "Returns":    ["boolean"]
@@ -135,15 +200,23 @@
 
             "setConfgigurationValue": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}, {"Type": "mixed", "Required": true, "Name": "$value"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?setConfigurationValue\\s*?\\(\\s*?(\"|'{1}?\\${1}?[a-zA-Z0-9_-]+\"|'{1}?)\\s*?,\\s*?(.*?)\\s*?\\)\\s*?;",
                 "Method":     "SetConfigurationValue",
                 "Returns":    ["boolean"]
             },
 
+            "setCookie": {
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$cookieName"}, {"Type": "mixed", "Required": true, "Name": "$value"}],
+                "Class":      "HeimdallGI::Interpretation::Functions",
+                "Expression": "\\s*?setCookie\\s*?\\(\\s*?(\"|'{1}?\\${1}?[a-zA-Z0-9_-]+\"|'{1}?)\\s*?,\\s*?(.*?)\\s*?\\)\\s*?;",
+                "Method":     "SetVariable",
+                "Returns":    ["boolean"]
+            },
+
             "toHtmlEntities": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?toHtmlEntities\\s*?\\(\\s*?(\"|'.*?\"|')\\s*?\\)\\s*?;",
                 "Method":     "ToHTMLEntities",
                 "Returns":    ["string"]
@@ -151,7 +224,7 @@
 
             "toJson": {
                 "Arguments": [{"Type": "mixed", "Required": true, "Name": "$varName"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?toJson\\s*?\\(\\s*?(\"|'.*?\"|')\\s*?\\)\\s*?;",
                 "Method":    "ToJSON",
                 "Returns":   ["string"]
@@ -159,7 +232,7 @@
 
             "toUrlEncoded": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?toUrlEncoded\\s*?\\(\\s*?(\"|'.*?\"|')\\s*?\\)\\s*?;",
                 "Method":     "ToURLEncoded",
                 "Returns":    ["string"]
@@ -167,7 +240,7 @@
 
             "toXml": {
                 "Arguments":  [{"Type": "mixed", "Required": true, "Name": "$varName"}],
-                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?toXml\\s*?\\(\\s*?(\"|'.*?\"|')\\s*?\\)\\s*?;",
                 "Method":     "ToXML",
                 "Returns":    ["string"]
@@ -266,7 +339,11 @@
 
         "Types": {
 
-            "array":   ["^new\\s+?array\\s*?\\(\\s*?(.*?,{1}?\\s*?)+?\\s*?\\)\\s*?;$", "^\\s+?array\\s*?\\(\\s*?(.*?,{1}?\\s*?)+?\\s*?\\)\\s*?;$", "^\\s*?\\[\\s*?(.*?,{1}\\s*?)+?\\s*?\\]\\s*?;$"],
+            "array":   [
+                "^new\\s+?array\\s*?\\(\\s*?(.*?,{1}?\\s*?)+?\\s*?\\)\\s*?;$",
+                "^\\s+?array\\s*?\\(\\s*?(.*?,{1}?\\s*?)+?\\s*?\\)\\s*?;$",
+                "^\\s*?\\[\\s*?(.*?,{1}\\s*?)+?\\s*?\\]\\s*?;$"
+            ],
 
             "boolean": ["^(true|false);$"],
 

@@ -102,8 +102,6 @@ int main(int intArguments, char* chrArguments[]) {
 	objSingleton->setProperty("fooBar", "booBaz");
 	// Log the property
 	qDebug() << "\n\n" << objSingleton->property("fooBar").toString() << "\n\n";
-	// Log the interpreter functions
-	qDebug() << "\n\n" << HeimdallGI::Interpreter::HGMLFunctions << "\n\n";
 	// Return the application execution status
 	return 0;
 }

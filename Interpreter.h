@@ -39,7 +39,7 @@
 #include "Configuration.h"
 #include "Log.h"
 #include "View.h"
-#include "Interpreter/Functions.h"
+#include "Interpretation/Functions.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Namespace ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +50,167 @@ namespace HeimdallGI {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Structures ///////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @paragraph This structure builds an interpreted function argument for the interpreter
+	 * @brief HeimdallGI::InterpretedFunctionArgument
+	 */
+	struct InterpretedFunctionArgument {
+
+		///////////////////////////////////////////////////////////////
+		/// Properties ///////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This property contains the default value for the argument
+		 * @brief HeimdallGI::InterpretedFunctionArgument::mDefault
+		 * @var QVariant
+		 */
+		QVariant mDefault;
+
+		/**
+		 * @paragraph This property contains the name of the argument
+		 * @brief HeimdallGI::InterpretedFunctionArgument::mName
+		 * @var QString
+		 */
+		QString mName;
+
+		/**
+		 * @paragraph This property contains the requirement of the argument
+		 * @brief HeimdallGI::InterpretedFunctionArgument::mRequired
+		 * @var bool
+		 */
+		bool mRequired;
+
+		/**
+		 * @paragraph This property contains the argument type
+		 * @brief HeimdallGI::InterpretedFunctionArgument::mType
+		 * @var QString
+		 */
+		QString mType;
+
+		///////////////////////////////////////////////////////////////
+		/// Constructors /////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This constructor initializes the structure
+		 * @brief HeimdallGI::InterpretedFunctionArgument::InterpretedFunctionArgument()
+		 */
+		InterpretedFunctionArgument() {}
+
+		/**
+		 * @paragraph This constructor initializes and sets up the structure
+		 * @brief HeimdallGI::InterpretedFunctionArgument::InterpretedFunctionArgument()
+		 * @param QString strName
+		 * @param QString strType
+		 * @param bool bRequired [true]
+		 * @param QVariant qvDefault [undefined]
+		 */
+		InterpretedFunctionArgument(QString strName, QString strType, bool bRequired = true, QVariant qvDefault = QVariant("undefined")) {
+			// Set the name
+			mName     = strName;
+			// Set the type
+			mType     = strType;
+			// Set the requirement
+			mRequired = bRequired;
+			// Set the default value
+			mDefault  = qvDefault;
+		}
+
+		///////////////////////////////////////////////////////////////
+		/// Getters //////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method returns the argument's default value
+		 * @brief HeimdallGI::InterpretedFunctionArgument::getDefault()
+		 * @return QVariant HeimdallGI::InterpretedFunctionArgument::mDefault
+		 */
+		QVariant getDefault() {
+			// Return the default value
+			return mDefault;
+		}
+
+		/**
+		 * @paragraph This method returns the argument's name
+		 * @brief HeimdallGI::InterpretedFunctionArgument::getName()
+		 * @return QString HeimdallGI::InterpretedFunctionArgument::mName
+		 */
+		QString getName() {
+			// Return the variable name
+			return mName;
+		}
+
+		/**
+		 * @paragraph This method returns the argument's requirement
+		 * @brief HeimdallGI::InterpretedFunctionArgument::getRequired()
+		 * @return bool HeimdallGI::InterpretedFunctionArgument::mRequired
+		 */
+		bool getRequired() {
+			// Return the requirement
+			return mRequired;
+		}
+
+		/**
+		 * @paragraph This method returns the argument's type
+		 * @brief HeimdallGI::InterpretedFunctionArgument::getType()
+		 * @return HeimdallGI::InterpretedFunctionArgument::mType
+		 */
+		QString getType() {
+			// Return the type
+			return mType;
+		}
+
+		///////////////////////////////////////////////////////////////
+		/// Setters //////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method sets the argument's default value
+		 * @brief HeimdallGI::InterpretedFunctionArgument::setDefault()
+		 * @param QVariant qvDefault [undefined]
+		 * @return void
+		 */
+		void setDefault(QVariant qvDefault = QVariant("undefined")) {
+			// Set the default value
+			mDefault = qvDefault;
+		}
+
+		/**
+		 * @paragraph This method sets the argument's name
+		 * @brief HeimdallGI::InterpretedFunctionArgument::setName()
+		 * @param QString strName
+		 * @return void
+		 */
+		void setName(QString strName) {
+			// Set the name
+			mName = strName;
+		}
+
+		/**
+		 * @paragraph This method sets the argument's requirement
+		 * @brief HeimdallGI::InterpretedFunctionArgument::setRequired()
+		 * @param bool bRequired [true]
+		 * @return void
+		 */
+		void setRequired(bool bRequired = true) {
+			// Set the requirement
+			mRequired = bRequired;
+		}
+
+		/**
+		 * @paragraph This method sets the argument's type
+		 * @brief HeimdallGI::InterpretedFunctionArgument::setType()
+		 * @param QString strType
+		 * @return void
+		 */
+		void setType(QString strType) {
+			// Set the type
+			mType = strType;
+		}
+
+	};
 
 	/**
 	 * @paragraph This structure builds an interpreted function for the interpreter
@@ -361,167 +522,6 @@ namespace HeimdallGI {
 
 	};
 
-	/**
-	 * @paragraph This structure builds an interpreted function argument for the interpreter
-	 * @brief HeimdallGI::InterpretedFunctionArgument
-	 */
-	struct InterpretedFunctionArgument {
-
-		///////////////////////////////////////////////////////////////
-		/// Properties ///////////////////////////////////////////////
-		/////////////////////////////////////////////////////////////
-
-		/**
-		 * @paragraph This property contains the default value for the argument
-		 * @brief HeimdallGI::InterpretedFunctionArgument::mDefault
-		 * @var QVariant
-		 */
-		QVariant mDefault;
-
-		/**
-		 * @paragraph This property contains the name of the argument
-		 * @brief HeimdallGI::InterpretedFunctionArgument::mName
-		 * @var QString
-		 */
-		QString mName;
-
-		/**
-		 * @paragraph This property contains the requirement of the argument
-		 * @brief HeimdallGI::InterpretedFunctionArgument::mRequired
-		 * @var bool
-		 */
-		bool mRequired;
-
-		/**
-		 * @paragraph This property contains the argument type
-		 * @brief HeimdallGI::InterpretedFunctionArgument::mType
-		 * @var QString
-		 */
-		QString mType;
-
-		///////////////////////////////////////////////////////////////
-		/// Constructors /////////////////////////////////////////////
-		/////////////////////////////////////////////////////////////
-
-		/**
-		 * @paragraph This constructor initializes the structure
-		 * @brief HeimdallGI::InterpretedFunctionArgument::InterpretedFunctionArgument()
-		 */
-		InterpretedFunctionArgument() {}
-
-		/**
-		 * @paragraph This constructor initializes and sets up the structure
-		 * @brief HeimdallGI::InterpretedFunctionArgument::InterpretedFunctionArgument()
-		 * @param QString strName
-		 * @param QString strType
-		 * @param bool bRequired [true]
-		 * @param QVariant qvDefault [undefined]
-		 */
-		InterpretedFunctionArgument(QString strName, QString strType, bool bRequired = true, QVariant qvDefault = QVariant("undefined")) {
-			// Set the name
-			mName     = strName;
-			// Set the type
-			mType     = strType;
-			// Set the requirement
-			mRequired = bRequired;
-			// Set the default value
-			mDefault  = qvDefault;
-		}
-
-		///////////////////////////////////////////////////////////////
-		/// Getters //////////////////////////////////////////////////
-		/////////////////////////////////////////////////////////////
-
-		/**
-		 * @paragraph This method returns the argument's default value
-		 * @brief HeimdallGI::InterpretedFunctionArgument::getDefault()
-		 * @return QVariant HeimdallGI::InterpretedFunctionArgument::mDefault
-		 */
-		Qvariant getDefault() {
-			// Return the default value
-			return mDefault;
-		}
-
-		/**
-		 * @paragraph This method returns the argument's name
-		 * @brief HeimdallGI::InterpretedFunctionArgument::getName()
-		 * @return QString HeimdallGI::InterpretedFunctionArgument::mName
-		 */
-		QString getName() {
-			// Return the variable name
-			return mName;
-		}
-
-		/**
-		 * @paragraph This method returns the argument's requirement
-		 * @brief HeimdallGI::InterpretedFunctionArgument::getRequired()
-		 * @return bool HeimdallGI::InterpretedFunctionArgument::mRequired
-		 */
-		bool getRequired() {
-			// Return the requirement
-			return mRequired;
-		}
-
-		/**
-		 * @paragraph This method returns the argument's type
-		 * @brief HeimdallGI::InterpretedFunctionArgument::getType()
-		 * @return HeimdallGI::InterpretedFunctionArgument::mType
-		 */
-		QString getType() {
-			// Return the type
-			return mType;
-		}
-
-		///////////////////////////////////////////////////////////////
-		/// Setters //////////////////////////////////////////////////
-		/////////////////////////////////////////////////////////////
-
-		/**
-		 * @paragraph This method sets the argument's default value
-		 * @brief HeimdallGI::InterpretedFunctionArgument::setDefault()
-		 * @param QVariant qvDefault [undefined]
-		 * @return void
-		 */
-		void setDefault(QVariant qvDefault = QVariant("undefined")) {
-			// Set the default value
-			mDefault = qvDefault;
-		}
-
-		/**
-		 * @paragraph This method sets the argument's name
-		 * @brief HeimdallGI::InterpretedFunctionArgument::setName()
-		 * @param QString strName
-		 * @return void
-		 */
-		void setName(QString strName) {
-			// Set the name
-			mName = strName;
-		}
-
-		/**
-		 * @paragraph This method sets the argument's requirement
-		 * @brief HeimdallGI::InterpretedFunctionArgument::setRequired()
-		 * @param bool bRequired [true]
-		 * @return void
-		 */
-		void setRequired(bool bRequired = true) {
-			// Set the requirement
-			mRequired = bRequired;
-		}
-
-		/**
-		 * @paragraph This method sets the argument's type
-		 * @brief HeimdallGI::InterpretedFunctionArgument::setType()
-		 * @param QString strType
-		 * @return void
-		 */
-		void setType(QString strType) {
-			// Set the type
-			mType = strType;
-		}
-
-	};
-
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// HeimdallGI::Interpreter Class Definition /////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -565,6 +565,13 @@ namespace HeimdallGI {
 		 * @var QMap<QString, QObject*>
 		 */
 		QMap<QString, QObject*> mInterpretationClasses;
+
+		/**
+		 * @paragraph This property contains a list of functions available to the interpreter
+		 * @brief HeimdallGI::Interpreter::mInterpretationFunctions
+		 * @var QList<HeimdallGI::InterpretedFunction>
+		 */
+		QList<InterpretedFunction> mInterpretationFunctions;
 
 		/**
 		 * @paragraph This property contains the last exception that occurred
@@ -620,6 +627,14 @@ namespace HeimdallGI {
 		 * @return void
 		 */
 		void ReloadEngine();
+
+		/**
+		 * @paragraph This method checks for a duplicate function before adding a new one
+		 * @brief HeimdallGI::Interpreter::SanityCheckDuplicateFunctions()
+		 * @param QString strName
+		 * @return void
+		 */
+		void SanityCheckDuplicateFunctions(QString strName);
 
 	///////////////////////////////////////////////////////////////////////
 	/// Public Methods & Properties //////////////////////////////////////
@@ -688,15 +703,24 @@ namespace HeimdallGI {
 		/**
 		 * @paragraph This method adds a new function to the instance
 		 * @brief HeimdallGI::Interpreter::AddFunction()
+		 * @param HeimdallGI::InterpretedFunction ifnFunction
+		 * @return HeimdallGI::Interpreter* HeimdallGI::Interpreter::mInstance
+		 */
+		Interpreter* AddFunction(InterpretedFunction ifnFunction);
+
+		/**
+		 * @paragraph This method adds a new function to the instance
+		 * @overload HeimdallGI::Interpreter::AddFunction()
+		 * @brief HeimdallGI::Interpreter::AddFunction()
 		 * @param QString strName
 		 * @param QList<HeimdallGI::InterpretedFunctionArgument> qlArguments
 		 * @param QString strClass
-		 * @param QString strExpression
 		 * @param QString strMethod
+		 * @param QString strExpression
 		 * @param QStringList qslReturns
 		 * @return HeimdallGI::Interpreter* HeimdallGI::Interpreter::mInstance
 		 */
-		Interpreter* AddFunction(QString strName, QList<InterpretedFunctionArgument> qlArguments, QString strClass, QString strExpression, QString strMethod, QStringList qslReturns);
+		Interpreter* AddFunction(QString strName, QList<InterpretedFunctionArgument> qlArguments, QString strClass, QString strMethod, QString strExpression, QStringList qslReturns);
 
 		/**
 		 * @paragraph This method adds a new function to the instance.
@@ -705,12 +729,12 @@ namespace HeimdallGI {
 		 * @param QString strName
 		 * @param QList<QVariantMap> qlArguments
 		 * @param QString strClass
-		 * @param QString strExpression
 		 * @param QString strMethod
+		 * @param QString strExpression
 		 * @param QStringList qslReturns
 		 * @return HeimdallGI::Interpreter* HeimdallGI::Interpreter::mInstance
 		 */
-		Interpreter* AddFunction(QString strName, QList<QVariantMap> qlArguments, QString strClass, QString strExpression, QString strMethod, QStringList qslReturns);
+		Interpreter* AddFunction(QString strName, QList<QVariantMap> qlArguments, QString strClass, QString strMethod, QString strExpression, QStringList qslReturns);
 
 		/**
 		 * @paragraph This method adds an interpretation class to the instance
@@ -801,9 +825,9 @@ namespace HeimdallGI {
 		/**
 		 * @paragraph This signal fires whenever the interpreter starts
 		 * @brief HeimdallGI::Interpreter::Initialization()
-		 * @param HeimdallGI::Interpreter* &
+		 * @param HeimdallGI::Interpreter &
 		 */
-		void Initialization(Interpreter* &);
+		void Initialization(Interpreter &);
 
 		/**
 		 * @paragraph This signal fires each time the status changes

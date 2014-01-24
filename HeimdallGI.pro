@@ -20,6 +20,7 @@ SOURCES        += \
 		Configuration.cpp \
 		DBI.cpp \
 		HTML.cpp \
+		Interpretation/Functions.cpp \
 		Interpreter.cpp \
 		Router.cpp \
 		Template.cpp \
@@ -30,13 +31,13 @@ SOURCES        += \
 		Base.cpp \
 		Model.cpp \
 		ErrorController.cpp \
-    Interpreter/Functions.cpp
 
 HEADERS        +=  \
 		CGI.h \
 		Configuration.h \
 		DBI.h \
 		HTML.h \
+		Interpretation/Functions.h \
 		Interpreter.h \
 		Router.h \
 		Singleton.h \
@@ -48,7 +49,6 @@ HEADERS        +=  \
 		Base.h \
 		Model.h \
 		ErrorController.h \
-    Interpreter/Functions.h
 
 OTHER_FILES    += \
 		Application.ini \
