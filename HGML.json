@@ -11,9 +11,40 @@
 
         "Constants": {
 
+            "BINARY_PATH": {
+
+            },
+
+            "DIRECTORY_SEPARATOR": {
+
+            },
+
+            "PATH_SEPARATOR": {
+
+            },
+
+            "PWD": {
+
+            },
+
+            "STATIC_PATH": {
+
+            },
+
+            "VIEW_PATH": {
+
+            },
         },
 
         "Functions": {
+
+            "cast": {
+                "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}, {"Type": "string", "Required": true, "Name": "$type"}],
+                "Class":      "HeimdallGI::Interpreter::Functions",
+                "Expression": "\\s*?cast\\s*?\\(\\s*?(\"|'{1}?\\${1}?[a-zA-Z0-9_-]+\"|'{1}?)\\s*?,\\s*?(.*?)\\s*?\\)\\s*?;",
+                "Method":     "Cast",
+                "Returns":    "mixed"
+            },
 
             "dump": {
                 "Arguments":  [{"Type": "string", "Required": true, "Name": "$varName"}],
@@ -145,10 +176,92 @@
 
         "Globals": {
 
+            "$_COOKIES": {
+
+            },
+
+            "$_DEBUG": {
+
+            },
+
+            "$_GET": {
+
+            },
+
+            "$_LOG": {
+
+            },
+
+            "$_POST": {
+
+            },
+
+            "$_QUERY": {
+
+            },
+
+            "$_REQUEST": {
+
+            },
+
+            "$_SERVER": {
+
+            },
+
+            "$_VIEW": {
+
+            }
         },
 
         "Operators": {
 
+            "=" : {
+
+            },
+
+            "and": {
+
+            },
+
+            "div": {
+
+            },
+
+            "eq": {
+
+            },
+
+            "gt": {
+
+            },
+
+            "gte": {
+
+            },
+
+            "lt": {
+
+            },
+
+            "lte": {
+
+            },
+
+            "mod": {
+
+            },
+
+            "neq": {
+
+            },
+
+            "not": {
+
+            },
+
+            "or": {
+
+            }
         },
 
         "Types": {

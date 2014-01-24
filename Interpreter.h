@@ -48,6 +48,481 @@
 namespace HeimdallGI {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Structures ///////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @paragraph This structure builds an interpreted function for the interpreter
+	 * @brief The InterpretedFunction struct
+	 */
+	struct InterpretedFunction {
+
+		///////////////////////////////////////////////////////////////
+		/// Properties ///////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This property contains the list of arguments for the function
+		 * @brief HeimdallGI::InterpretedFunction::mArguments
+		 * @var QList<HeimdallGI::InterpretedFunction>
+		 */
+		QList<InterpretedFunctionArgument> mArguments;
+
+		/**
+		 * @paragraph This property contains the class where the function lives
+		 * @brief HeimdallGI::InterpretedFunction::mClass
+		 * @var QString
+		 */
+		QString mClass;
+
+		/**
+		 * @paraagraph This property contains the match expression for the function
+		 * @brief HeimdallGI::InterpretedFunction::mExpression
+		 * @var QString
+		 */
+		QString mExpression;
+
+		/**
+		 * @paragraph This property contains the method of the function
+		 * @brief HeimdallGI::InterpretedFunction::mMethod
+		 * @var QString
+		 */
+		QString mMethod;
+
+		/**
+		 * @paragraph This property contains the name of the function
+		 * @brief HeimdallGI::InterpretedFunction::mName
+		 * @var QString
+		 */
+		QString mName;
+
+		/**
+		 * @paragraph This property contains a list of return types for the function
+		 * @brief HeimdallGI::InterpretedFunction::mReturns
+		 * @var QStringList
+		 */
+		QStringList mReturns;
+
+		///////////////////////////////////////////////////////////////
+		/// Constructors /////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This constructor simply initializes the structure
+		 * @brief HeimdallGI::InterpretedFunction::InterpretedFunction()
+		 */
+		InterpretedFunction() {}
+
+		/**
+		 * @paragraph This constructor initializes and sets up the function structure
+		 * @brief HeimdallGI::InterpretedFunction::InterpretedFunction()
+		 * @param QString strName
+		 * @param QList<HeimdallGI::InterpretedFunctionArgument> qlArguments
+		 * @param QString strExpression
+		 * @param QString strClass
+		 * @param QString strMethod
+		 * @param QStringList qslReturns
+		 */
+		InterpretedFunction(QString strName, QList<InterpretedFunctionArgument> qlArguments, QString strExpression, QString strClass, QString strMethod, QStringList qslReturns) {
+			// Set the name
+			mName       = strName;
+			// Set the arguments
+			mArguments  = qlArguments;
+			// Set the expressions
+			mExpression = strExpression;
+			// Set the class
+			mClass      = strClass;
+			// Set the method
+			mMethod     = strMethod;
+			// Set the return values
+			mReturns    = qslReturns;
+		}
+
+		/**
+		 * @paragraph This constructor initializes and sets up the function structure
+		 * @brief HeimdallGI::InterpretedFunction::InterpretedFunction()
+		 * @param QString strName
+		 * @param QList<QVariantMap> qlArguments
+		 * @param QString strExpression
+		 * @param QString strClass
+		 * @param QString strMethod
+		 * @param QStringList qslReturns
+		 */
+		InterpretedFunction(QString strName, QList<QVariantMap> qlArguments, QString strExpression, QString strClass, QString strMethod, QStringList qslReturns) {
+			// Set the name
+			mName       = strName;
+			// Set the expression
+			mExpression = strExpression;
+			// Set the class
+			mClass      = strClass;
+			// Set the method
+			mMethod     = strMethod;
+			// Set the return type
+			mReturns    = qslReturns;
+			// Iterate over the arguments
+			for (int intArgument = 0; intArgument < qlArguments.size(); ++intArgument) {
+				// Localize the argument map
+				QVariantMap qvmArgument = qlArguments.at(intArgument);
+				// Add the argument to the structure
+				addArgument(qvmArgument.value("name").toString(), qvmArgument.value("type").toString(), qvmArgument.value("required").toBool(), qvmArgument.value("default"));
+			}
+		}
+
+		///////////////////////////////////////////////////////////////
+		/// Methods //////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method adds an argument to the function structure
+		 * @brief HeimdallGI::InterpretedFunction::addArgument()
+		 * @param QString strName
+		 * @param QString strType
+		 * @param bool bRequired [true]
+		 * @param QVariant qvDefault [undefined]
+		 */
+		void addArgument(QString strName, QString strType, bool bRequired = true, QVariant qvDefault = QVariant("undefined")) {
+			// Create structure
+			InterpretedFunctionArgument ifaArgument;
+			// Set the name
+			ifaArgument.setName(strName);
+			// Set the type
+			ifaArgument.setType(strType);
+			// Set the requirement
+			ifaArgument.setRequired(bRequired);
+			// Set the default value
+			ifaArgument.setDefault(qvDefault);
+			// Add the argument the the instance
+			mArguments.append(ifaArgument);
+		}
+
+		/**
+		 * @paragraph This method adds a return type to the function structure
+		 * @brief HeimdallGI::InterpretedFunction::addReturnType()
+		 * @param QString strType
+		 * @return void
+		 */
+		void addReturnType(QString strType) {
+			// Append the return type to the instance
+			mReturns.append(strType);
+		}
+
+		///////////////////////////////////////////////////////////////
+		/// Getters //////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method returns the function arguments
+		 * @brief HeimdallGI::InterpretedFunction::getArguments()
+		 * @return QList<HeimdallGI::InterpretedFunctionArgument> HeimdallGI::InterpretedFunction::mArguments
+		 */
+		QList<InterpretedFunctionArgument> getArguments() {
+			// Return the arguments
+			return mArguments;
+		}
+
+		/**
+		 * @paragraph This method returns the class name for the function processor
+		 * @brief HeimdallGI::InterpretedFunction::getClass()
+		 * @return QString HeimdallGI::InterpretedFunction::mClass
+		 */
+		QString getClass() {
+			// Return the class name
+			return mClass;
+		}
+
+		/**
+		 * @paragraph This method returns the match expression for the function
+		 * @brief HeimdallGI::InterpretedFunction::getExpression()
+		 * @return QString HeimdallGI::InterpretedFunction::mExpression
+		 */
+		QString getExpression() {
+			// Return the expression
+			return mExpression;
+		}
+
+		/**
+		 * @paragraph This method returns the method name for the function processor
+		 * @brief HeimdallGI::InterpretedFunction::getMethod()
+		 * @return QString HeimdallGI::InterpretedFunction::mMethod
+		 */
+		QString getMethod() {
+			// Return the method
+			return mMethod;
+		}
+
+		/**
+		 * @paragraph This method returns the name of the function
+		 * @brief HeimdallGI::InterpretedFunction::getName()
+		 * @return QString HeimdallGI::InterpretedFunction::mName
+		 */
+		QString getName() {
+			// Return the name
+			return mName;
+		}
+
+		/**
+		 * @paragraph This method returns the return types for the function
+		 * @brief HeimdallGI::InterpretedFunction::getReturnTypes()
+		 * @return QStringList HeimdallGI::InterpretedFunction::mReturns
+		 */
+		QStringList getReturnTypes() {
+			// Return the return types
+			return mReturns;
+		}
+
+
+		///////////////////////////////////////////////////////////////
+		/// Setters //////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method sets the arguments into the instance
+		 * @brief HeimdallGI::InterpretedFunction::setArguments()
+		 * @param QList<HeimdallGI::InterpretedFunctionArgument> qlArguments
+		 * @return void
+		 */
+		void setArguments(QList<InterpretedFunctionArgument> qlArguments) {
+			// Set the arguments into the instance
+			mArguments = qlArguments;
+		}
+
+		/**
+		 * @paragraph This method sets the arguments into  the instance
+		 * @overload HeimdallGI::InterpretedFunction::setArguments()
+		 * @brief HeimdallGI::InterpretedFunction::setArguments()
+		 * @param QList<QVariantMap> qlArguments
+		 * @return void
+		 */
+		void setArguments(QList<QVariantMap> qlArguments) {
+			// Clear the arguments
+			mArguments.clear();
+			// Iterate over the arguments
+			for (int intArgument = 0; intArgument < qlArguments.size(); ++intArgument) {
+				// Localize the argument map
+				QVariantMap qvmArgument = qlArguments.at(intArgument);
+				// Add the argument to the structure
+				addArgument(qvmArgument.value("name").toString(), qvmArgument.value("type").toString(), qvmArgument.value("required").toBool(), qvmArgument.value("default"));
+			}
+		}
+
+		/**
+		 * @paragraph This method sets the class name into the instance
+		 * @brief HeimdallGI::InterpretedFunction::setClass()
+		 * @param QString strClass
+		 * @return void
+		 */
+		void setClass(QString strClass) {
+			// Set the class name
+			mClass = strClass;
+		}
+
+		/**
+		 * @paragraph This method sets the match expression into the instanece
+		 * @brief HeimdallGI::InterpretedFunction::setExpression()
+		 * @param QString strExpression
+		 * @return void
+		 */
+		void setExpression(QString strExpression) {
+			// Set the expression
+			mExpression = strExpression;
+		}
+
+		/**
+		 * @paragraph This method sets the method name into the instance
+		 * @brief HeimdallGI::InterpretedFunction::setMethod()
+		 * @param QString strMethod
+		 * @return void
+		 */
+		void setMethod(QString strMethod) {
+			mMethod = strMethod;
+		}
+
+		/**
+		 * @paragraph This method sets the name of the function
+		 * @brief HeimdallGI::InterpretedFunction::setName()
+		 * @param QString strName
+		 * @return void
+		 */
+		void setName(QString strName) {
+			// Set the name of the function
+			mName = strName;
+		}
+
+		/**
+		 * @paragraph This method sets the return types into the instance
+		 * @brief HeimdallGI::InterpretedFunction::setReturnTypes()
+		 * @param QStringList qslReturnTypes
+		 * @return void
+		 */
+		void setReturnTypes(QStringList qslReturnTypes) {
+			// Set the return types
+			mReturns = qslReturnTypes;
+		}
+
+	};
+
+	/**
+	 * @paragraph This structure builds an interpreted function argument for the interpreter
+	 * @brief HeimdallGI::InterpretedFunctionArgument
+	 */
+	struct InterpretedFunctionArgument {
+
+		///////////////////////////////////////////////////////////////
+		/// Properties ///////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This property contains the default value for the argument
+		 * @brief HeimdallGI::InterpretedFunctionArgument::mDefault
+		 * @var QVariant
+		 */
+		QVariant mDefault;
+
+		/**
+		 * @paragraph This property contains the name of the argument
+		 * @brief HeimdallGI::InterpretedFunctionArgument::mName
+		 * @var QString
+		 */
+		QString mName;
+
+		/**
+		 * @paragraph This property contains the requirement of the argument
+		 * @brief HeimdallGI::InterpretedFunctionArgument::mRequired
+		 * @var bool
+		 */
+		bool mRequired;
+
+		/**
+		 * @paragraph This property contains the argument type
+		 * @brief HeimdallGI::InterpretedFunctionArgument::mType
+		 * @var QString
+		 */
+		QString mType;
+
+		///////////////////////////////////////////////////////////////
+		/// Constructors /////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This constructor initializes the structure
+		 * @brief HeimdallGI::InterpretedFunctionArgument::InterpretedFunctionArgument()
+		 */
+		InterpretedFunctionArgument() {}
+
+		/**
+		 * @paragraph This constructor initializes and sets up the structure
+		 * @brief HeimdallGI::InterpretedFunctionArgument::InterpretedFunctionArgument()
+		 * @param QString strName
+		 * @param QString strType
+		 * @param bool bRequired [true]
+		 * @param QVariant qvDefault [undefined]
+		 */
+		InterpretedFunctionArgument(QString strName, QString strType, bool bRequired = true, QVariant qvDefault = QVariant("undefined")) {
+			// Set the name
+			mName     = strName;
+			// Set the type
+			mType     = strType;
+			// Set the requirement
+			mRequired = bRequired;
+			// Set the default value
+			mDefault  = qvDefault;
+		}
+
+		///////////////////////////////////////////////////////////////
+		/// Getters //////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method returns the argument's default value
+		 * @brief HeimdallGI::InterpretedFunctionArgument::getDefault()
+		 * @return QVariant HeimdallGI::InterpretedFunctionArgument::mDefault
+		 */
+		Qvariant getDefault() {
+			// Return the default value
+			return mDefault;
+		}
+
+		/**
+		 * @paragraph This method returns the argument's name
+		 * @brief HeimdallGI::InterpretedFunctionArgument::getName()
+		 * @return QString HeimdallGI::InterpretedFunctionArgument::mName
+		 */
+		QString getName() {
+			// Return the variable name
+			return mName;
+		}
+
+		/**
+		 * @paragraph This method returns the argument's requirement
+		 * @brief HeimdallGI::InterpretedFunctionArgument::getRequired()
+		 * @return bool HeimdallGI::InterpretedFunctionArgument::mRequired
+		 */
+		bool getRequired() {
+			// Return the requirement
+			return mRequired;
+		}
+
+		/**
+		 * @paragraph This method returns the argument's type
+		 * @brief HeimdallGI::InterpretedFunctionArgument::getType()
+		 * @return HeimdallGI::InterpretedFunctionArgument::mType
+		 */
+		QString getType() {
+			// Return the type
+			return mType;
+		}
+
+		///////////////////////////////////////////////////////////////
+		/// Setters //////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method sets the argument's default value
+		 * @brief HeimdallGI::InterpretedFunctionArgument::setDefault()
+		 * @param QVariant qvDefault [undefined]
+		 * @return void
+		 */
+		void setDefault(QVariant qvDefault = QVariant("undefined")) {
+			// Set the default value
+			mDefault = qvDefault;
+		}
+
+		/**
+		 * @paragraph This method sets the argument's name
+		 * @brief HeimdallGI::InterpretedFunctionArgument::setName()
+		 * @param QString strName
+		 * @return void
+		 */
+		void setName(QString strName) {
+			// Set the name
+			mName = strName;
+		}
+
+		/**
+		 * @paragraph This method sets the argument's requirement
+		 * @brief HeimdallGI::InterpretedFunctionArgument::setRequired()
+		 * @param bool bRequired [true]
+		 * @return void
+		 */
+		void setRequired(bool bRequired = true) {
+			// Set the requirement
+			mRequired = bRequired;
+		}
+
+		/**
+		 * @paragraph This method sets the argument's type
+		 * @brief HeimdallGI::InterpretedFunctionArgument::setType()
+		 * @param QString strType
+		 * @return void
+		 */
+		void setType(QString strType) {
+			// Set the type
+			mType = strType;
+		}
+
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// HeimdallGI::Interpreter Class Definition /////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -211,6 +686,33 @@ namespace HeimdallGI {
 		/////////////////////////////////////////////////////////////
 
 		/**
+		 * @paragraph This method adds a new function to the instance
+		 * @brief HeimdallGI::Interpreter::AddFunction()
+		 * @param QString strName
+		 * @param QList<HeimdallGI::InterpretedFunctionArgument> qlArguments
+		 * @param QString strClass
+		 * @param QString strExpression
+		 * @param QString strMethod
+		 * @param QStringList qslReturns
+		 * @return HeimdallGI::Interpreter* HeimdallGI::Interpreter::mInstance
+		 */
+		Interpreter* AddFunction(QString strName, QList<InterpretedFunctionArgument> qlArguments, QString strClass, QString strExpression, QString strMethod, QStringList qslReturns);
+
+		/**
+		 * @paragraph This method adds a new function to the instance.
+		 * @overload HeimdallGI::Interpreter::AddFunction()
+		 * @brief HeimdallGI::Interpreter::AddFunction()
+		 * @param QString strName
+		 * @param QList<QVariantMap> qlArguments
+		 * @param QString strClass
+		 * @param QString strExpression
+		 * @param QString strMethod
+		 * @param QStringList qslReturns
+		 * @return HeimdallGI::Interpreter* HeimdallGI::Interpreter::mInstance
+		 */
+		Interpreter* AddFunction(QString strName, QList<QVariantMap> qlArguments, QString strClass, QString strExpression, QString strMethod, QStringList qslReturns);
+
+		/**
 		 * @paragraph This method adds an interpretation class to the instance
 		 * @brief HeimdallGI::Interpreter::AddInterpretationClass()
 		 * @param QString strName
@@ -295,6 +797,13 @@ namespace HeimdallGI {
 		 * @return void
 		 */
 		void Exception(int);
+
+		/**
+		 * @paragraph This signal fires whenever the interpreter starts
+		 * @brief HeimdallGI::Interpreter::Initialization()
+		 * @param HeimdallGI::Interpreter* &
+		 */
+		void Initialization(Interpreter* &);
 
 		/**
 		 * @paragraph This signal fires each time the status changes

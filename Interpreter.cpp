@@ -45,6 +45,8 @@ namespace HeimdallGI {
 		this->ReloadEngine();
 		// Add the Functions interpreter
 		this->AddInterpretationClass("HeimdallGI::Interpreter::Functions", new HeimdallGI::Interpreter::Functions);
+		// Fire the initialization signal
+		emit this->Initialization(this);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
