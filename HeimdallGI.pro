@@ -31,6 +31,7 @@ SOURCES        += \
 		Base.cpp \
 		Model.cpp \
 		ErrorController.cpp \
+    Ion.cpp
 
 HEADERS        +=  \
 		CGI.h \
@@ -49,6 +50,7 @@ HEADERS        +=  \
 		Base.h \
 		Model.h \
 		ErrorController.h \
+    Ion.h
 
 OTHER_FILES    += \
 		Application.ini \
