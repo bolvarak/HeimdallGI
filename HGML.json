@@ -42,6 +42,39 @@
 
         "Classes": {
 
+            "File": {
+
+                "Class": "HeimdallGI::Interpretation::File",
+
+                "Description": "This class handles file interactions",
+
+                "Expression": "\\s*?(new\\s+?File|File\\-\\>new\\s*?\\(*?\\)*?)\\s*?;",
+
+                "Methods": {
+
+                    "Open": {
+
+                        "Access":      "public",
+
+                        "Arguments":   [{"Type": "string", "Required": true, "Name": "$fileName"}, {"Type": "string", "Required": false, "Name": "$openType", "Default": "RO"}],
+
+                        "Description": "Opens a file for reading or writing",
+
+                        "Expression":  "__::Pointers::Object\\s*?Open\\s*?\\(\\s*?__::Types::String\\s*?,\\s*?__::Types::String\\s*?\\)\\s*?;",
+
+                        "Returns":     ["object"]
+
+                    }
+
+                },
+
+                "Properties": {
+
+
+
+                }
+            }
+
         },
 
         "Constants": {
@@ -84,7 +117,7 @@
                 "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?cast\\s*?\\(\\s*?(\"|'{1}?\\${1}?[a-zA-Z0-9_-]+\"|'{1}?)\\s*?,\\s*?(.*?)\\s*?\\)\\s*?;",
                 "Method":     "Cast",
-                "Returns":    "mixed"
+                "Returns":    ["mixed"]
             },
 
             "constant": {
@@ -179,7 +212,7 @@
                 "Class":      "HeimdallGI::Interpretation::Functions",
                 "Expression": "\\s*?isDefined\\s*?\\(\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\)\\s*?;",
                 "Method":     "IsDefined",
-                "Returns":    "boolean"
+                "Returns":    ["boolean"]
             },
 
             "print": {
@@ -337,21 +370,28 @@
             }
         },
 
+        "Pointers": {
+
+            "hash":         "(\\{\"|'{1}?[a-zA-Z0-9_-]+\"|'{1}?\\})",
+
+            "object":       "\\s*?(\\-\\>|\\.)\\s*?",
+
+            "staticObject": "(\\:\\:)",
+
+            "variable":     "(\\$)"
+        },
+
         "Types": {
 
-            "array":   [
-                "^new\\s+?array\\s*?\\(\\s*?(.*?,{1}?\\s*?)+?\\s*?\\)\\s*?;$",
-                "^\\s+?array\\s*?\\(\\s*?(.*?,{1}?\\s*?)+?\\s*?\\)\\s*?;$",
-                "^\\s*?\\[\\s*?(.*?,{1}\\s*?)+?\\s*?\\]\\s*?;$"
-            ],
+            "array":   "(new\\s+?array\\s*?\\(\\s*?(.*?,{1}?\\s*?)+?\\s*?\\)\\s*?|\\s+?array\\s*?\\(\\s*?(.*?,{1}?\\s*?)+?\\s*?\\)\\s*?|\\s*?\\[\\s*?(.*?,{1}\\s*?)+?\\s*?\\]\\s*?)",
 
-            "boolean": ["^(true|false);$"],
+            "boolean": "(true|false)",
 
-            "number":  ["^\\s*?(-*?[0-9]+)\\s*?;$", "^\\s*?(-*?[0-9]+\\.[0-9]+)\\s*?;$"],
+            "number":  "(\\s*?(-*?[0-9]+)\\s*?|\\s*?(-*?[0-9]+\\.[0-9]+)\\s*?)",
 
-            "null":    ["^(null);$"],
+            "null":    "(null)",
 
-            "string":  ["^new\\s+?string\\s*?\\(\\s*?'|\"(.*?)'|\"\\s*?\\)\\s*?;$", "^\\s*?'(.*?)'\\s*?;", "\\s*?\"(.*?)\"\\s*?;$"],
+            "string":  "(new\\s+?string\\s*?\\(\\s*?'|\"(.*?)'|\"\\s*?\\)\\s*?|\\s*?'(.*?)'\\s*?|\\s*?\"(.*?)\"\\s*?)",
 
 
         }
