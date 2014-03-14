@@ -20,13 +20,10 @@ SOURCES        += \
 		Configuration.cpp \
 		DBI.cpp \
 		HTML.cpp \
-		Interpretation/Functions.cpp \
-		Interpreter.cpp \
 		Router.cpp \
 		Template.cpp \
 		TestController.cpp \
 		View.cpp \
-		NeuralNetwork.cpp \
 		Log.cpp \
 		Base.cpp \
 		Model.cpp \
@@ -38,14 +35,11 @@ HEADERS        +=  \
 		Configuration.h \
 		DBI.h \
 		HTML.h \
-		Interpretation/Functions.h \
-		Interpreter.h \
 		Router.h \
 		Singleton.h \
 		Template.h \
 		TestController.h \
 		View.h \
-		NeuralNetwork.h \
 		Log.h \
 		Base.h \
 		Model.h \

@@ -12,3 +12,6 @@ make && make clean;
 ## Remove the makefile
 rm -fr Makefile;
 
+## Execute the application
+./Application.hgi
+
