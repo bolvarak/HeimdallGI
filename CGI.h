@@ -1026,6 +1026,14 @@ namespace HeimdallGI
 		CGI* AddStackEntry(QString strFilename, int intLineNumber, QString strSnippet);
 
 		/**
+		 * @paragraph This method appends content to the response
+		 * @brief HeimdallGI::CGI::AppendToContent()
+		 * @param QString strContent
+		 * @return HeimdallGI::CGI* HeimdallGI::CGI::mInstance
+		 */
+		CGI* AppendToContent(QString strContent);
+
+		/**
 		 * @paragraph This method decodes a query string into a query map
 		 * @brief CGI::DecodeQuery()
 		 * @param QString strQuery

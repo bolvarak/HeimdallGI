@@ -9,6 +9,7 @@
 #include "QString"
 #include "QVariant"
 #include "CGI.h"
+#include "Configuration.h"
 #include "DBI.h"
 #include "Log.h"
 #include "Router.h"
@@ -89,17 +90,16 @@ int main(int intArguments, char* chrArguments[]) {
 	}
 	// Instantiate the CGI
 	hgiCGI
-		->SetContentType(HeimdallGI::CGI::ContentTypeHTML) // Set the content type
-		->SetContent    (hgiView
-		->GetTemplate   ()
-			.append (hgiLogger->GetString()))          // Execute the Router
-		->WriteResponse ();                                // Send the response
-	// Create the singleton
-	QObject* objSingleton = &HeimdallGI::Singleton<QObject>::Instance();
-	// Set an object property
-	objSingleton->setProperty("fooBar", "booBaz");
-	// Log the property
-	qDebug() << "\n\n" << objSingleton->property("fooBar").toString() << "\n\n";
+		->SetContentType(HeimdallGI::CGI::ContentTypeHTML)    // Set the content type
+		->SetContent    (hgiView->GetTemplate());             // Execute the Router
+	// Check for debug output
+	if (HeimdallGI::Configuration::Get("Environment.showDebug").toInt() == 1) {
+		// Append the debug output to the response
+		hgiCGI->AppendToContent(QString("<pre>%1</pre>").arg(hgiLogger->GetString()));
+	}
+	// Send the response
+	hgiCGI
+		->WriteResponse ();                                  // Send the response
 	// Return the application execution status
 	return 0;
 }

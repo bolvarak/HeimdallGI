@@ -511,6 +511,13 @@ namespace HeimdallGI {
 		static int InterfacePgSQL;
 
 		/**
+		 * @paragraph This constant contains the SQLite interface definition
+		 * @brief HeimdallGI::DBI::InterfaceSQLite
+		 * @var int
+		 */
+		static int InterfaceSQLite;
+
+		/**
 		 * @paragraph This constant contains the LEFT JOIN query template
 		 * @brief HeimdallGI::DBI::LeftJoinQuery
 		 * @var QString

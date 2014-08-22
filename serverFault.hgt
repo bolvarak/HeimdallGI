@@ -1,17 +1,32 @@
-<DOCTYPE html>
-<html>
-  <head>
-    <title><%= $pageTitle %>
-  </head>
-  <body>
-    <h1>Internal Server Error</h1>
-    <hr>
-    <h3>Oop...  It looks like something went wrong...</h3>
-    <p><%= $errorMessage %></p>
-    <% if ($showStackTrace == "1") %>
-      <pre>
-        <%= $stackTrace %>
-	    </pre>
-    <% endif %>
-  </body>
-</html>
+                        <% include("error/header.hgt") %>
+                                <div class="content">
+                                        <div class="container">
+                                                <div class="row">
+                                                        <div class="col-md-12">
+                                                                <div class="wrap-404 bold text-center">
+                                                                        5<i class="alt-bg-color main-text-color fa fa-exclamation-triangle"></i>0
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+
+                                <div class="container">
+                                        <div class="row">
+                                                <div class="col-md-12 main-el">
+                                                        <div class="call">
+                                                                <h3 class="main-text-color">Oh dear!  It appears something is broken...</h3>
+                                                                <p><%= $errorMessage %></p>
+                                                                <% if ($showStackTrace == "1") %>
+                                                                        <p>
+                                                                                <pre>
+                                                                                        <%= $stackTrace %>
+                                                                                </pre>
+                                                                        </p>
+                                                                <% endif %>
+                                                                <a class="button solid md blue" href="/"><div class="over">Return Home</div></a>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        <% include("error/footer.hgt") %>

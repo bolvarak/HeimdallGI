@@ -62,10 +62,11 @@ namespace HeimdallGI {
 	QString DBI::GreaterThanOrEqualToOperator = ">=";
 	QString DBI::InnerJoinQuery               = "INNER JOIN :sJoinTable :sAsAlias ON (:sJoinAlias.:sJoinField = :sFromAlias.:sFromField)";
 	QString DBI::InsertQuery                  = "INSERT INTO :sTable (:aFields) VALUES (:aValues);";
-	int DBI:: InterfaceMSSQL                  = 0x001;
-	int DBI:: InterfaceMySQL                  = 0x002;
-	int DBI:: InterfaceOCI                    = 0x003;
-	int DBI:: InterfacePgSQL                  = 0x004;
+	int DBI::InterfaceMSSQL                   = 0x001;
+	int DBI::InterfaceMySQL                   = 0x002;
+	int DBI::InterfaceOCI                     = 0x003;
+	int DBI::InterfacePgSQL                   = 0x004;
+	int DBI::InterfaceSQLite                  = 0x005;
 	QString DBI::LeftJoinQuery                = "LEFT JOIN :sJoinTable :sAsAlias ON (:sJoinAlias.:sJoinField = :sFromAlias.:sFromField)";
 	QString DBI::LikeOperator                 = "LIKE";
 	QString DBI::LessThanOperator             = "<";
@@ -109,18 +110,21 @@ namespace HeimdallGI {
 		// Define the return string
 		QString strReturn;
 		// Determine the interface
-		if (this->mInterface == DBI::InterfaceMSSQL) {        // Microsoft SQL Server
+		if (this->mInterface == DBI::InterfaceMSSQL) {         // Microsoft SQL Server
 			// Store the entity
 			strReturn = DBI::MSSQLWrapper;
-		} else if (this->mInterface == DBI::InterfaceMySQL) { // MySQL
+		} else if (this->mInterface == DBI::InterfaceMySQL) {  // MySQL
 			// Store the entity
 			strReturn = DBI::MySQLWrapper;
-		} else if (this->mInterface == DBI::InterfaceOCI) {   // Oracle
+		} else if (this->mInterface == DBI::InterfaceOCI) {    // Oracle
 			// Store the entity
 			strReturn = DBI::OCIWrapper;
-		} else if (this->mInterface == DBI::InterfacePgSQL) { // PostgreSQL
+		} else if (this->mInterface == DBI::InterfacePgSQL) {  // PostgreSQL
 			// Store the entity
 			strReturn = DBI::PgSQLWrapper;
+		} else if (this->mInterface == DBI::InterfaceSQLite) { // SQLite
+			// Store the entity
+			strReturn = DBI::MySQLWrapper;
 		}
 		// Setup the regular expression
 		QRegularExpression qreFunction("^[a-zA-Z]+\\(([a-zA-Z0-9_-`'\\.]+)\\)$");

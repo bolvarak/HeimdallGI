@@ -12,7 +12,7 @@ TEMPLATE        = app
 
 QMAKE_CXXFLAGS += -std=c++11
 
-DEFINES        += HGI_CONFIG_FILE=\"\\\":/Configuration/Application.ini\\\"\"
+DEFINES        += HGI_CONFIG_FILE=\"\\\"/srv/tbrown/playground.einhammr.com/data/hgi/conf/application.ini\\\"\"
 
 SOURCES        += \
 		main.cpp \
@@ -27,8 +27,8 @@ SOURCES        += \
 		Log.cpp \
 		Base.cpp \
 		Model.cpp \
-		ErrorController.cpp \
-    Ion.cpp
+                ErrorController.cpp
+                # Ion.cpp
 
 HEADERS        +=  \
 		CGI.h \
@@ -43,15 +43,15 @@ HEADERS        +=  \
 		Log.h \
 		Base.h \
 		Model.h \
-		ErrorController.h \
-    Ion.h
+                ErrorController.h
+                # Ion.h
 
 OTHER_FILES    += \
 		Application.ini \
 		run.sh \
 		notFound.hgt \
-		serverFault.hgt \
-    HGML.json
+                serverFault.hgt
+                # HGML.json
 
 RESOURCES      += \
 		Resources.qrc

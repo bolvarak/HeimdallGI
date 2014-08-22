@@ -41,7 +41,10 @@ namespace HeimdallGI {
 	/// Constructor //////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Template::Template(QObject* qoParent) : QObject(qoParent) {}
+	Template::Template(QObject* qoParent) : QObject(qoParent) {
+		// Default the template read failure to false
+		this->mTemplateReadFailure = false;
+	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Protected Methods ////////////////////////////////////////////////////////////////////////////////////////////
@@ -534,7 +537,7 @@ namespace HeimdallGI {
 		// Try to open the file
 		if (!qfTemplate.open(QFile::ReadOnly|QFile::Text)) {
 			// Execute the route
-			QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::DirectConnection, Q_ARG(CGI*&, this->mRequest), Q_ARG(View*&, objView), Q_ARG(QString, QString("Unable to load view file:  %1").arg(this->mTemplateFile)));
+			QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::AutoConnection, Q_ARG(CGI*&, this->mRequest), Q_ARG(View*&, objView), Q_ARG(QString, QString("Unable to load view file:  %1").arg(this->mTemplateFile)));
 			// Set the template file
 			this->mTemplateFile = objView->GetTemplate();
 			// Process the error route
@@ -614,6 +617,11 @@ namespace HeimdallGI {
 	QString Template::GetTemplate() {
 		// Return the processed template from the instance
 		return this->mTemplate;
+	}
+
+	bool Template::GetTemplateReadStatus() {
+		// Return the template read failure flag
+		return this->mTemplateReadFailure;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

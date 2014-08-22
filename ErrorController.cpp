@@ -69,7 +69,7 @@ namespace HeimdallGI {
 		// Set the stack trace
 		objResponse->SetPageValue("stackTrace", "${STACK_TRACE}");
 		// Define the themplate
-		QString strTemplate = Configuration::Get("Template.serverFault").toString();
+		QString strTemplate = Configuration::Get("Templates.serverFault").toString();
 		// Set the view file
 		objResponse->SetTemplate(strTemplate.isEmpty() ? ":/templates/serverFault.hgt" : strTemplate);
 	}

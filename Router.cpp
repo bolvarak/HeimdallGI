@@ -151,7 +151,7 @@ namespace HeimdallGI {
 		// Check for a path
 		if (strPath.isEmpty()) {
 			// Set the path to the REQUEST_URI
-			strPath = objRequest->GetRequestHeader("REQUEST_URI").replace(QString("?%1").arg(objRequest->GetRequestHeader("QUERY_STRING")), "");
+			strPath = objRequest->GetRequestHeader("REQUEST_URI").replace(QString("?%1").arg(objRequest->GetRequestHeader("QUERY_STRING")), "").replace(this->mBaseURI, "");
 		}
 		this->mLog->Add("InitialPath", strPath);
 		// Check the last character for a slash
@@ -195,13 +195,13 @@ namespace HeimdallGI {
 					qlArguments << QGenericArgument();
 				}
 				// Invoke the controller and view
-				if (!QMetaObject::invokeMethod(structRoute.getController(), structRoute.getViewMethod(), Qt::DirectConnection, qlArguments[0], qlArguments[1], qlArguments[2], qlArguments[3], qlArguments[4], qlArguments[5], qlArguments[6], qlArguments[7], qlArguments[8], qlArguments[9]) || !viewResponse) {
+				if (!QMetaObject::invokeMethod(structRoute.getController(), structRoute.getViewMethod(), Qt::AutoConnection, qlArguments[0], qlArguments[1], qlArguments[2], qlArguments[3], qlArguments[4], qlArguments[5], qlArguments[6], qlArguments[7], qlArguments[8], qlArguments[9]) || !viewResponse) {
 					// Reset the view response
 					viewResponse = new View;
 					// Send the error to the log
 					this->mLog->Add("ERROR", "Unable to load the view.  (HeimdallGI::Router Line 157)");
 					// Execute a server fault
-					QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::DirectConnection, Q_ARG(CGI*&, objRequest), Q_ARG(View*&, viewResponse), Q_ARG(QString, QString("Unable to process view method:  ").append(structRoute.getViewMethod())));
+					QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::AutoConnection, Q_ARG(CGI*&, objRequest), Q_ARG(View*&, viewResponse), Q_ARG(QString, QString("Unable to process view method:  ").append(structRoute.getViewMethod())));
 				}
 				// Check the view for file processing
 				if ((viewResponse->GetViewStatus() == true) && (viewResponse->GetTemplate().isEmpty() == false)) {
@@ -212,7 +212,7 @@ namespace HeimdallGI {
 						// Instantiate the view template
 						Template* tplView  = new Template;
 						// Process and set the body
-						viewResponse->SetPageValue("body", tplView->SetLogger(this->mLog)->SetRequest(objRequest)->Process(viewResponse)->GetTemplate());
+						viewResponse->SetPageValue("__body__", tplView->SetLogger(this->mLog)->SetRequest(objRequest)->Process(viewResponse)->GetTemplate());
 						// Process the layout
 						tplRoute
 							->SetLogger(this->mLog)
@@ -235,9 +235,9 @@ namespace HeimdallGI {
 					// Reset the view response
 					viewResponse = new View;
 					// If we get down to this point, execute the error controller
-					if (!QMetaObject::invokeMethod(new ErrorController, "NotFound", Qt::DirectConnection, Q_ARG(CGI*&, objRequest), Q_ARG(View*&, viewResponse))) {
+					if (!QMetaObject::invokeMethod(new ErrorController, "NotFound", Qt::AutoConnection, Q_ARG(CGI*&, objRequest), Q_ARG(View*&, viewResponse))) {
 						// Execute a server fault
-						QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::DirectConnection, Q_ARG(CGI*&, objRequest), Q_ARG(View*&, viewResponse), Q_ARG(QString, "Unable to execute HeimdallGI::ErrorController::NotFound()"));
+						QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::AutoConnection, Q_ARG(CGI*&, objRequest), Q_ARG(View*&, viewResponse), Q_ARG(QString, "Unable to execute HeimdallGI::ErrorController::NotFound()"));
 					}
 					// Instantiat the template
 					Template* tplError = new Template;
@@ -281,6 +281,11 @@ namespace HeimdallGI {
 	/// Getters //////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	QString Router::GetBaseURI() {
+		// Return the baseURI from the instance
+		return this->mBaseURI;
+	}
+
 	QList<Route> Router::GetRoutes() {
 		// Return the routes
 		return this->mRoutes;
@@ -289,6 +294,18 @@ namespace HeimdallGI {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Setters //////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	Router* Router::SetBaseURI(QString strBaseURI) {
+		// Check the last character of the URI
+		if (strBaseURI.at(strBaseURI.size() - 1) == '/') {
+			// Reset the URI
+			strBaseURI = strBaseURI.remove((strBaseURI.size()), 1);
+		}
+		// Set the baseURI into the instance
+		this->mBaseURI = strBaseURI;
+		// We're done
+		return this;
+	}
 
 	Router* Router::SetLogger(Log *&objLogger) {
 		// Set the logger into the instance

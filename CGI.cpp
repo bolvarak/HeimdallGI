@@ -331,6 +331,13 @@ namespace HeimdallGI {
 		return this;
 	}
 
+	CGI* CGI::AppendToContent(QString strContent) {
+		// Append the content
+		this->mContent.append(strContent);
+		// We're done
+		return this;
+	}
+
 	/**
 	 * @paragraph This method decodes a query string into a query map
 	 * @brief CGI::DecodeQuery()

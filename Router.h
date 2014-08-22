@@ -167,6 +167,13 @@ namespace HeimdallGI {
 		/////////////////////////////////////////////////////////////////////
 
 		/**
+		 * @paragraph This property contains the base URI of the application
+		 * @brief HeimdallGI::Router::mBaseURI
+		 * @var QString
+		 */
+		QString mBaseURI;
+
+		/**
 		 * @paragraph This property contains the singleton instance of this class
 		 * @brief HeimdallGI::Router::mInstance
 		 * @var HeimdallGI::Router*
@@ -266,6 +273,13 @@ namespace HeimdallGI {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		/**
+		 * @paragraph This method returns the BaseURI from the instance
+		 * @brief HeimdallGI::Router::GetBaseURI()
+		 * @return QString HeimdallGI::Router::mBaseURI
+		 */
+		QString GetBaseURI();
+
+		/**
 		 * @paragraph This method returns the routes
 		 * @brief HeimdallGI::Router::GetRoutes()
 		 * @return QList<HeimdallGI::Route> HeimdallGI::Router::mRoutes
@@ -275,6 +289,14 @@ namespace HeimdallGI {
 		///////////////////////////////////////////////////////////////////////
 		/// Setters //////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method sets the BaseURI into the instance
+		 * @brief HeimdallGI::Router::SetBaseURI()
+		 * @param QString strBaseURI
+		 * @return HeimdallGI::Router* HeimdallGI::Router::mInstance
+		 */
+		Router* SetBaseURI(QString strBaseURI);
 
 		/**
 		 * @paragraph This method sets the logger into the instance

@@ -90,6 +90,13 @@ namespace HeimdallGI {
 		QString mTemplateFile;
 
 		/**
+		 * @paragraph This property contains the template read status flag
+		 * @brief HeimdallGI::Template::mTemplateReadFailure
+		 * @bar bool
+		 */
+		bool mTemplateReadFailure;
+
+		/**
 		 * @paragraph This property contains the unprocessed template file
 		 * @brief HeimdallGI::Template::mTemplate
 		 * @var QString
@@ -311,6 +318,13 @@ namespace HeimdallGI {
 		 * @return QString HeimdallGI::Template::mTemplate
 		 */
 		QString GetTemplate();
+
+		/**
+		 * @paragraph This method returns the TemplateReadFailure flag
+		 * @brief HeimdallGI::Template::GetTemplateReadStatus()
+		 * @return bool HeimdallGI::Template::mTemplateReadFailure
+		 */
+		bool GetTemplateReadStatus();
 
 		///////////////////////////////////////////////////////////////////////
 		/// Setters //////////////////////////////////////////////////////////
