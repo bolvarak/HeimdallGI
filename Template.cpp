@@ -107,7 +107,7 @@ namespace HeimdallGI {
 
 	void Template::DoConditional(QString &strLine) {
 		// Create the complex pattern
-		QRegularExpression qreConditional("<%\\s*?if\\s*?\\(\\$*?([a-zA-Z0-9_-]+)\\s*?([<>=]{1,2})\\s*?\"*?'*?(\\$*?.*)\"*?'*?\\s*?\\)\\s*%>(.*?)<%\\s*?else\\s*?%>(.*?)<%\\s*?endif\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
+		QRegularExpression qreConditional("<%\\s*?if\\s*?\\(\\$*?([a-zA-Z0-9_-]+)\\s*?(eq|neq|==|!=|<>)\\s*?\"*?'*?(\\$*?.*)\"*?'*?\\s*?\\)\\s*%>(.*?)<%\\s*?else\\s*?%>(.*?)<%\\s*?endif\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
 		// Check for matches and replace them
 		while (qreConditional.match(strLine).hasMatch()) {
 			// Localize the page value
@@ -115,7 +115,7 @@ namespace HeimdallGI {
 			// Localize the operator
 			QString strOperator   = qreConditional.match(strLine).captured(2);
 			// Localize the operand
-			QString strOperand    = qreConditional.match(strLine).captured(3).replace(QRegularExpression("^\\s*?(\"|')"), "").replace(QRegularExpression("(\"|')\\s*?"), "");
+			QString strOperand    = qreConditional.match(strLine).captured(3).replace(QRegularExpression("^\\s*?(\"|')"), "").replace(QRegularExpression("(\"|')\\s*?$"), "");
 			// Grab the truth value
 			QString strTruthValue = qreConditional.match(strLine).captured(4);
 			// Grab the false value
@@ -132,7 +132,7 @@ namespace HeimdallGI {
 			}
 		}
 		// Reset the pattern to a simple pattern
-		qreConditional.setPattern("<%\\s*?if\\s*?\\(\\$*?([a-zA-Z0-9_-]+)\\s*?([<>=]{1,2})\\s*?\"*?'*?(\\$*?.*)\"*?'*?\\s*?\\)\\s*%>(.*?)<%\\s*?endif\\s*?%>");
+		qreConditional.setPattern("<%\\s*?if\\s*?\\(\\$*?([a-zA-Z0-9_-]+)\\s*?(eq|neq|==|!=|<>)\\s*?\"*?'*?(\\$*?.*)\"*?'*?\\s*?\\)\\s*%>(.*?)<%\\s*?endif\\s*?%>");
 		// Check for matches and replace them
 		while (qreConditional.match(strLine).hasMatch()) {
 			// Localize the page value
@@ -140,7 +140,7 @@ namespace HeimdallGI {
 			// Localize the operator
 			QString strOperator   = qreConditional.match(strLine).captured(2);
 			// Localize the operand
-			QString strOperand    = qreConditional.match(strLine).captured(3).replace(QRegularExpression("^\\s*?(\"|')"), "").replace(QRegularExpression("(\"|')\\s*?"), "");
+			QString strOperand    = qreConditional.match(strLine).captured(3).replace(QRegularExpression("^\\s*?(\"|')"), "").replace(QRegularExpression("(\"|')\\s*?$"), "");
 			// Localize the truth value
 			QString strTruthValue = qreConditional.match(strLine).captured(4);
 			// Run the condition
