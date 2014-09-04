@@ -399,6 +399,16 @@ namespace HeimdallGI {
 			// Reset the operand to the page value
 			strOperand = this->mView->GetPageValue(strOperand.replace("$", "")).toString();
 		}
+		// Check the operand for the undefined keyword
+		if ((strOperand.toLower() == "undef") || (strOperand.toLower() == "undefined")) {
+			// Check to see if the page value exists
+			if (this->mView->GetPageValue(strPageValue).isNull()) {
+				// The page value is not defined
+				return ((strOperator == "eq" || strOperator == "==") ? true : false);
+			}
+			// The page value is defined
+			return ((strOperator == "neq" || strOperator == "!=") ? false : true);
+		}
 		// Determine the operator
 		if ((strOperator == "eq") || (strOperator == "==")) {             // Equality
 			// Run the condition
@@ -505,7 +515,7 @@ namespace HeimdallGI {
 				// No match or conversion available
 				return false;
 			}
-		} else if ((strOperator == "neq") || (strOperator == "<>")) { // Non-Equality
+		} else if ((strOperator == "neq") || (strOperator == "<>") || (strOperator == "!=")) { // Non-Equality
 			// Run the condition
 			if (this->mView->GetPageValue(strPageValue).toString() != strOperand) {
 				// Match
