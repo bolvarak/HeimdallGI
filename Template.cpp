@@ -407,7 +407,7 @@ namespace HeimdallGI {
 				return ((strOperator == "eq" || strOperator == "==") ? true : false);
 			}
 			// The page value is defined
-			return ((strOperator == "neq" || strOperator == "!=") ? false : true);
+			return ((strOperator == "eq" || strOperator == "==") ? false : true);
 		}
 		// Determine the operator
 		if ((strOperator == "eq") || (strOperator == "==")) {             // Equality
