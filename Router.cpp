@@ -64,7 +64,7 @@ namespace HeimdallGI {
 			return false;
 		}
 		// Define the pattern parameter pattern
-		QRegularExpression qrePatternParameter("^\\[:[a-zA-Z0-9_-]+\\]$");
+		QRegularExpression qrePatternParameter("\\[:[a-zA-Z0-9_-]+\\]");
 		// Loop through the pattern
 		for (int intPart = 0; intPart < qslPattern.size(); ++intPart) {
 			// Grab the matches
@@ -73,7 +73,7 @@ namespace HeimdallGI {
 			if (qslPattern[intPart] == qslPath[intPart]) {
 				// Continue to the next iteration
 				continue;
-			} else if (qremPatternPart.hasMatch() && QRegularExpression("^[a-zA-Z0-9_-]+$").match(qslPath.at(intPart)).hasMatch()) {
+			} else if (qremPatternPart.hasMatch() && QRegularExpression("[a-zA-Z0-9_-]+").match(qslPath.at(intPart)).hasMatch()) {
 				// Define the variable name
 				QString strName  = qremPatternPart.capturedTexts().at(0);
 				// Remove the unwanted characters
