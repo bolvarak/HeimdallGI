@@ -1,13 +1,12 @@
-#include "GeoIP.h"
+#include "MaxMind.h"
 
 namespace HeimdallGI {
 
-GeoIP::GeoIP(QObject *parent) : QObject(parent)
-{
+MaxMind::MaxMind(QObject *parent) : QObject(parent){
 
 }
 
-GeoIP::~GeoIP()
+MaxMind::~MaxMind()
 {
 
 }
