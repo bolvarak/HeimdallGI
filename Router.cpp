@@ -54,10 +54,18 @@ namespace HeimdallGI {
 			// We're done
 			return true;
 		}
+		// Check the path
+		if (strPath.endsWith('/'))    { strPath.chop(1);    }
+		// Check the pattern
+		if (strPattern.endsWith('/')) { strPattern.chop(1); }
 		// Split the pattern
 		QStringList qslPattern = strPattern.split('/');
 		// Split the path
 		QStringList qslPath    = strPath.split('/');
+		// Check the path
+		if (qslPath.at(0).isEmpty())    { qslPath.removeFirst();    }
+		// Check the pattern
+		if (qslPattern.at(0).isEmpty()) { qslPattern.removeFirst(); }
 		// Make sure the lists match in size
 		if (qslPath.size() != qslPattern.size()) {
 			// There is no possibility of a match
