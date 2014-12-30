@@ -1,0 +1,3 @@
+[submodule "Libraries/QtSoap"]
+	path = Libraries/QtSoap
+	url = https://github.com/commontk/QtSOAP.git
