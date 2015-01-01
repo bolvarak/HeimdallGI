@@ -69,10 +69,8 @@ namespace HeimdallGI {
 		}
 		// Create the replacements map
 		QMap<QString, QString> qmsReplacements;
-		// Add the document root
-		qmsReplacements.insert("DOCUMENT_ROOT", (this->mRequest->GetRequestHeader("DOCUMENT_ROOT").isEmpty() ? QCoreApplication::applicationDirPath() : this->mRequest->GetRequestHeader("DOCUMENT_ROOT")));
 		// Load the file path
-		QString strTemplatePath = Configuration::Get("Paths.templatePath", qmsReplacements).toString();
+		QString strTemplatePath = Configuration::Get("Paths.templatePath").toString();
 		// Check the last character of the template path for a directory separator
 		if (strTemplatePath.at(strTemplatePath.size() - 1) != '/') {
 			// Append a directory separator

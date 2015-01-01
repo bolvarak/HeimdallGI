@@ -21,22 +21,29 @@ namespace HeimdallGI {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	QVariant Configuration::Get(QString strKey, QMap<QString, QString> qmsReplacements) {
+		// Define the default replacements
+		QMap<QString, QString>qmsDefaultReplacements;
+		// Add the document root
+		qmsDefaultReplacements.insert("DOCUMENT_ROOT", HeimdallGI::CGI::Instance()->GetRequestHeader("DOCUMENT_ROOT"));
 		// Load the configuration
 		QSettings qssConfiguration(QString(HGI_CONFIG_FILE), QSettings::IniFormat);
+		// Load the property
+		QString strProperty = qssConfiguration.value(strKey.replace(".", "/")).toString();
 		// Check for replacements
 		if (!qmsReplacements.isEmpty()) {
-			// Load the property 
-			QString strProperty = qssConfiguration.value(strKey.replace(".", "/")).toString();
 			// Traverse the replacements
 			for (QMap<QString, QString>::const_iterator itrReplacement = qmsReplacements.constBegin(); itrReplacement != qmsReplacements.constEnd(); ++itrReplacement) {
 				// Make the replacement
 				strProperty.replace(QString("${%1}").arg(itrReplacement.key()), itrReplacement.value());
 			}
-			// Return the property
-			return QVariant(strProperty);
+		}
+		// Iterate over the default replacements
+		for (QMap<QString, QString>::const_iterator itrDefaultReplacement = qmsDefaultReplacements.constBegin(); itrDefaultReplacement != qmsDefaultReplacements.constEnd(); ++itrDefaultReplacement) {
+			// Make the replacement
+			strProperty.replace(QString("${%1}").arg(itrDefaultReplacement.key()), itrDefaultReplacement.value());
 		}
 		// Return the property
-		return qssConfiguration.value(strKey.replace(".", "/"));
+		return strProperty;
 	}
 
 	bool Configuration::Set(QString strKey, QVariant qvValue) {

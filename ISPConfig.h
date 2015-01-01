@@ -9,13 +9,27 @@
 /// Headers //////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
+#include "QByteArray"
+#include "QHostAddress"
+#include "QHttpMultiPart"
+#include "QHttpPart"
+#include "QJsonArray"
+#include "QJsonDocument"
+#include "QJsonObject"
+#include "QJsonParseError"
+#include "QJsonValue"
+#include "QNetworkAccessManager"
+#include "QNetworkReply"
+#include "QNetworkRequest"
 #include "QObject"
+#include "QSslConfiguration"
 #include "QString"
 #include "QStringList"
+#include "QUrl"
+#include "QUrlQuery"
 #include "QVariant"
 #include "QVariantList"
 #include "QVariantMap"
-#include "qtsoap.h"
 #include "Configuration.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -55,16 +69,16 @@ namespace HeimdallGI {
 			/**
 			 * @paragraph This property contains the connetion to the ISPConfig server
 			 * @brief HeimdallGI::ISPConfig::mConnection
-			 * @var QtSoapHttpTransport
+			 * @var QNetworkAccessManager
 			 */
-			QtSoapHttpTransport mConnection;
+			QNetworkAccessManager mConnection;
 
 			/**
 			 * @paragraph This property contains the current executing method
 			 * @brief HeimdallGI::ISPConfig::mCurrentMethod
-			 * @var HeimdallGI::ISPConfig::SoapMethod
+			 * @var HeimdallGI::ISPConfig::JsonMethod
 			 */
-			SoapMethod mCurrentMethod;
+			JsonMethod mCurrentMethod;
 
 			/**
 			 * @paragraph This property tells the interface whether or not an error occurred
@@ -115,46 +129,28 @@ namespace HeimdallGI {
 			void makeRequest(QString strMethod, QVariantMap qvmArguments);
 
 			/**
-			 * @paragraph This method compiles and sends a request to the ISPConfig server with a pre-compiled method
-			 * @brief HeimdallGI::ISPConfig::makeRequest()
-			 * @param QtSoapQName qsnMethod
-			 * @param QVariantMap qvmArguments
-			 * @return void
+			 * @paragraph This method converts a QVariantMap to a multi-part query
+			 * @brief HeimdallGI::ISPConfig::mapToQuery()
+			 * @param QVariantMap qvmParameters
+			 * @return QByteArray
 			 */
-			void makeRequest(QtSoapQName qsnMethod, QVariantMap qvmArguments);
-
-			/**
-			 * @paragraph This method sends a pre-compile request to the ISPConfig server
-			 * @brief HeimdallGI::ISPConfig::makeRequest()
-			 * @param QtSoapMessage qsmRequest
-			 * @return void
-			 */
-			void makeRequest(QtSoapMessage qsmRequest);
-
-			/**
-			 * @paragraph This method converts a QVariantMap to SOAP arguments
-			 * @brief HeimdallGI::ISPConfig::mapToArguments()
-			 * @param QtSoapMessage qsmRequest
-			 * @param QVariantMap qvmArguments
-			 * @return void
-			 */
-			void mapToArguments(QtSoapMessage &qsmRequest, QVariantMap qvmArguments);
+			QByteArray mapToQuery(QVariantMap qvmParameters);
 
 			/**
 			 * @paragraph This method processes the login response
-			 * @brief HeimdallGI::ISPConfig::sendLoginResponse()
-			 * @emits HeimdallGI::ISPConfig::startSessionResponseReady()
+			 * @brief HeimdallGI::ISPConfig::processLoginResponse()
+			 * @emits HeimdallGI::ISPConfig::responseReady()
 			 * @return void
 			 */
-			void sendLoginResponse();
+			void processLoginResponse();
 
 			/**
 			 * @paragraph This method processes the logout response
-			 * @brief HeimdallGI::ISPConfig::sendLogoutResponse()
-			 * @emits HeimdallGI::ISPConfig::endSessionResponseReady()
+			 * @brief HeimdallGI::ISPConfig::processLogoutResponse()
+			 * @emits HeimdallGI::ISPConfig::responseReady()
 			 * @return void
 			 */
-			void sendLogoutResponse();
+			void processLogoutResponse();
 
 		///////////////////////////////////////////////////////////////////////
 		/// Protected Slots //////////////////////////////////////////////////
@@ -164,10 +160,11 @@ namespace HeimdallGI {
 
 			/**
 			 * @paragraph This slot is executed when the SOAP response is ready
-			 * @brief HeimdallGI::ISPConfig::getSoapResponse()
+			 * @brief HeimdallGI::ISPConfig::getJsonResponse()
+			 * @param QNetworkReply* gnrResponse
 			 * @return void
 			 */
-			void getSoapResponse();
+			void getJsonResponse(QNetworkReply* qnrResponse);
 
 		///////////////////////////////////////////////////////////////////////
 		/// Public Methods & Properties //////////////////////////////////////
@@ -181,10 +178,10 @@ namespace HeimdallGI {
 
 			/**
 			 * @paragraph This enumeration contains method definitions
-			 * @brief HeimdallGI::ISPConfig::SoapMethod
+			 * @brief HeimdallGI::ISPConfig::JsonMethod
 			 * @var enum
 			 */
-			enum SoapMethod {
+			enum JsonMethod {
 				None    = 0x000,
 				Unknown = 0x001,
 				Login   = 0x002,
@@ -222,18 +219,17 @@ namespace HeimdallGI {
 			/**
 			 * @paragraph This method kills the remote session with the ISPConfig server
 			 * @brief HeimdallGI::ISPConfig::endSession()
-			 * @return bool
+			 * @param QString strSessionID
+			 * @return void
 			 */
-			bool endSession();
+			void endSession(QString strSessionID);
 
 			/**
 			 * @paragraph This method initializes a remote session with the ISPConfig server
 			 * @brief HeimdallGI::ISPConfig::startSession()
-			 * @param QString strUsername
-			 * @param QString strPassword
-			 * @return bool
+			 * @return void
 			 */
-			bool startSession(QString strUsername = QString::null, QString strPassword = QString::null);
+			void startSession();
 
 			///////////////////////////////////////////////////////////////////
 			/// Getters //////////////////////////////////////////////////////
@@ -242,9 +238,9 @@ namespace HeimdallGI {
 			/**
 			 * @paragraph This method returns the current executing SOAP method
 			 * @brief HeimdallGI::ISPConfig::getCurrentMethod()
-			 * @return HeimdallGI::ISPConfig::SoapMethod HeimdallGI::ISPConfig::mCurrentMethod
+			 * @return HeimdallGI::ISPConfig::JsonMethod HeimdallGI::ISPConfig::mCurrentMethod
 			 */
-			SoapMethod getCurrentMethod() { return this->mCurrentMethod;           }
+			JsonMethod getCurrentMethod() { return this->mCurrentMethod;           }
 
 			/**
 			 * @paragraph This method returns the error flag
@@ -288,10 +284,10 @@ namespace HeimdallGI {
 			/**
 			 * @paragraph This method sets the current executing SOAP method
 			 * @brief HeimdallGI::ISPConfig::setCurrentMethod()
-			 * @param HeimdallGI::ISPConfig::SoapMethod soapMethod
+			 * @param HeimdallGI::ISPConfig::JsonMethod JsonMethod
 			 * @return HeimdallGI::ISPConfig* HeimdallGI::ISPConfig::mInstance
 			 */
-			ISPConfig* setCurrentMethod(SoapMethod soapMethod) { this->mCurrentMethod  = soapMethod;    return this; }
+			ISPConfig* setCurrentMethod(JsonMethod JsonMethod) { this->mCurrentMethod  = JsonMethod;    return this; }
 
 			/**
 			 * @paragraph This method sets the error flag
@@ -340,22 +336,30 @@ namespace HeimdallGI {
 		signals:
 
 			/**
-			 * @paragraph This signal fires when the logout request has finished
-			 * @brief HeimdallGI::ISPConfig::endSessionResponseReady()
-			 * @param QVariantMap &qvmResponse
+			 * @paragraph This signal fires when the api returns an error
+			 * @brief HeimdallGI::ISPConfig::apiError()
+			 * @param QString strCode
+			 * @param QString strErrorMessage
 			 * @return void
 			 */
-			void endSessionResponseReady(QVariantMap &qvmResponse);
+			void apiError(QString strCode, QString strErrorMessage);
 
 			/**
-			 * @paragraph This signal fires when the login request has finished
-			 * @brief startSessionResponseReady
-			 * @param qvmResponse
+			 * @paragraph This signal fires when an error has occurred during the network transport
+			 * @brief HeimdallGI::ISPConfig::networkError()
+			 * @param QNetworkReply::NetworkError qnrError
+			 * @param QString strErrorMessage
+			 * @return void
 			 */
-			void startSessionResponseReady(QVariantMap &qvmResponse);
+			void networkError(QNetworkReply::NetworkError qnrError, QString strErrorMessage);
 
-
-
+			/**
+			 * @paragraph This signal fires when the request has finished and the response is ready
+			 * @brief HeimdallGI::ISPConfig::responseReady()
+			 * @param qvmResponse
+			 * @return void
+			 */
+			void responseReady(QVariantMap qvmResponse);
 
 	///////////////////////////////////////////////////////////////////////////
 	/// End HeimdallGI::ISPConfig Class Definition ///////////////////////////

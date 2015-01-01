@@ -36,7 +36,7 @@ namespace HeimdallGI {
 
 	ISPConfig::ISPConfig(QObject *qoParent) : QObject(qoParent) {
 		// Connect the response signal
-		connect(&mConnection, SIGNAL(responseReady(), this, SLOT(getSoapResponse());
+		connect(&mConnection, SIGNAL(finished(QNetworkReply*)), this, SLOT(getJsonResponse(QNetworkReply*)));
 		// Default the error flag
 		this->mErrorFlag       = false;
 		// Default the error message
@@ -59,126 +59,115 @@ namespace HeimdallGI {
 		// Reset the error state
 		this->mErrorFlag    = false;
 		this->mErrorMessage = QString::null;
-		// Create the SOAP message
-		QtSoapMessage qsmRequest;
-		// Set the method
-		qsmRequest.setMethod(strMethod, Configuration::Get("ispConfig.uri").toString());
-		// Add the arguments
-		this->mapToArguments(qsmRequest, qvmArguments);
-		// Set the host
-		this->mConnection.setHost(Configuration::Get("ispConfig.host").toString(), this->mSecureTransport, Configuration::Get("ispConfig.port").toInt());
-		// Set the action
-		this->mConnection.setAction(QString("%1/%2").arg(Configuration::Get("ispConfig.uri").toString(), strMethod));
-		// Submit the request
-		this->mConnection.submitRequest(qsmRequest, "/remote/index.php");
+		// Define the URL
+		QUrl urlEndpoint(Configuration::Get("ispConfig.endpoint").toString());
+		// Create the query string
+		QUrlQuery qryEndpoint;
+		// Add the method to the query
+		qryEndpoint.addQueryItem("method", QString::fromLatin1(QUrl::toPercentEncoding(strMethod)));
+		// Create the request
+		QNetworkRequest qnrRequest(urlEndpoint);
+		// Make the request
+		this->mConnection.post(qnrRequest, this->mapToQuery(qvmArguments));
 	}
 
-	void ISPConfig::makeRequest(QtSoapQName qsnMethod, QVariantMap qvmArguments) {
-		// Reset the error state
-		this->mErrorFlag    = false;
-		this->mErrorMessage = QString::null;
-		// Create the SOAP message
-		QtSoapMessage qsmRequest;
-		// Set the method
-		qsmRequest.setMethod(qsnMethod);
-		// Add the arguments
-		this->mapToArguments(qsmRequest, qvmArguments);
-		// Set the host
-		this->mConnection.setHost(Configuration::Get("ispConfig.host").toString(), this->mSecureTransport, Configuration::Get("ispConfig.port").toInt());
-		// Set the action
-		this->mConnection.setAction(QString("%1/%2").arg(Configuration::Get("ispConfig.uri").toString(), qsnMethod.name()));
-		// Submit the request
-		this->mConnection.submitRequest(qsmRequest, "/remote/index.php");
-	}
-
-	void ISPConfig::makeRequest(QtSoapMessage qsmRequest) {
-		// reset the error state
-		this->mErrorFlag    = false;
-		this->mErrorMessage = QString::null;
-		// Set the host
-		this->mConnection.setHost(Configuration::Get("ispConfig.host").toString(), this->mSecureTransport, Configuration::Get("ispConfig.port").toInt());
-		// Set the action
-		this->mConnection.setAction(QString("%1/%2").arg(Configuration::Get("ispConfig.uri"), qsmRequest.method().name()));
-		// Submit the request
-		this->mConnection.submitRequest(qsmRequest, "/remote/index.php");
-	}
-
-	void ISPConfig::mapToArguments(QtSoapMessage &qsmRequest, QVariantMap qvmArguments) {
-		// Iterate over the arguments
-		for (QVariantMap::const_iterator itrArguments = qvmArguments.constBegin(); itrArguments != qvmArguments.constEnd(); ++itrArguments) {
-			// Check the type
-			if (itrArguments.value().canConvert(QMetaType::Bool)) {       // Boolean
-				// Add the argument
-				qsmRequest.addMethodArgument(itrArguments.key(), "", itrArguments.value().toBool());
-			} else if (itrArguments.value().canConvert(QMetaType::Int)) { // Integer
-				// Add the argument
-				qsmRequest.addMethodArgument(itrArguments.key(), "", itrArguments.value().toInt());
-			} else {                                                      // String
-				// Add the argument
-				qsmRequest.addMethodArgument(itrArguments.key(), "", itrArguments.value().toString());
-			}
+	QByteArray ISPConfig::mapToQuery(QVariantMap qvmParameters) {
+		// Create the parameter placeholder
+		QStringList qslParams;
+		// Iterate over the parameters
+		for (QVariantMap::const_iterator itrParameter = qvmParameters.constBegin(); itrParameter != qvmParameters.constEnd(); ++itrParameter) {
+			// Add the parameter
+			qslParams.append(QString("%1=%2").arg(QString::fromLatin1(QUrl::toPercentEncoding(itrParameter.key())), QString::fromLatin1(QUrl::toPercentEncoding(itrParameter.value().toString()))));
 		}
+		// We're done
+		return qslParams.join("&").toLatin1();
 	}
 
-	void ISPConfig::sendLoginResponse() {
-		// Empty the response
-		this->mResponse.clear();
+	void ISPConfig::processLoginResponse() {
+		// Define the sessionID
+		QString strSessionID = this->mResponse.value("response").toString();
+		// Clear the response
+		this->mResponse.remove("response");
 		// Set the session ID
-		this->mResponse.insert("sessionID", this->mConnection.getResponse().returnValue()["session_id"].toString());
-		// We're done, emit the signal
-		emit this->startSessionResponseReady(this->mResponse);
+		this->mResponse.insert("sessionID", strSessionID);
+		// Set the logged in status
+		this->mResponse.insert("loggedIn",  true);
+		// We're done
+		return;
 	}
 
-	void ISPConfig::sendLogoutResponse() {
-		// Empty the response
-		this->mResponse.clear();
-		// We're done, emit the signal
-		emit this->endSessionResponseReady(this->mResponse);
+	void ISPConfig::processLogoutResponse() {
+		// Set the logout status
+		this->mResponse.insert("loggedOut", this->mResponse.value("response").toBool());
+		// Clear the response
+		this->mResponse.remove("response");
+		// We're done
+		return;
 	}
 
 	///////////////////////////////////////////////////////////////////////////
 	/// Protected Slots //////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////
 
-	void ISPConfig::getSoapResponse() {
+	void ISPConfig::getJsonResponse(QNetworkReply* qnrResponse) {
+		// Check for an error
+		if (qnrResponse->error() != QNetworkReply::NoError) {
+			// A network error has occurred, fire the signal
+			emit this->networkError(qnrResponse->error(), qnrResponse->errorString());
+			// We're done
+			return;
+		}
+		// Decode the response
+		QJsonDocument qjdResponse = QJsonDocument::fromJson(qnrResponse->readAll());
+		// Store the response
+		this->mResponse           = qjdResponse.object().toVariantMap();
+		// Check for an API error
+		if (this->mResponse.contains("error") && (this->mResponse.value("success").toBool() == false)) {
+			// An API error has occurred, fire the signal
+			emit this->apiError(this->mResponse.value("code").toString(), this->mResponse.value("error").toString());
+			// We're done
+			return;
+		}
 		// Determine the method
 		switch(this->mCurrentMethod) {
 			// Login
-			case SoapMethod::Login  : return this->sendLoginResponse();  break;
+			case JsonMethod::Login  : return this->processLoginResponse();  break;
 			// Logout
-			case SoapMethod::Logout : return this->sendLogoutResponse(); break;
+			case JsonMethod::Logout : return this->processLogoutResponse(); break;
 		}
+		// Fire the ready signal
+		emit responseReady(this->mResponse);
+		// We're done
+		return;
 	}
 
 	///////////////////////////////////////////////////////////////////////////
 	/// Public Methods ///////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////
 
-
-	bool ISPConfig::endSession() {}
-
-
-	bool ISPConfig::startSession(QString strUsername, QString strPassword) {
-		// Check for local username
-		if (strUsername == QString::null) {
-			// Set the username from the configuration
-			strUsername = Configuration::Get("ispConfig.userName").toString();
-		}
-		// Check for local password
-		if (strPassword == QString::null) {
-			// Set the password from the configuration
-			strPassword = Configuration::Get("ispConfig.passWord").toString();
-		}
-		// Set the current executing method
-		this->mCurrentMethod = SoapMethod::Login;
-		// Send the request
-		this->makeRequest("login", {
-			"username" = strUsername,
-			"password" = strPassword
-		});
-		// Wait for the response
+	void ISPConfig::endSession(QString strSessionID) {
+		// Create the parameter map
+		QVariantMap qvmArguments;
+		// Add the session_id
+		qvmArguments.insert("session_id", strSessionID);
+		// Make the request
+		this->makeRequest("logout", qvmArguments);
+		// We're done
+		return;
 	}
 
+	void ISPConfig::startSession() {
+		// Create the parameter map
+		QVariantMap qvmArguments;
+		// Add the username
+		qvmArguments.insert("username", Configuration::Get("ispConfig.userName").toString());
+		// Add the password
+		qvmArguments.insert("password", Configuration::Get("ispConfig.passWord").toString());
+		// Make the request
+		this->makeRequest("login", qvmArguments);
+		// We're done
+		return;
+	}
 
 ///////////////////////////////////////////////////////////////////////////////
 /// End HeimdallGI Namespace /////////////////////////////////////////////////
