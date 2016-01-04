@@ -9,10 +9,10 @@
 /// Headers //////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "QObject"
-#include "QMap"
-#include "QString"
-#include "QStringList"
+#include "QtCore/QObject"
+#include "QtCore/QMap"
+#include "QtCore/QString"
+#include "QtCore/QStringList"
 #include "Log.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -377,7 +377,7 @@ namespace HeimdallGI
 			 * @param HeimdallGI::SelfClosingElement scElement
 			 * @param QMap<QString, QString> qmAttributes
 			 */
-			void ProcessAttributes(SelfClosingElement &scElement, QMap<QString, QString> qmAttributes);
+			void processAttributes(SelfClosingElement &scElement, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method processes the attributes into a TagElement
@@ -386,7 +386,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return void
 			 */
-			void ProcessAttributes(TagElement &tagElement, QMap<QString, QString> qmAttributes);
+			void processAttributes(TagElement &tagElement, QMap<QString, QString> qmAttributes);
 
 		///////////////////////////////////////////////////////////////////////
 		/// Public Methods & Properties //////////////////////////////////////
@@ -1011,14 +1011,14 @@ namespace HeimdallGI
 			 * @brief HeimdallGI::HTML::GetEmptyAttributeContainer()
 			 * @return QMap<QString, QString>
 			 */
-			static QMap<QString, QString> GetEmptyAttributeContainer();
+			static QMap<QString, QString> getEmptyAttributeContainer();
 
 			/**
 			 * @paragraph This method is a utility method to return an empty child list
 			 * @brief HeimdallGI::HTML::GetEmptyChildContainer()
 			 * @return QStringList
 			 */
-			static QStringList GetEmptyChildContainer();
+			static QStringList getEmptyChildContainer();
 
 			///////////////////////////////////////////////////////////////////
 			/// Methods //////////////////////////////////////////////////////
@@ -1034,7 +1034,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString Anchor(QString strHypertextReference, QString strValue, QString strIdentifier, QMap<QString, QString> qmAttributes);
+			QString anchor(QString strHypertextReference, QString strValue, QString strIdentifier, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method generates a button tag
@@ -1045,7 +1045,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString Button(QString strName, QString strLabel, QString strIdentifier, QMap<QString, QString> qmAttributes);
+			QString button(QString strName, QString strLabel, QString strIdentifier, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method generates a div tag
@@ -1054,7 +1054,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString Divider(QStringList qslChildren, QMap<QString, QString> qmAttributes);
+			QString divider(QStringList qslChildren, QMap<QString, QString> qmAttributes);
 
 
 			/**
@@ -1066,7 +1066,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString Dropdown(QString strName, QString strIdentifier, DataProvider dpOptions, QMap<QString, QString> qmAttributes);
+			QString dropdown(QString strName, QString strIdentifier, DataProvider dpOptions, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method generates a fieldset tag
@@ -1075,7 +1075,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString Fieldset(QStringList qslChildren, QMap<QString, QString> qmAttributes);
+			QString fieldset(QStringList qslChildren, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method generates a form tag
@@ -1087,7 +1087,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString Form(QString strAction, QString strMethod, QString strIdentifier, QStringList qslChildren, QMap<QString, QString> qmAttributes);
+			QString form(QString strAction, QString strMethod, QString strIdentifier, QStringList qslChildren, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method generates an img tag
@@ -1096,7 +1096,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString Image(QString strSource, QMap<QString, QString> qmAttributes);
+			QString image(QString strSource, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method generates an input tag
@@ -1107,7 +1107,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString Input(QString strType, QString strName, QString strIdentifier, QMap<QString, QString> qmAttributes);
+			QString input(QString strType, QString strName, QString strIdentifier, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method generates a label tag
@@ -1117,7 +1117,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString Label(QString strText, QString strFor, QMap<QString, QString> qmAttributes);
+			QString label(QString strText, QString strFor, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method generates a link tag
@@ -1128,7 +1128,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString Link(QString strRelativity, QString strType, QString strHypertextReference, QMap<QString, QString> qmAttributes);
+			QString link(QString strRelativity, QString strType, QString strHypertextReference, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method generates a meta tag
@@ -1138,7 +1138,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString Meta(QString strName, QString strContent, QMap<QString, QString> qmAttributes);
+			QString meta(QString strName, QString strContent, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method generates a custom self-closing tag
@@ -1147,7 +1147,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString SelfClosingTag(QString strType, QMap<QString, QString> qmAttributes);
+			QString selfClosingTag(QString strType, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method generates a script tag
@@ -1158,7 +1158,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString Script(QString strType, QString strSource, bool bScriptIsInline, QMap<QString, QString> qmAttributes);
+			QString script(QString strType, QString strSource, bool bScriptIsInline, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method genertes a style tag
@@ -1168,7 +1168,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString Style(QString strType, QString strSource, QMap<QString, QString> qmAttributes);
+			QString style(QString strType, QString strSource, QMap<QString, QString> qmAttributes);
 
 			/**
 			 * @paragraph This method generates an HTML tag
@@ -1179,7 +1179,7 @@ namespace HeimdallGI
 			 * @param QStringList qslChildren
 			 * @return
 			 */
-			QString Tag(QString strType, bool bValueIsAttribute, QMap<QString, QString> qmAttributes, QStringList qslChildren);
+			QString tag(QString strType, bool bValueIsAttribute, QMap<QString, QString> qmAttributes, QStringList qslChildren);
 
 			/**
 			 * @paragraph This method generates a textarea tag
@@ -1190,7 +1190,7 @@ namespace HeimdallGI
 			 * @param QMap<QString, QString> qmAttributes
 			 * @return QString
 			 */
-			QString TextArea(QString strName, QString strIdentifier, QString strContent, QMap<QString, QString> qmAttributes);
+			QString textArea(QString strName, QString strIdentifier, QString strContent, QMap<QString, QString> qmAttributes);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// End HeimdallGI::HTML Class Definition ////////////////////////////////////////////////////////////////////////

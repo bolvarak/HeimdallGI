@@ -24,7 +24,7 @@ namespace HeimdallGI {
 		// Define the default replacements
 		QMap<QString, QString>qmsDefaultReplacements;
 		// Add the document root
-		qmsDefaultReplacements.insert("DOCUMENT_ROOT", HeimdallGI::CGI::Instance()->GetRequestHeader("DOCUMENT_ROOT"));
+		qmsDefaultReplacements.insert("DOCUMENT_ROOT", HeimdallGI::CGI::Instance()->getRequestHeader("DOCUMENT_ROOT"));
 		// Load the configuration
 		QSettings qssConfiguration(QString(HGI_CONFIG_FILE), QSettings::IniFormat);
 		// Load the property

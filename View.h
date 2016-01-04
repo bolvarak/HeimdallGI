@@ -637,7 +637,7 @@ namespace HeimdallGI {
 		 * @param QString strScheme [NULL]
 		 * @return HeimdallGI::View* HeimdallGI::View::mInstance
 		 */
-		View* AddMetaTag(QString strName, QString strContent, QString strHttpEquivalent = NULL, QString strScheme = NULL);
+		View* addMetaTag(QString strName, QString strContent, QString strHttpEquivalent = NULL, QString strScheme = NULL);
 
 		/**
 		 * @paragraph This method adds a script to the view
@@ -648,7 +648,7 @@ namespace HeimdallGI {
 		 * @param bool bHeaderScript [true]
 		 * @return HeimdallGI::View* HeimdallGI::View::mInstance
 		 */
-		View* AddScript(QString strSource, QString strType = CGI::ContentTypeJS, bool bSourceIsRaw = false, bool bHeaderScript = true);
+		View* addScript(QString strSource, QString strType = CGI::ContentTypeJS, bool bSourceIsRaw = false, bool bHeaderScript = true);
 
 		/**
 		 * @paragraph This method adds a style to the view
@@ -659,7 +659,7 @@ namespace HeimdallGI {
 		 * @param QString strMedia [NULL]
 		 * @return HeimdallGI::View* HeimdallGI::View::mInstance
 		 */
-		View* AddStyle(QString strSource, bool bSourceIsRaw = false, QString strRelativity = "stylesheet", QString strMedia = NULL);
+		View* addStyle(QString strSource, bool bSourceIsRaw = false, QString strRelativity = "stylesheet", QString strMedia = NULL);
 
 		///////////////////////////////////////////////////////////////////////
 		/// Getters //////////////////////////////////////////////////////////
@@ -670,14 +670,14 @@ namespace HeimdallGI {
 		 * @brief HeimdallGI::View::GetLayout()
 		 * @return QString HeimdallGI::View::mLayout
 		 */
-		QString GetLayout();
+		QString getLayout();
 
 		/**
 		 * @paragraph This method returns the meta tags for the view
 		 * @brief HeimdallGI::View::GetMetaTags()
 		 * @return QString
 		 */
-		QString GetMetaTags();
+		QString getMetaTags();
 
 		/**
 		 * @paragraph This method returns a variable from the view
@@ -685,14 +685,14 @@ namespace HeimdallGI {
 		 * @param QString strName
 		 * @return QVariantMap
 		 */
-		QVariant GetPageValue(QString strName);
+		QVariant getPageValue(QString strName);
 
 		/**
 		 * @paragraph This method returns the PageValues map
 		 * @brief HeimdallGI::View::GetPageValues()
 		 * @return QVariantMap HeimdallGI::View::mPageValues
 		 */
-		QVariantMap GetPageValues();
+		QVariantMap getPageValues();
 
 		/**
 		 * @paragraph This method returns the scripts for the view
@@ -700,28 +700,28 @@ namespace HeimdallGI {
 		 * @param bool bHeader [true]
 		 * @return QString
 		 */
-		QString GetScripts(bool bHeader = true);
+		QString getScripts(bool bHeader = true);
 
 		/**
 		 * @paragraph This method returns the styles for the view
 		 * @brief HeimdallGI::View::GetStyles()
 		 * @return QString
 		 */
-		QString GetStyles();
+		QString getStyles();
 
 		/**
 		 * @paragraph This method returns the template file for the view
 		 * @brief HeimdallGI::View::GetTemplate()
 		 * @return QString HeimdallGI::View::mTemplate
 		 */
-		QString GetTemplate();
+		QString getTemplate();
 
 		/**
 		 * @paragraph This method returns the view status
 		 * @brief HeimdallGI::View::GetViewStatus()
 		 * @return bool HeimdallGI::View::mShowView
 		 */
-		bool GetViewStatus();
+		bool getViewStatus();
 
 		///////////////////////////////////////////////////////////////////////
 		/// Setters //////////////////////////////////////////////////////////
@@ -733,7 +733,7 @@ namespace HeimdallGI {
 		 * @param QString strLayout
 		 * @return HeimdallGI::View* HeimdallGI::View::mInstance
 		 */
-		View* SetLayout(QString strLayout);
+		View* setLayout(QString strLayout);
 
 		/**
 		 * @paragraph This method sets a variable into the view
@@ -742,7 +742,7 @@ namespace HeimdallGI {
 		 * @param QVariant qvValue
 		 * @return HeimdallGI::View* HeimdallGI::View::mInstance
 		 */
-		View* SetPageValue(QString strName, QVariant qvValue);
+		View* setPageValue(QString strName, QVariant qvValue);
 
 		/**
 		 * @paragraph This method sets the template file into the view
@@ -750,7 +750,7 @@ namespace HeimdallGI {
 		 * @param QString strTemplate
 		 * @return HeimdallGI::View* HeimdallGI::View::mInstance
 		 */
-		View* SetTemplate(QString strTemplate);
+		View* setTemplate(QString strTemplate);
 
 		/**
 		 * @paragraph This method sets the view status
@@ -758,7 +758,7 @@ namespace HeimdallGI {
 		 * @param bool bShowView [false]
 		 * @return HeimdallGI::View* HeimdallGI::View::mInstance
 		 */
-		View* SetViewStatus(bool bShowView = false);
+		View* setViewStatus(bool bShowView = false);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// End HeimdallGI::View Class Definition ////////////////////////////////////////////////////////////////////////

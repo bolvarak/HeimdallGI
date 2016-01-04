@@ -42,36 +42,36 @@ namespace HeimdallGI {
 
 	void ErrorController::NotFound(CGI* &objRequest, View* &objResponse) {
 		// Set the page title
-		objResponse->SetPageValue("pageTitle", "404 Not Found");
+		objResponse->setPageValue("pageTitle", "404 Not Found");
 		// Set the page name
-		objResponse->SetPageValue("pageName", "404 Not Found");
+		objResponse->setPageValue("pageName", "404 Not Found");
 		// Set the REQUEST_URI
-		objResponse->SetPageValue("requestURI", objRequest->GetRequestHeader("REQUEST_URI"));
+		objResponse->setPageValue("requestURI", objRequest->getRequestHeader("REQUEST_URI"));
 		// Set debug output
-		objResponse->SetPageValue("showStackTrace", Configuration::Get("Environment.showDebug").toString());
+		objResponse->setPageValue("showStackTrace", Configuration::Get("Environment.showDebug").toString());
 		// Set the stack trace
-		objResponse->SetPageValue("stackTrace", "${STACK_TRACE}");
+		objResponse->setPageValue("stackTrace", "${STACK_TRACE}");
 		// Define the template
 		QString strTemplate = Configuration::Get("Templates.notFound").toString();
 		// Set the view file
-		objResponse->SetTemplate(strTemplate.isEmpty() ? ":/templates/notFound.hgt" : strTemplate);
+		objResponse->setTemplate(strTemplate.isEmpty() ? ":/templates/notFound.hgt" : strTemplate);
 	}
 
 	void ErrorController::ServerFault(CGI* &objRequest, View* &objResponse, QString strMessage) {
 		// Set the page title
-		objResponse->SetPageValue("pageTitle", "500 Internal Server Error");
+		objResponse->setPageValue("pageTitle", "500 Internal Server Error");
 		// Set the page name
-		objResponse->SetPageValue("pageName", "500 Internal Server Error");
+		objResponse->setPageValue("pageName", "500 Internal Server Error");
 		// Set the error message
-		objResponse->SetPageValue("errorMessage", strMessage);
+		objResponse->setPageValue("errorMessage", strMessage);
 		// Set debug output
-		objResponse->SetPageValue("showStackTrace", Configuration::Get("Environment.showDebug").toString());
+		objResponse->setPageValue("showStackTrace", Configuration::Get("Environment.showDebug").toString());
 		// Set the stack trace
-		objResponse->SetPageValue("stackTrace", "${STACK_TRACE}");
+		objResponse->setPageValue("stackTrace", "${STACK_TRACE}");
 		// Define the themplate
 		QString strTemplate = Configuration::Get("Templates.serverFault").toString();
 		// Set the view file
-		objResponse->SetTemplate(strTemplate.isEmpty() ? ":/templates/serverFault.hgt" : strTemplate);
+		objResponse->setTemplate(strTemplate.isEmpty() ? ":/templates/serverFault.hgt" : strTemplate);
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

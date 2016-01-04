@@ -38,7 +38,7 @@ namespace HeimdallGI {
 		// Check for a request object
 		if (objRequest != NULL) {
 			// Set the request object into the instance
-			this->SetRequest(objRequest);
+			this->setRequest(objRequest);
 		}
 	}
 
@@ -46,7 +46,7 @@ namespace HeimdallGI {
 	/// Protected Methods ////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool Router::ReverseMatchPath(QString strPattern, QString strPath, QVariantMap &qvmParameters) {
+	bool Router::reverseMatchPath(QString strPattern, QString strPath, QVariantMap &qvmParameters) {
 		// Log the path and pattern
 		this->mLog->Add(strPath, strPattern);
 		// Check for a direct match
@@ -103,7 +103,7 @@ namespace HeimdallGI {
 	/// Public Methods ///////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Router* Router::AddRoute(QString strPath, QObject* objController, QByteArray qbaMethod) {
+	Router* Router::addRoute(QString strPath, Abstract::Endpoint* objController, QByteArray qbaMethod) {
 		// Assert the Controller
 		Q_ASSERT(objController);
 		// Assert the View Method
@@ -160,11 +160,11 @@ namespace HeimdallGI {
 		return this;
 	}
 
-	View* Router::Execute(CGI* &objRequest, QString strPath) {
+	View* Router::execute(CGI* &objRequest, QString strPath) {
 		// Check for a path
 		if (strPath.isEmpty()) {
 			// Set the path to the REQUEST_URI
-			strPath = objRequest->GetRequestHeader("REQUEST_URI").replace(QString("?%1").arg(objRequest->GetRequestHeader("QUERY_STRING")), "").replace(this->mBaseURI, "");
+			strPath = objRequest->getRequestHeader("REQUEST_URI").replace(QString("?%1").arg(objRequest->getRequestHeader("QUERY_STRING")), "").replace(this->mBaseURI, "");
 		}
 		this->mLog->Add("InitialPath", strPath);
 		// Check the last character for a slash
@@ -188,13 +188,13 @@ namespace HeimdallGI {
 					->Add(QString("View %1").arg(QString::number(intRoute + 1)), structRoute.getViewMethod())
 					->Add(QString("Route Path %1").arg(QString::number(intRoute + 1)), structRoute.getPath());
 			// Check for a match
-			if (structRoute.getController() && this->ReverseMatchPath(structRoute.getPath(), strPath, qvmParameters) == true) {
+			if (structRoute.getController() && this->reverseMatchPath(structRoute.getPath(), strPath, qvmParameters) == true) {
 				// Log the match
 				this->mLog->Add("ReverseMatch", "SUCCESS");
 				// Traverse the parameters map
 				for (QVariantMap::const_iterator itrParameters = qvmParameters.begin(); itrParameters != qvmParameters.end(); ++itrParameters) {
 					// Add the parameter to the CGI request
-					objRequest->AddParameter(itrParameters.key(), itrParameters.value().toString());
+					objRequest->addParameter(itrParameters.key(), itrParameters.value().toString());
 				}
 				// Define the invoke argument list
 				QList<QGenericArgument> qlArguments;
@@ -217,32 +217,32 @@ namespace HeimdallGI {
 					QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::AutoConnection, Q_ARG(CGI*&, objRequest), Q_ARG(View*&, viewResponse), Q_ARG(QString, QString("Unable to process view method:  ").append(structRoute.getViewMethod())));
 				}
 				// Check the view for file processing
-				if ((viewResponse->GetViewStatus() == true) && (viewResponse->GetTemplate().isEmpty() == false)) {
+				if ((viewResponse->getViewStatus() == true) && (viewResponse->getTemplate().isEmpty() == false)) {
 					// Check for a layout
-					if (viewResponse->GetLayout().isEmpty() == false) {
+					if (viewResponse->getLayout().isEmpty() == false) {
 						// Instantiate the route template
 						Template* tplRoute = new Template;
 						// Instantiate the view template
 						Template* tplView  = new Template;
 						// Process and set the body
-						viewResponse->SetPageValue("__body__", tplView->SetLogger(this->mLog)->SetRequest(objRequest)->Process(viewResponse)->GetTemplate());
+						viewResponse->setPageValue("__body__", tplView->setLogger(this->mLog)->setRequest(objRequest)->process(viewResponse)->getTemplate());
 						// Process the layout
 						tplRoute
-							->SetLogger(this->mLog)
-							->SetRequest(objRequest)
-							->Process(viewResponse, viewResponse->GetLayout());
+							->setLogger(this->mLog)
+							->setRequest(objRequest)
+							->process(viewResponse, viewResponse->getLayout());
 						// Set the template
-						viewResponse->SetTemplate(tplRoute->GetTemplate());
+						viewResponse->setTemplate(tplRoute->getTemplate());
 					} else {
 						// Instantiate the template
 						Template* tplRoute = new Template;
 						// Setup the template
 						tplRoute
-							->SetLogger(this->mLog)
-							->SetRequest(objRequest)
-							->Process(viewResponse);
+							->setLogger(this->mLog)
+							->setRequest(objRequest)
+							->process(viewResponse);
 						// Set the template into the view
-						viewResponse->SetTemplate(tplRoute->GetTemplate());
+						viewResponse->setTemplate(tplRoute->getTemplate());
 					}
 				} else {
 					// Reset the view response
@@ -256,11 +256,11 @@ namespace HeimdallGI {
 					Template* tplError = new Template;
 					// Setup the template
 					tplError
-						->SetLogger(this->mLog)
-						->SetRequest(objRequest)
-						->Process(viewResponse);
+						->setLogger(this->mLog)
+						->setRequest(objRequest)
+						->process(viewResponse);
 					// Return the response
-					return viewResponse->SetTemplate(tplError->GetTemplate());
+					return viewResponse->setTemplate(tplError->getTemplate());
 				}
 				// Return the view
 				return viewResponse;
@@ -283,23 +283,23 @@ namespace HeimdallGI {
 		Template* tplError = new Template;
 		// Setup the template
 		tplError
-			->SetLogger(this->mLog)
-			->SetRequest(objRequest)
-			->Process(viewResponse);
+			->setLogger(this->mLog)
+			->setRequest(objRequest)
+			->process(viewResponse);
 		// Return the response
-		return viewResponse->SetTemplate(tplError->GetTemplate());
+		return viewResponse->setTemplate(tplError->getTemplate());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Getters //////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	QString Router::GetBaseURI() {
+	QString Router::getBaseURI() {
 		// Return the baseURI from the instance
 		return this->mBaseURI;
 	}
 
-	QList<Route> Router::GetRoutes() {
+	QList<Route> Router::getRoutes() {
 		// Return the routes
 		return this->mRoutes;
 	}
@@ -308,7 +308,7 @@ namespace HeimdallGI {
 	/// Setters //////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Router* Router::SetBaseURI(QString strBaseURI) {
+	Router* Router::setBaseURI(QString strBaseURI) {
 		// Check the last character of the URI
 		if (strBaseURI.at(strBaseURI.size() - 1) == '/') {
 			// Reset the URI
@@ -320,14 +320,14 @@ namespace HeimdallGI {
 		return this;
 	}
 
-	Router* Router::SetLogger(Log *&objLogger) {
+	Router* Router::setLogger(Log *&objLogger) {
 		// Set the logger into the instance
 		this->mLog = objLogger;
 		// Return the instance
 		return this;
 	}
 
-	Router* Router::SetRequest(CGI* &objRequest) {
+	Router* Router::setRequest(CGI* &objRequest) {
 		// Set the request object into the instance
 		this->mRequest = objRequest;
 		// Return the instance

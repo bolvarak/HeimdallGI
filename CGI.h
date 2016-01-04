@@ -9,17 +9,23 @@
 /// Headers //////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "QByteArray"
-#include "QDateTime"
-#include "QDebug"
-#include "QList"
-#include "QMap"
-#include "QObject"
-#include "QString"
-#include "QStringList"
-#include "QUrl"
-#include "QVariant"
-#include "QVariantMap"
+#include "QtCore/QByteArray"
+#include "QtCore/QDateTime"
+#include "QtCore/QDebug"
+#include "QtCore/QJsonArray"
+#include "QtCore/QJsonDocument"
+#include "QtCore/QJsonObject"
+#include "QtCore/QJsonValue"
+#include "QtCore/QList"
+#include "QtCore/QMap"
+#include "QtCore/QObject"
+#include "QtCore/QString"
+#include "QtCore/QStringList"
+#include "QtCore/QUrl"
+#include "QtCore/QVariant"
+#include "QtCore/QVariantMap"
+#include "QtXml/QXmlInputSource"
+#include "QtXml/QXmlReader"
 #include "iostream"
 #include "string"
 #include "Log.h"
@@ -510,16 +516,16 @@ namespace HeimdallGI
 		/**
 		 * @paragraph This property contains the HTTP cookies
 		 * @brief CGI::mCookies
-		 * @var QMap<QString, QString>
+		 * @var QVariantMap
 		 */
-		QMap<QString, QString> mCookies;
+		QVariantMap mCookies;
 
 		/**
 		 * @paragraph This property contains the GET data
 		 * @brief CGI::mGetParameters
-		 * @var QMap<QString, QString>
+		 * @var QVariantMap
 		 */
-		QMap<QString, QString> mGetParameters;
+		QVariantMap mGetParameters;
 
 		/**
 		 * @paragraph This property contains a list of new cookies to set
@@ -533,7 +539,7 @@ namespace HeimdallGI
 		 * @brief CGI::mPostParameters
 		 * @var QMap<QString, QString>
 		 */
-		QMap<QString, QString> mPostParameters;
+		QVariantMap mPostParameters;
 
 		/**
 		 * @paragraph This property contains the request headers from the client
@@ -555,46 +561,46 @@ namespace HeimdallGI
 
 		/**
 		 * @paragraph This method processes the HTTP_COOKIE from the header
-		 * @brief CGI::ProcessCookies()
+		 * @brief CGI::processCookies()
 		 * @return CGI* CGI::mInstance
 		 */
-		CGI* ProcessCookies();
+		CGI* processCookies();
 
 		/**
 		 * @paragraph This method processes the QUERY_STRING from the header
-		 * @brief CGI::ProcessGet()
+		 * @brief CGI::processGet()
 		 * @return CGI* CGI::mInstance
 		 */
-		CGI* ProcessGet();
+		CGI* processGet();
 
 		/**
 		 * @paragraph This method processes the request headers into the instance
-		 * @brief CGI::ProcessHeaders()
+		 * @brief CGI::processHeaders()
 		 * @return CGI* CGI::mInstance
 		 */
-		CGI* ProcessHeaders();
+		CGI* processHeaders();
 
 		/**
 		 * @paragraph This method processes the POST data into the instance
-		 * @brief CGI::ProcessPost()
+		 * @brief CGI::processPost()
 		 * @return CGI* CGI::mInstance
 		 */
-		CGI* ProcessPost();
+		CGI* processPost();
 
 		/**
 		 * @paragraph This method writes the content to the browser/socket/stream
-		 * @brief CGI::SendContent()
+		 * @brief CGI::sendContent()
 		 * @return CGI* CGI::mInstance
 		 */
-		CGI* SendContent();
+		CGI* sendContent();
 
 		/**
 		 * @paragraph This method writes the response headers to the browser/socket/stream
-		 * @brief CGI::SendHeaders()
+		 * @brief CGI::sendHeaders()
 		 * @param QString strContentType [NULL]
 		 * @return CGI* CGI::mInstance
 		 */
-		CGI* SendHeaders(QString strContentType = NULL);
+		CGI* sendHeaders(QString strContentType = NULL);
 
 	///////////////////////////////////////////////////////////////////////////
 	/// Public Methods & Properties //////////////////////////////////////////
@@ -985,7 +991,7 @@ namespace HeimdallGI
 
 		/**
 		 * @paragraph This method adds a cookie to the instance
-		 * @brief HeimdallGI::CGI::AddCookie()
+		 * @brief HeimdallGI::CGI::addCookie()
 		 * @param QString strName
 		 * @param QString strValue
 		 * @param QDateTime qdtExpiration [QDateTime()]
@@ -995,87 +1001,107 @@ namespace HeimdallGI
 		 * @param bool bSecure [false]
 		 * @return HeimdallGI::CGI* HeimdallGI::CGI::mInstance
 		 */
-		CGI* AddCookie(QString strName, QString strValue, QDateTime qdtExpiration = QDateTime(), QString strDomain = NULL, QString strPath = NULL, bool bHttpOnly = false, bool bSecure = false);
+		CGI* addCookie(QString strName, QString strValue, QDateTime qdtExpiration = QDateTime(), QString strDomain = NULL, QString strPath = NULL, bool bHttpOnly = false, bool bSecure = false);
 
 		/**
 		 * @paragraph This method is a helper for the router to add parameters from URL routes
-		 * @brief HeimdallGI::CGI::AddParameter()
+		 * @brief HeimdallGI::CGI::addParameter()
 		 * @param QString strName
 		 * @param QString strValue
 		 * @return HeimdallGI::CGI* HeimdallGI::CGI::mInstance
 		 */
-		CGI* AddParameter(QString strName, QString strValue);
+		CGI* addParameter(QString strName, QString strValue);
 
 		/**
 		 * @paragraph This method adds a response header to the instance
-		 * @brief CGI::AddResponseHeader()
+		 * @brief CGI::addResponseHeader()
 		 * @param QString strName
 		 * @param QString strValue
 		 * @return CGI* CGI::mInstance
 		 */
-		CGI* AddResponseHeader(QString strName, QString strValue);
+		CGI* addResponseHeader(QString strName, QString strValue);
 
 		/**
 		 * @paragraph This method adds a stack entry into the stack trace
-		 * @brief HeimdallGI::CGI::AddStackEntry()
+		 * @brief HeimdallGI::CGI::addStackEntry()
 		 * @param QString strFilename
 		 * @param int intLineNumber
 		 * @param QString strSnippet
 		 * @return HeimdallGI::CGI* HeimdallGI::CGI::mInstance
 		 */
-		CGI* AddStackEntry(QString strFilename, int intLineNumber, QString strSnippet);
+		CGI* addStackEntry(QString strFilename, int intLineNumber, QString strSnippet);
 
 		/**
 		 * @paragraph This method appends content to the response
-		 * @brief HeimdallGI::CGI::AppendToContent()
+		 * @brief HeimdallGI::CGI::appendToContent()
 		 * @param QString strContent
 		 * @return HeimdallGI::CGI* HeimdallGI::CGI::mInstance
 		 */
-		CGI* AppendToContent(QString strContent);
+		CGI* appendToContent(QString strContent);
 
 		/**
 		 * @paragraph This method decodes a query string into a query map
-		 * @brief CGI::DecodeQuery()
+		 * @brief CGI::decodeQuery()
 		 * @param QString strQuery
 		 * @param QString strPairSeparator ["&"]
-		 * @return QMap<QString, QString>
+		 * @return QVariantMap
 		 */
-		QMap<QString, QString> DecodeQuery(QString strQuery, QString strPairSeparator = "&");
+		QVariantMap decodeQuery(QString strQuery, QString strPairSeparator = "&");
 
 		/**
 		 * @paragraph This method deletes a cookie from the request
-		 * @brief HeimdallGI::CGI::DeleteCookie()
+		 * @brief HeimdallGI::CGI::deleteCookie()
 		 * @param QString strName
 		 * @param bool bSuccess [false]
 		 * @return HeimdallGI::CGI* HeimdallGI::CGI::mInstance
 		 */
-		CGI* DeleteCookie(QString strName, bool &bSuccess);
+		CGI* deleteCookie(QString strName, bool &bSuccess);
 
 		/**
 		 * @paragraph This method encodes a query map into a query string
-		 * @brief CGI::EncodeQuery()
+		 * @brief CGI::encodeQuery()
 		 * @param QMap<QString, QString> qmQuery
 		 * @param QString strPairGlue ["&"]
 		 * @return QString
 		 */
-		QString EncodeQuery(QMap<QString, QString> qmQuery, QString strPairGlue = "&");
+		QString encodeQuery(QMap<QString, QString> qmQuery, QString strPairGlue = "&");
 
 		/**
 		 * @paragraph This method encodes a query variant map into a query string
-		 * @brief CGI::EncodeQuery()
+		 * @brief CGI::encodeQuery()
 		 * @param QVariantMap qvmQuery
 		 * @param QString strPairGlue ["&"]
 		 * @return QString
 		 */
-		QString EncodeQuery(QVariantMap qvmQuery, QString strPairGlue = "&");
+		QString encodeQuery(QVariantMap qvmQuery, QString strPairGlue = "&");
 
 		/**
 		 * @paragraph This method writes the HTTP response to the browser/socket
-		 * @brief CGI::WriteResponse()
+		 * @brief CGI::writeResponse()
 		 * @param QString strContentType [NULL]
 		 * @return void
 		 */
-		void WriteResponse(QString strContentType = NULL);
+		void writeResponse(QString strContentType = NULL);
+
+		///////////////////////////////////////////////////////////////////////
+		/// Determinants /////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////
+
+		/**
+		 * @paragraph This method determines if the data is JSON encoded
+		 * @brief CGI::isJson()
+		 * @param QString strData
+		 * @return bool
+		 */
+		bool isJson(QString strData);
+
+		/**
+		 * @paragraph This method determines if the data is XML encoded
+		 * @brief CGI::isXml()
+		 * @param QString strData
+		 * @return bool
+		 */
+		// bool isXml(QString strData);
 
 		///////////////////////////////////////////////////////////////////////
 		/// Getters //////////////////////////////////////////////////////////
@@ -1083,62 +1109,62 @@ namespace HeimdallGI
 
 		/**
 		 * @paragraph This method returns the current response content in the instance
-		 * @brief CGI::GetContent()
+		 * @brief CGI::getContent()
 		 * @return QString CGI::mContent
 		 */
-		QString GetContent();
+		QString getContent();
 
 		/**
 		 * @paragraph This method returns a cookie from the instance if one exists
 		 * @brief CGI::GetCookie()
 		 * @param QString strName
-		 * @return QString
+		 * @return QVariant
 		 */
-		QString GetCookie(QString strName);
+		QVariant getCookie(QString strName);
 
 		/**
 		 * @paragraph This method returns the current cookie map in the instance
-		 * @brief CGI::GetCookies()
-		 * @return QMap<QString, QString> CGI::mCookies
+		 * @brief CGI::getCookies()
+		 * @return QVariantMap CGI::mCookies
 		 */
-		QMap<QString, QString> GetCookies();
+		QVariantMap getCookies();
 
 		/**
 		 * @paragraph This method returns a GET/POST parameter from the instance if one exists
-		 * @brief CGI::GetParam()
+		 * @brief CGI::getParam()
 		 * @param QString strName
-		 * @return QString
+		 * @return QVariant
 		 */
-		QString GetParam(QString strName);
+		QVariant getParam(QString strName);
 
 		/**
 		 * @paragraph This method returns the current POST map from the instance
-		 * @brief CGI::GetPostData()
-		 * @return QMap<QString, QString> CGI::mPostParameters
+		 * @brief CGI::getPostData()
+		 * @return QVariantMap CGI::mPostParameters
 		 */
-		QMap<QString, QString> GetPostData();
+		QVariantMap getPostData();
 
 		/**
 		 * @paragraph This method returns the current GET map from the instance
-		 * @brief CGI::GetQueryData()
-		 * @return QMap<QString, QString> CGI::mGetParameters
+		 * @brief CGI::getQueryData()
+		 * @return QVariantMap CGI::mGetParameters
 		 */
-		QMap<QString, QString> GetQueryData();
+		QVariantMap getQueryData();
 
 		/**
 		 * @paragraph This method returns a request header from the instance if one exists
-		 * @brief CGI::GetRequestHeader()
+		 * @brief CGI::getRequestHeader()
 		 * @param QString strName
 		 * @return QString
 		 */
-		QString GetRequestHeader(QString strName);
+		QString getRequestHeader(QString strName);
 
 		/**
 		 * @paragraph This method returns the current request header map in the instance
-		 * @brief CGI::GetRequestHeaders()
+		 * @brief CGI::getRequestHeaders()
 		 * @return QMap<QString, QString> CGI::mRequestHeaders
 		 */
-		QMap<QString, QString> GetRequestHeaders();
+		QMap<QString, QString> getRequestHeaders();
 
 		///////////////////////////////////////////////////////////////////////
 		/// Setters //////////////////////////////////////////////////////////
@@ -1146,19 +1172,19 @@ namespace HeimdallGI
 
 		/**
 		 * @paragraph This method sets the response content into the instance
-		 * @brief CGI::SetContent()
+		 * @brief CGI::setContent()
 		 * @param QString strContent
 		 * @return CGI* CGI::mInstance
 		 */
-		CGI* SetContent(QString strContent);
+		CGI* setContent(QString strContent);
 
 		/**
 		 * @paragraph This method sets the content type header into the instance
-		 * @brief CGI::SetContentType()
+		 * @brief CGI::setContentType()
 		 * @param QString strContentType
 		 * @return CGI* CGI::mInstance
 		 */
-		CGI* SetContentType(QString strContentType = CGI::ContentTypeHTML);
+		CGI* setContentType(QString strContentType = CGI::ContentTypeHTML);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// End Class Definition /////////////////////////////////////////////////////////////////////////////////////////

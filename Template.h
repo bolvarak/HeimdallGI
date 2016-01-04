@@ -9,17 +9,17 @@
 /// Headers //////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "QBuffer"
-#include "QCoreApplication"
-#include "QDir"
-#include "QFile"
-#include "QJsonDocument"
-#include "QJsonObject"
-#include "QJsonValue"
-#include "QObject"
-#include "QRegularExpression"
-#include "QRegularExpressionMatch"
-#include "QString"
+#include "QtCore/QBuffer"
+#include "QtCore/QCoreApplication"
+#include "QtCore/QDir"
+#include "QtCore/QFile"
+#include "QtCore/QJsonDocument"
+#include "QtCore/QJsonObject"
+#include "QtCore/QJsonValue"
+#include "QtCore/QObject"
+#include "QtCore/QRegularExpression"
+#include "QtCore/QRegularExpressionMatch"
+#include "QtCore/QString"
 #include "QtXml/QDomDocument"
 #include "QtXml/QDomElement"
 #include "QtXml/QDomText"
@@ -120,7 +120,7 @@ namespace HeimdallGI {
 		 * @param QString strTemplate [NULL]
 		 * @return void
 		 */
-		void DetermineTemplatePath(QString strTemplate = NULL);
+		void determineTemplatePath(QString strTemplate = NULL);
 
 		/**
 		 * @paragraph This method processes all of the in-view variable assignments
@@ -128,7 +128,7 @@ namespace HeimdallGI {
 		 * @param QString strLine
 		 * @return void
 		 */
-		void DoAssignments(QString &strLine);
+		void doAssignments(QString &strLine);
 
 		/**
 		 * @paragraph This method replaces view comments
@@ -136,7 +136,7 @@ namespace HeimdallGI {
 		 * @param QString strLine
 		 * @return void
 		 */
-		void DoComments(QString &strLine);
+		void doComments(QString &strLine);
 
 		/**
 		 * @paragraph This method processes a conditional statement
@@ -144,7 +144,7 @@ namespace HeimdallGI {
 		 * @param QString strLine
 		 * @return void
 		 */
-		void DoConditional(QString &strLine);
+		void doConditional(QString &strLine);
 
 		/**
 		 * @paragraph This method processes a foreach loop
@@ -152,7 +152,7 @@ namespace HeimdallGI {
 		 * @param QString strLine
 		 * @return void
 		 */
-		void DoForEach(QString &strLine);
+		void doForEach(QString &strLine);
 
 		/**
 		 * @paragraph This method processes the inclusions for a line
@@ -160,7 +160,7 @@ namespace HeimdallGI {
 		 * @param QString &strLine
 		 * @return void
 		 */
-		void DoInclusion(QString &strLine);
+		void doInclusion(QString &strLine);
 
 		/**
 		 * @paragraph This method converts data to JSON
@@ -168,7 +168,7 @@ namespace HeimdallGI {
 		 * @param QString strLine
 		 * @return void
 		 */
-		void DoJSON(QString &strLine);
+		void doJSON(QString &strLine);
 
 		/**
 		 * @paragraph This method processes the meta tags for the view
@@ -176,7 +176,7 @@ namespace HeimdallGI {
 		 * @param QString strLine
 		 * @return void
 		 */
-		void DoMetaTags(QString &strLine);
+		void doMetaTags(QString &strLine);
 
 		/**
 		 * @paragraph This method processes the scripts for the view
@@ -184,7 +184,7 @@ namespace HeimdallGI {
 		 * @param QString strLine
 		 * @return void
 		 */
-		void DoScripts(QString &strLine);
+		void doScripts(QString &strLine);
 
 		/**
 		 * @paragraph This method processes the the styles for the view
@@ -192,7 +192,7 @@ namespace HeimdallGI {
 		 * @param QString strLine
 		 * @return void
 		 */
-		void DoStyles(QString &strLine);
+		void doStyles(QString &strLine);
 
 		/**
 		 * @paragraph This method processes the substitutions for a line
@@ -200,7 +200,7 @@ namespace HeimdallGI {
 		 * @param QString &strLine
 		 * @return void
 		 */
-		void DoSubstitution(QString &strLine);
+		void doSubstitution(QString &strLine);
 
 		/**
 		 * @paragraph This method determines if a variable is boolean
@@ -208,7 +208,7 @@ namespace HeimdallGI {
 		 * @param QString strVariable
 		 * @return bool
 		 */
-		bool IsBoolean(QString strVariable);
+		bool isBoolean(QString strVariable);
 
 		/**
 		 * @paragraph This method determines if a variable is a floating point
@@ -216,7 +216,7 @@ namespace HeimdallGI {
 		 * @param QString strVariable
 		 * @return bool
 		 */
-		bool IsFloat(QString strVariable);
+		bool isFloat(QString strVariable);
 
 		/**
 		 * @paragraph This method determines if a variable is an integer
@@ -224,7 +224,7 @@ namespace HeimdallGI {
 		 * @param QString strVariable
 		 * @return bool
 		 */
-		bool IsInteger(QString strVariable);
+		bool isInteger(QString strVariable);
 
 		/**
 		 * @paragraph This method determines if a variable is numeric
@@ -232,7 +232,7 @@ namespace HeimdallGI {
 		 * @param QString strVariable
 		 * @return bool
 		 */
-		bool IsNumeric(QString strVariable);
+		bool isNumeric(QString strVariable);
 
 		/**
 		 * @paragraph This method processes a template conditional
@@ -242,7 +242,7 @@ namespace HeimdallGI {
 		 * @param QString strOperand
 		 * @return bool
 		 */
-		bool IsTrue(QString strPageValue, QString strOperator, QString strOperand);
+		bool isTrue(QString strPageValue, QString strOperator, QString strOperand);
 
 	///////////////////////////////////////////////////////////////////////////
 	/// Public Methods & Properties //////////////////////////////////////////
@@ -297,7 +297,7 @@ namespace HeimdallGI {
 		 * @param QString strTemplate [NULL]
 		 * @return HeimdallGI::Template* HeimdallGI::Template::mInstance
 		 */
-		Template* Process(View* objView = 0, QString strTemplate = NULL);
+		Template* process(View* objView = 0, QString strTemplate = NULL);
 
 		/**
 		 * @paragraph This method processes a string instead of a template
@@ -306,7 +306,7 @@ namespace HeimdallGI {
 		 * @param HeimdallGI::View* objView [0]
 		 * @return HeimdallGI::Template* HeimdallGI::Template::mInstance
 		 */
-		Template* ProcessString(QString strTemplate, View* objView = 0);
+		Template* processString(QString strTemplate, View* objView = 0);
 
 		///////////////////////////////////////////////////////////////////////
 		/// Getters //////////////////////////////////////////////////////////
@@ -317,14 +317,14 @@ namespace HeimdallGI {
 		 * @brief HeimdallGI::Template::GetTemplate()
 		 * @return QString HeimdallGI::Template::mTemplate
 		 */
-		QString GetTemplate();
+		QString getTemplate();
 
 		/**
 		 * @paragraph This method returns the TemplateReadFailure flag
 		 * @brief HeimdallGI::Template::GetTemplateReadStatus()
 		 * @return bool HeimdallGI::Template::mTemplateReadFailure
 		 */
-		bool GetTemplateReadStatus();
+		bool getTemplateReadStatus();
 
 		///////////////////////////////////////////////////////////////////////
 		/// Setters //////////////////////////////////////////////////////////
@@ -336,7 +336,7 @@ namespace HeimdallGI {
 		 * @param HeimdallGI::Log* &objLogger
 		 * @return HeimdallGI::Template* HeimdallGI::Template::mInstance
 		 */
-		Template* SetLogger(Log* &objLogger);
+		Template* setLogger(Log* &objLogger);
 
 		/**
 		 * @paragraph This method sets the request object into the instance
@@ -344,7 +344,7 @@ namespace HeimdallGI {
 		 * @param HeimdallGI::CGI* objRequest
 		 * @return HeimdallGI::Template* HeimdallGI::Template::mInstance
 		 */
-		Template* SetRequest(CGI* objRequest);
+		Template* setRequest(CGI* objRequest);
 
 		/**
 		 * @paragraph This method sets the view object into the instance
@@ -352,7 +352,7 @@ namespace HeimdallGI {
 		 * @param HeimdallGI::View* objView
 		 * @return HeimdallGI::Template* HeimdallGI::Template::mInstance
 		 */
-		Template* SetView(View* objView);
+		Template* setView(View* objView);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// End HeimdallGI::Template Class Definition ////////////////////////////////////////////////////////////////////

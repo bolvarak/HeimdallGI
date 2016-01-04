@@ -1,0 +1,18 @@
+SET(QCA_SOURCE_FILES
+	./QtCrypto/qca_basic.h
+	./QtCrypto/qca_core.h
+	./QtCrypto/qca.h
+	./QtCrypto/qcaprovider.h
+	./QtCrypto/qca_safetimer.h
+	./QtCrypto/qca_securemessage.h
+	./QtCrypto/qca_textfilter.h
+	./QtCrypto/qca_version.h
+	./QtCrypto/qca_cert.h
+	./QtCrypto/qca_export.h
+	./QtCrypto/qca_keystore.h
+	./QtCrypto/qca_publickey.h
+	./QtCrypto/qca_securelayer.h
+	./QtCrypto/qca_support.h
+	./QtCrypto/qca_tools.h
+	./QtCrypto/qpipe.h
+)

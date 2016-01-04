@@ -46,7 +46,7 @@ namespace HeimdallGI {
 	/// Public Methods ///////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	View* View::AddMetaTag(QString strName, QString strContent, QString strHttpEquivalent, QString strScheme) {
+	View* View::addMetaTag(QString strName, QString strContent, QString strHttpEquivalent, QString strScheme) {
 		// Create the structure
 		MetaTag structMetaTag;
 		// Set the name
@@ -63,7 +63,7 @@ namespace HeimdallGI {
 		return this;
 	}
 
-	View* View::AddScript(QString strSource, QString strType, bool bSourceIsRaw, bool bHeaderScript) {
+	View* View::addScript(QString strSource, QString strType, bool bSourceIsRaw, bool bHeaderScript) {
 		// Create the structure
 		Script structScript;
 		// Set the source
@@ -80,7 +80,7 @@ namespace HeimdallGI {
 		return this;
 	}
 
-	View* View::AddStyle(QString strSource, bool bSourceIsRaw, QString strRelativity, QString strMedia) {
+	View* View::addStyle(QString strSource, bool bSourceIsRaw, QString strRelativity, QString strMedia) {
 		// Create the structure
 		Style structStyle;
 		// Set the source
@@ -101,12 +101,12 @@ namespace HeimdallGI {
 	/// Getters //////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	QString View::GetLayout() {
+	QString View::getLayout() {
 		// Return the layout
 		return this->mLayout;
 	}
 
-	QString View::GetMetaTags() {
+	QString View::getMetaTags() {
 		// Create the return string
 		QStringList qslMetaTags;
 		// Iterate over the meta tags
@@ -126,23 +126,23 @@ namespace HeimdallGI {
 				qmAttributes.insert("scheme", mtTag.getScheme());
 			}
 			// Add the tag to the list
-			qslMetaTags.append(HTML::Instance()->Meta(mtTag.getName(), mtTag.getContent(), qmAttributes));
+			qslMetaTags.append(HTML::Instance()->meta(mtTag.getName(), mtTag.getContent(), qmAttributes));
 		}
 		// Return the meta tags
 		return qslMetaTags.join("\n");
 	}
 
-	QVariant View::GetPageValue(QString strName) {
+	QVariant View::getPageValue(QString strName) {
 		// Return the value
 		return this->mPageValues[strName];
 	}
 
-	QVariantMap View::GetPageValues() {
+	QVariantMap View::getPageValues() {
 		// Return the page values
 		return this->mPageValues;
 	}
 
-	QString View::GetScripts(bool bHeader) {
+	QString View::getScripts(bool bHeader) {
 		// Create the return placeholder
 		QStringList qslScripts;
 		// Iterate over the scripts
@@ -152,14 +152,14 @@ namespace HeimdallGI {
 			// Check for header/footer
 			if (tagScript.getPlacement() == bHeader) {
 				// Append the script tag to the list
-				qslScripts.append(HTML::Instance()->Script(tagScript.getType(), tagScript.getSource(), (tagScript.getRaw() ? true : false), HTML::GetEmptyAttributeContainer()));
+				qslScripts.append(HTML::Instance()->script(tagScript.getType(), tagScript.getSource(), (tagScript.getRaw() ? true : false), HTML::getEmptyAttributeContainer()));
 			}
 		}
 		// Return the scripts
 		return qslScripts.join("\n");
 	}
 
-	QString View::GetStyles() {
+	QString View::getStyles() {
 		// Create the return placeholder
 		QStringList qslStyles;
 		// Iterate over the styles
@@ -169,7 +169,7 @@ namespace HeimdallGI {
 			// Check to see if the style is inline
 			if (tagStyle.getRaw()) {
 				// Append the element
-				qslStyles.append(HTML::Instance()->Style(CGI::ContentTypeCSS, tagStyle.getSource(), HTML::GetEmptyAttributeContainer()));
+				qslStyles.append(HTML::Instance()->style(CGI::ContentTypeCSS, tagStyle.getSource(), HTML::getEmptyAttributeContainer()));
 			} else {
 				// Create the attributes placeholder
 				QMap<QString, QString> qmAttributes;
@@ -179,19 +179,19 @@ namespace HeimdallGI {
 					qmAttributes.insert("media", tagStyle.getMedia());
 				}
 				// Append the element
-				qslStyles.append(HTML::Instance()->Link(tagStyle.getRelativity().isEmpty() ? "" : tagStyle.getRelativity(), CGI::ContentTypeCSS, tagStyle.getSource(), qmAttributes));
+				qslStyles.append(HTML::Instance()->link(tagStyle.getRelativity().isEmpty() ? "" : tagStyle.getRelativity(), CGI::ContentTypeCSS, tagStyle.getSource(), qmAttributes));
 			}
 		}
 		// Return the styles
 		return qslStyles.join("\n");
 	}
 
-	QString View::GetTemplate() {
+	QString View::getTemplate() {
 		// Return the view template
 		return this->mTemplate;
 	}
 
-	bool View::GetViewStatus() {
+	bool View::getViewStatus() {
 		// Return the view status
 		return this->mShowView;
 	}
@@ -200,28 +200,28 @@ namespace HeimdallGI {
 	/// Setters //////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	View* View::SetLayout(QString strLayout) {
+	View* View::setLayout(QString strLayout) {
 		// Set the layout into the instance
 		this->mLayout = strLayout;
 		// Return the instance
 		return this;
 	}
 
-	View* View::SetPageValue(QString strName, QVariant strValue) {
+	View* View::setPageValue(QString strName, QVariant strValue) {
 		// Add the page value
 		this->mPageValues.insert(strName, strValue);
 		// Return the instance
 		return this;
 	}
 
-	View* View::SetTemplate(QString strTemplate) {
+	View* View::setTemplate(QString strTemplate) {
 		// Set the template into the instance
 		this->mTemplate = strTemplate;
 		// Return the instance
 		return this;
 	}
 
-	View* View::SetViewStatus(bool bShowView) {
+	View* View::setViewStatus(bool bShowView) {
 		// Set the view status
 		this->mShowView = bShowView;
 		// Return the instance

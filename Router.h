@@ -9,20 +9,22 @@
 /// Headers //////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "QByteArray"
-#include "QDebug"
-#include "QList"
-#include "QMap"
-#include "QMetaMethod"
-#include "QMetaObject"
-#include "QMetaProperty"
-#include "QObject"
-#include "QRegularExpression"
-#include "QRegularExpressionMatch"
-#include "QStringList"
-#include "QString"
-#include "QVariantMap"
-#include "QVariant"
+#include "QtCore/QByteArray"
+#include "QtCore/QDebug"
+#include "QtCore/QGenericArgument"
+#include "QtCore/QList"
+#include "QtCore/QMap"
+#include "QtCore/QMetaMethod"
+#include "QtCore/QMetaObject"
+#include "QtCore/QMetaProperty"
+#include "QtCore/QObject"
+#include "QtCore/QRegularExpression"
+#include "QtCore/QRegularExpressionMatch"
+#include "QtCore/QStringList"
+#include "QtCore/QString"
+#include "QtCore/QVariantMap"
+#include "QtCore/QVariant"
+#include "Abstract/Endpoint.h"
 #include "CGI.h"
 #include "ErrorController.h"
 #include "Log.h"
@@ -48,9 +50,9 @@ namespace HeimdallGI {
 		/**
 		 * @paragraph This property contains the controller object for this route
 		 * @brief HeimdallGI::Route::mController
-		 * @var QObject*
+		 * @var Abstract::Endpoint*
 		 */
-		QObject* mController;
+		Abstract::Endpoint* mController;
 
 		/**
 		 * @paragraph This property contains the path expression to test for this route
@@ -79,9 +81,9 @@ namespace HeimdallGI {
 		/**
 		 * @paragraph This method returns the controller for this route
 		 * @brief HeimdallGI::Route::getController()
-		 * @return QObject* HeimdallGI::Route::mController
+		 * @return Abstract::Endpoint* HeimdallGI::Route::mController
 		 */
-		QObject* getController() {
+		Abstract::Endpoint* getController() {
 			// Return the controller for this route
 			return mController;
 		}
@@ -113,10 +115,10 @@ namespace HeimdallGI {
 		/**
 		 * @paragraph This method sets the controller into this route
 		 * @brief HeimdallGI::Route::setController()
-		 * @param QObject* objController
+		 * @param Abstract::Endpoint* objController
 		 * @return void
 		 */
-		void setController(QObject* objController) {
+		void setController(Abstract::Endpoint* objController) {
 			// Set the controller into the structure
 			mController = objController;
 		}
@@ -207,13 +209,13 @@ namespace HeimdallGI {
 
 		/**
 		 * @paragraph This method extracts the data from the REQUEST_URI and matches it against the route
-		 * @brief HeimdallGI::Router::ReverseMatchPath()
+		 * @brief HeimdallGI::Router::reverseMatchPath()
 		 * @param QString strPattern
 		 * @param QString strPath
 		 * @param QVariantMap qvmParameters
 		 * @return bool
 		 */
-		bool ReverseMatchPath(QString strPattern, QString strPath, QVariantMap &qvmParameters);
+		bool reverseMatchPath(QString strPattern, QString strPath, QVariantMap &qvmParameters);
 
 	///////////////////////////////////////////////////////////////////////////
 	/// Public Methods & Properties //////////////////////////////////////////
@@ -251,22 +253,22 @@ namespace HeimdallGI {
 
 		/**
 		 * @paragraph This method adds a route to the instance
-		 * @brief HeimdallGI::Router::AddRoute()
+		 * @brief HeimdallGI::Router::addRoute()
 		 * @param QString strPath
-		 * @param QObject* objController
+		 * @param Abstract::Endpoint* objController
 		 * @param QByteArray qbaMethod
 		 * @return HeimdallGI::Router* HeimdallGI::Router::mInstance
 		 */
-		Router* AddRoute(QString strPath, QObject* objController, QByteArray qbaMethod);
+		Router* addRoute(QString strPath, Abstract::Endpoint* objController, QByteArray qbaMethod);
 
 		/**
 		 * @paragraph This method executes a route
-		 * @brief HeimdallGI::Router::Execute()
+		 * @brief HeimdallGI::Router::execute()
 		 * @param HeimdallGI::CGI* objRequest
 		 * @param QString strPath [NULL]
 		 * @return HeimdallGI::View*
 		 */
-		View* Execute(CGI* &objRequest, QString strPath = NULL);
+		View* execute(CGI* &objRequest, QString strPath = NULL);
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// Getters //////////////////////////////////////////////////////////////////////////////////////////
@@ -274,17 +276,17 @@ namespace HeimdallGI {
 
 		/**
 		 * @paragraph This method returns the BaseURI from the instance
-		 * @brief HeimdallGI::Router::GetBaseURI()
+		 * @brief HeimdallGI::Router::getBaseURI()
 		 * @return QString HeimdallGI::Router::mBaseURI
 		 */
-		QString GetBaseURI();
+		QString getBaseURI();
 
 		/**
 		 * @paragraph This method returns the routes
-		 * @brief HeimdallGI::Router::GetRoutes()
+		 * @brief HeimdallGI::Router::getRoutes()
 		 * @return QList<HeimdallGI::Route> HeimdallGI::Router::mRoutes
 		 */
-		QList<Route> GetRoutes();
+		QList<Route> getRoutes();
 
 		///////////////////////////////////////////////////////////////////////
 		/// Setters //////////////////////////////////////////////////////////
@@ -292,27 +294,27 @@ namespace HeimdallGI {
 
 		/**
 		 * @paragraph This method sets the BaseURI into the instance
-		 * @brief HeimdallGI::Router::SetBaseURI()
+		 * @brief HeimdallGI::Router::setBaseURI()
 		 * @param QString strBaseURI
 		 * @return HeimdallGI::Router* HeimdallGI::Router::mInstance
 		 */
-		Router* SetBaseURI(QString strBaseURI);
+		Router* setBaseURI(QString strBaseURI);
 
 		/**
 		 * @paragraph This method sets the logger into the instance
-		 * @brief HeimdallGI::Router::SetLogger()
+		 * @brief HeimdallGI::Router::setLogger()
 		 * @param HeimdallGI::Log* objLogger
 		 * @return HeimdallGI::Router* HeimdallGI::Router::mInstance
 		 */
-		Router* SetLogger(Log* &objLogger);
+		Router* setLogger(Log* &objLogger);
 
 		/**
 		 * @paragraph This method sets the request object into the instance
-		 * @brief HeimdallGI::Router::SetRequest()
+		 * @brief HeimdallGI::Router::setRequest()
 		 * @param HeimdallGI::CGI* objRequest
 		 * @return HeimdallGI::Router* HeimdallGI::Router::mInstance
 		 */
-		Router* SetRequest(CGI* &objRequest);
+		Router* setRequest(CGI* &objRequest);
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

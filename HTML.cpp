@@ -127,7 +127,7 @@ namespace HeimdallGI {
 	/// Protected Methods ////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void HTML::ProcessAttributes(SelfClosingElement &scElement, QMap<QString, QString> qmAttributes) {
+	void HTML::processAttributes(SelfClosingElement &scElement, QMap<QString, QString> qmAttributes) {
 		// Iterate through the attributes
 		for (QMap<QString, QString>::const_iterator itrAttribute = qmAttributes.begin(); itrAttribute != qmAttributes.end(); ++itrAttribute) {
 			// Add the attribute to the element
@@ -135,7 +135,7 @@ namespace HeimdallGI {
 		}
 	}
 
-	void HTML::ProcessAttributes(TagElement &tagElement, QMap<QString, QString> qmAttributes) {
+	void HTML::processAttributes(TagElement &tagElement, QMap<QString, QString> qmAttributes) {
 		// Iterate through the attributes
 		for (QMap<QString, QString>::const_iterator itrAttribute = qmAttributes.begin(); itrAttribute != qmAttributes.end(); ++itrAttribute) {
 			// Add the attribute to the element
@@ -147,14 +147,14 @@ namespace HeimdallGI {
 	/// Static Methods ///////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	QMap<QString, QString> HTML::GetEmptyAttributeContainer() {
+	QMap<QString, QString> HTML::getEmptyAttributeContainer() {
 		// Create the attribute container
 		QMap<QString, QString> qmAttributes;
 		// Return the attribute container
 		return qmAttributes;
 	}
 
-	QStringList HTML::GetEmptyChildContainer() {
+	QStringList HTML::getEmptyChildContainer() {
 		// Create the child container
 		QStringList qslChildren;
 		// Return the child container
@@ -165,7 +165,7 @@ namespace HeimdallGI {
 	/// Public Methods ///////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	QString HTML::Anchor(QString strHypertextReference, QString strValue, QString strIdentifier, QMap<QString, QString> qmAttributes) {
+	QString HTML::anchor(QString strHypertextReference, QString strValue, QString strIdentifier, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		TagElement tagAnchor = TagElement(HTML::TagAnchor, false);
 		// Add the href to the attributes
@@ -175,12 +175,12 @@ namespace HeimdallGI {
 		// Set the value into the attributes
 		tagAnchor.addAttribute("value", strValue);
 		// Set the attributes into the element
-		this->ProcessAttributes(tagAnchor, qmAttributes);
+		this->processAttributes(tagAnchor, qmAttributes);
 		// Return the element
 		return tagAnchor.toString();
 	}
 
-	QString	HTML::Button(QString strName, QString strLabel, QString strIdentifier, QMap<QString, QString> qmAttributes) {
+	QString	HTML::button(QString strName, QString strLabel, QString strIdentifier, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		TagElement tagButton = TagElement(HTML::TagButton, false);
 		// Add the label to the attributes as the value
@@ -190,12 +190,12 @@ namespace HeimdallGI {
 		// Add the id to the attributes
 		tagButton.addAttribute("id", strIdentifier);
 		// Set the attributeds into the structure
-		this->ProcessAttributes(tagButton, qmAttributes);
+		this->processAttributes(tagButton, qmAttributes);
 		// Return the element
 		return tagButton.toString();
 	}
 
-	QString HTML::Divider(QStringList qslChildren, QMap<QString, QString> qmAttributes) {
+	QString HTML::divider(QStringList qslChildren, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		TagElement tagDivider = TagElement(HTML::TagDivider, false);
 		// Create the children placeholder
@@ -208,12 +208,12 @@ namespace HeimdallGI {
 		// Set the value
 		tagDivider.addAttribute("value", strChildren);
 		// Set the attributes
-		this->ProcessAttributes(tagDivider, qmAttributes);
+		this->processAttributes(tagDivider, qmAttributes);
 		// Return the element as a string
 		return tagDivider.toString();
 	}
 
-	QString HTML::Dropdown(QString strName, QString strIdentifier, DataProvider dpOptions, QMap<QString, QString> qmAttributes) {
+	QString HTML::dropdown(QString strName, QString strIdentifier, DataProvider dpOptions, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		TagElement tagDropdown = TagElement(HTML::TagSelect, false);
 		// Set the name
@@ -223,12 +223,12 @@ namespace HeimdallGI {
 		// Set the options
 		tagDropdown.addAttribute("value", dpOptions.toString());
 		// Set the other attributes into the element
-		this->ProcessAttributes(tagDropdown, qmAttributes);
+		this->processAttributes(tagDropdown, qmAttributes);
 		// Return the element as a string
 		return tagDropdown.toString();
 	}
 
-	QString HTML::Fieldset(QStringList qslChildren, QMap<QString, QString> qmAttributes) {
+	QString HTML::fieldset(QStringList qslChildren, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		TagElement tagFieldset = TagElement(HTML::TagFieldset, false);
 		// Create the children placeholder
@@ -241,12 +241,12 @@ namespace HeimdallGI {
 		// Set the children into the element
 		tagFieldset.addAttribute("value", strChildren);
 		// Set the attributes into the element
-		this->ProcessAttributes(tagFieldset, qmAttributes);
+		this->processAttributes(tagFieldset, qmAttributes);
 		// Return the element as a string
 		return tagFieldset.toString();
 	}
 
-	QString HTML::Form(QString strAction, QString strMethod, QString strIdentifier, QStringList qslChildren, QMap<QString, QString> qmAttributes) {
+	QString HTML::form(QString strAction, QString strMethod, QString strIdentifier, QStringList qslChildren, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		TagElement tagForm = TagElement(HTML::TagForm, false);
 		// Set the action
@@ -256,7 +256,7 @@ namespace HeimdallGI {
 		// Set the method of the form
 		tagForm.addAttribute("method", strMethod);
 		// Set the attributes into the element
-		this->ProcessAttributes(tagForm, qmAttributes);
+		this->processAttributes(tagForm, qmAttributes);
 		// Create the child placeholder
 		QString strChildren;
 		// Iterate through the children
@@ -270,18 +270,18 @@ namespace HeimdallGI {
 		return tagForm.toString();
 	}
 
-	QString HTML::Image(QString strSource, QMap<QString, QString> qmAttributes) {
+	QString HTML::image(QString strSource, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		SelfClosingElement sceImage = SelfClosingElement(HTML::TagImage);
 		// Set the source into the element
 		sceImage.addAttribute("src", strSource);
 		// Set the attributes into the element
-		this->ProcessAttributes(sceImage, qmAttributes);
+		this->processAttributes(sceImage, qmAttributes);
 		// Return the element as a string
 		return sceImage.toString();
 	}
 
-	QString HTML::Input(QString strType, QString strName, QString strIdentifier, QMap<QString, QString> qmAttributes) {
+	QString HTML::input(QString strType, QString strName, QString strIdentifier, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		SelfClosingElement sceInput = SelfClosingElement(strType);
 		// Set the name into the element
@@ -289,12 +289,12 @@ namespace HeimdallGI {
 		// Set the ID into the element
 		sceInput.addAttribute("id", strIdentifier);
 		// Set the attributes into the element
-		this->ProcessAttributes(sceInput, qmAttributes);
+		this->processAttributes(sceInput, qmAttributes);
 		// Return the element as a string
 		return sceInput.toString();
 	}
 
-	QString HTML::Label(QString strText, QString strFor, QMap<QString, QString> qmAttributes) {
+	QString HTML::label(QString strText, QString strFor, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		TagElement tagLabel = TagElement(HTML::TagLabel, false);
 		// Set the label into the tag
@@ -302,12 +302,12 @@ namespace HeimdallGI {
 		// Set the for attribute into the element
 		tagLabel.addAttribute("for", strFor);
 		// Set the attributes into the element
-		this->ProcessAttributes(tagLabel, qmAttributes);
+		this->processAttributes(tagLabel, qmAttributes);
 		// Return the element as a string
 		return tagLabel.toString();
 	}
 
-	QString HTML::Link(QString strRelativity, QString strType, QString strHypertextReference, QMap<QString, QString> qmAttributes) {
+	QString HTML::link(QString strRelativity, QString strType, QString strHypertextReference, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		SelfClosingElement sceLink = SelfClosingElement(HTML::TagLink);
 		// Set the relativity of the element
@@ -317,12 +317,12 @@ namespace HeimdallGI {
 		// Set the reference of the element
 		sceLink.addAttribute("href", strHypertextReference);
 		// Set the attributes into the element
-		this->ProcessAttributes(sceLink, qmAttributes);
+		this->processAttributes(sceLink, qmAttributes);
 		// Return the element as a string
 		return sceLink.toString();
 	}
 
-	QString HTML::Meta(QString strName, QString strContent, QMap<QString, QString> qmAttributes) {
+	QString HTML::meta(QString strName, QString strContent, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		SelfClosingElement sceMeta = SelfClosingElement(HTML::TagMeta);
 		// Set the name of the element
@@ -330,21 +330,21 @@ namespace HeimdallGI {
 		// Set the content of the element
 		sceMeta.addAttribute("content", strContent);
 		// Set the attributes into the element
-		this->ProcessAttributes(sceMeta, qmAttributes);
+		this->processAttributes(sceMeta, qmAttributes);
 		// Return the element as a string
 		return sceMeta.toString();
 	}
 
-	QString HTML::SelfClosingTag(QString strType, QMap<QString, QString> qmAttributes) {
+	QString HTML::selfClosingTag(QString strType, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		SelfClosingElement tagElement         = SelfClosingElement(strType);
 		// Set the attributes into the tag
-		this->ProcessAttributes(tagElement, qmAttributes);
+		this->processAttributes(tagElement, qmAttributes);
 		// Return the element as a string
 		return tagElement.toString();
 	}
 
-	QString HTML::Script(QString strType, QString strSource, bool bScriptIsInline, QMap<QString, QString> qmAttributes) {
+	QString HTML::script(QString strType, QString strSource, bool bScriptIsInline, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		TagElement tagScript = TagElement(HTML::TagScript, (bScriptIsInline ? false : true));
 		// Check to see if we need to set the source into the attributes
@@ -358,12 +358,12 @@ namespace HeimdallGI {
 		// Set the type into the element
 		tagScript.addAttribute("type", strType);
 		// Set the attributes into the element
-		this->ProcessAttributes(tagScript, qmAttributes);
+		this->processAttributes(tagScript, qmAttributes);
 		// Return the element as a string
 		return tagScript.toString();
 	}
 
-	QString HTML::Style(QString strType, QString strSource, QMap<QString, QString> qmAttributes) {
+	QString HTML::style(QString strType, QString strSource, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		TagElement tagStyle = TagElement(HTML::TagStyle, false);
 		// Set the type into the element
@@ -371,16 +371,16 @@ namespace HeimdallGI {
 		// Set the source into the element
 		tagStyle.addAttribute("value", strSource);
 		// Set the attributes into the element
-		this->ProcessAttributes(tagStyle, qmAttributes);
+		this->processAttributes(tagStyle, qmAttributes);
 		// Return the element as a string
 		return tagStyle.toString();
 	}
 
-	QString HTML::Tag(QString strType, bool bValueIsAttribute, QMap<QString, QString> qmAttributes, QStringList qslChildren) {
+	QString HTML::tag(QString strType, bool bValueIsAttribute, QMap<QString, QString> qmAttributes, QStringList qslChildren) {
 		// Create the tag element
 		TagElement tagElement         = TagElement(strType, bValueIsAttribute);
 		// Set the attributes into the tag
-		this->ProcessAttributes(tagElement, qmAttributes);
+		this->processAttributes(tagElement, qmAttributes);
 		// Create the children placeholder
 		QString strChildren;
 		// Iterate through the children
@@ -400,7 +400,7 @@ namespace HeimdallGI {
 		return tagElement.toString();
 	}
 
-	QString HTML::TextArea(QString strName, QString strIdentifier, QString strContent, QMap<QString, QString> qmAttributes) {
+	QString HTML::textArea(QString strName, QString strIdentifier, QString strContent, QMap<QString, QString> qmAttributes) {
 		// Create the tag element
 		TagElement tagTextArea = TagElement(HTML::TagTextarea, false);
 		// Set the name into the element
@@ -410,7 +410,7 @@ namespace HeimdallGI {
 		// Set the content of the element
 		tagTextArea.addAttribute("value", strContent);
 		// Set the attributes into the element
-		this->ProcessAttributes(tagTextArea, qmAttributes);
+		this->processAttributes(tagTextArea, qmAttributes);
 		// Return the element as a string
 		return tagTextArea.toString();
 	}

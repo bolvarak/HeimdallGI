@@ -50,9 +50,9 @@ namespace HeimdallGI {
 	/// Protected Methods ////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void Template::DetermineTemplatePath(QString strTemplate) {
+	void Template::determineTemplatePath(QString strTemplate) {
 		// Reset the template
-		strTemplate = (strTemplate.isEmpty() ? this->mView->GetTemplate() : strTemplate);
+		strTemplate = (strTemplate.isEmpty() ? this->mView->getTemplate() : strTemplate);
 		// Check to see if this is a resource template
 		if (strTemplate.at(0) == ':') {
 			// Set the template file
@@ -82,18 +82,18 @@ namespace HeimdallGI {
 		this->mLog->Add("TemplatePath", this->mTemplateFile);
 	}
 
-	void Template::DoAssignments(QString &strLine) {
+	void Template::doAssignments(QString &strLine) {
 		// Define the pattern
 		QRegularExpression qreAssignment("<%\\s*?\\$([a-zA-Z0-9_-]+)\\s*?\\=\\s*?(\"|')(.*)(\"|')\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches and replace them
 		while (qreAssignment.match(strLine).hasMatch()) {
-			this->mView->SetPageValue(qreAssignment.match(strLine).captured(1), qreAssignment.match(strLine).captured(3).replace("\\\"", "\"").replace("\\'", "'"));
+			this->mView->setPageValue(qreAssignment.match(strLine).captured(1), qreAssignment.match(strLine).captured(3).replace("\\\"", "\"").replace("\\'", "'"));
 			// Replace the line
 			strLine.replace(qreAssignment.match(strLine).captured(0), "");
 		}
 	}
 
-	void Template::DoComments(QString &strLine) {
+	void Template::doComments(QString &strLine) {
 		// Define the patters
 		QRegularExpression qreComment("<%(\\-|\\*){2}\\s*?(.*)\\s*?(\\-|\\*){2}%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches and replace them
@@ -103,7 +103,7 @@ namespace HeimdallGI {
 		}
 	}
 
-	void Template::DoConditional(QString &strLine) {
+	void Template::doConditional(QString &strLine) {
 		// Create the complex pattern
 		QRegularExpression qreConditional("<%\\s*?if\\s*?\\(\\$*?([a-zA-Z0-9_-]+)\\s*?(eq|neq|==|!=|<>)\\s*?\"*?'*?(\\$*?.*)\"*?'*?\\s*?\\)\\s*%>(.*?)<%\\s*?else\\s*?%>(.*?)<%\\s*?endif\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption|QRegularExpression::MultilineOption);
 		// Check for matches and replace them
@@ -121,12 +121,12 @@ namespace HeimdallGI {
 			// Instantiate the template class
 			Template* tplConditional = new Template;
 			// Run the condition
-			if (this->IsTrue(strPageValue, strOperator, strOperand) == true) {
+			if (this->isTrue(strPageValue, strOperator, strOperand) == true) {
 				// Make the replacement
-				strLine.replace(qreConditional.match(strLine).captured(0), tplConditional->SetRequest(this->mRequest)->SetLogger(this->mLog)->ProcessString(strTruthValue, this->mView)->GetTemplate());
+				strLine.replace(qreConditional.match(strLine).captured(0), tplConditional->setRequest(this->mRequest)->setLogger(this->mLog)->processString(strTruthValue, this->mView)->getTemplate());
 			} else {
 				// Make the replacement
-				strLine.replace(qreConditional.match(strLine).captured(0), tplConditional->SetRequest(this->mRequest)->SetLogger(this->mLog)->ProcessString(strFalseValue, this->mView)->GetTemplate());
+				strLine.replace(qreConditional.match(strLine).captured(0), tplConditional->setRequest(this->mRequest)->setLogger(this->mLog)->processString(strFalseValue, this->mView)->getTemplate());
 			}
 		}
 		// Reset the pattern to a simple pattern
@@ -142,11 +142,11 @@ namespace HeimdallGI {
 			// Localize the truth value
 			QString strTruthValue = qreConditional.match(strLine).captured(4);
 			// Run the condition
-			if (this->IsTrue(strPageValue, strOperator, strOperand) == true) {
+			if (this->isTrue(strPageValue, strOperator, strOperand) == true) {
 				// Instantiate the template class
 				Template* tplConditional = new Template;
 				// Make the replacement
-				strLine.replace(qreConditional.match(strLine).captured(0), tplConditional->SetRequest(this->mRequest)->SetLogger(this->mLog)->ProcessString(strTruthValue, this->mView)->GetTemplate());
+				strLine.replace(qreConditional.match(strLine).captured(0), tplConditional->setRequest(this->mRequest)->setLogger(this->mLog)->processString(strTruthValue, this->mView)->getTemplate());
 			} else {
 				// Make the replacement
 				strLine.replace(qreConditional.match(strLine).captured(0), "");
@@ -154,7 +154,7 @@ namespace HeimdallGI {
 		}
 	}
 
-	void Template::DoForEach(QString &strLine) {
+	void Template::doForEach(QString &strLine) {
 		// Create the pattern
 		QRegularExpression qreForEach("<%\\s*?foreach\\s*?\\((\\$[a-zA-Z0-9_-]+)\\s+?as\\s+?(\\$[a-zA-Z0-9_-]+)\\)\\s*?%>(.*?)(<%\\s*?endforeach\\s*?%>)", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Grab the matches
@@ -170,22 +170,22 @@ namespace HeimdallGI {
 			// Grab the temproary variable name
 			QString strVariable  = qreForEach.match(strLine).captured(2).replace("$", "");
 			// Check to see if the page value is a list
-			if (!this->mView->GetPageValue(strPageValue).canConvert(QMetaType::QVariantList)) {
+			if (!this->mView->getPageValue(strPageValue).canConvert(QMetaType::QVariantList)) {
 				// There is an error, make the replacement
 				strLine.replace(qreForEach.match(strLine).captured(0), QString("ERROR:  Variable \"$%1\" is not a list.").arg(strVariable));
 			}
 			// Create the data placeholder
 			QString strForEach;
 			// Check for an empty loop
-			if (this->mView->GetPageValue(strPageValue).toList().isEmpty() == false) {
+			if (this->mView->getPageValue(strPageValue).toList().isEmpty() == false) {
 				// Loop over the page value
-				for (int intIteration = 0; intIteration < this->mView->GetPageValue(strPageValue).toList().size(); ++intIteration) {
+				for (int intIteration = 0; intIteration < this->mView->getPageValue(strPageValue).toList().size(); ++intIteration) {
 					// Set the page value
-					this->mView->SetPageValue(strVariable, this->mView->GetPageValue(strPageValue).toList().at(intIteration));
+					this->mView->setPageValue(strVariable, this->mView->getPageValue(strPageValue).toList().at(intIteration));
 					// Instantiate the template class
 					Template* tplForEach = new Template;
 					// Process the string
-					strForEach.append(tplForEach->SetRequest(this->mRequest)->SetLogger(this->mLog)->ProcessString(qreForEach.match(strLine).captured(3), this->mView)->GetTemplate());
+					strForEach.append(tplForEach->setRequest(this->mRequest)->setLogger(this->mLog)->processString(qreForEach.match(strLine).captured(3), this->mView)->getTemplate());
 				}
 			}
 			// Make the replacement
@@ -193,7 +193,7 @@ namespace HeimdallGI {
 		}
 	}
 
-	void Template::DoInclusion(QString &strLine) {
+	void Template::doInclusion(QString &strLine) {
 		// Define the pattern
 		QRegularExpression qreInclude("<%\\s*?include\\s*?\\(\\s*?\"([a-zA-Z0-9\\/\\_-]+\\.[a-zA-Z]{3,5})\"\\s*?\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption);
 		// Check for matches and replace them
@@ -201,13 +201,13 @@ namespace HeimdallGI {
 			// Instantiate the template
 			Template* tplInclude = new Template;
 			// Process the template
-			tplInclude->SetRequest(this->mRequest)->SetLogger(this->mLog)->Process(this->mView, qreInclude.match(strLine).captured(1));
+			tplInclude->setRequest(this->mRequest)->setLogger(this->mLog)->process(this->mView, qreInclude.match(strLine).captured(1));
 			// Reset the line
-			strLine.replace(qreInclude.match(strLine).captured(0), tplInclude->GetTemplate());
+			strLine.replace(qreInclude.match(strLine).captured(0), tplInclude->getTemplate());
 		}
 	}
 
-	void Template::DoJSON(QString &strLine) {
+	void Template::doJSON(QString &strLine) {
 		// Define the pattern
 		QRegularExpression qreJSON("<%\\s*?getJson\\((\\$[a-zA-Z0-9-_]+)\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption);
 		// Check for matches and replace them
@@ -219,7 +219,7 @@ namespace HeimdallGI {
 				// Create the JSON document
 				QJsonDocument qjdSubstitution;
 				// Iterate over the page values
-				for (QVariantMap::const_iterator itrValue = this->mView->GetPageValues().constBegin(); itrValue != this->mView->GetPageValues().constEnd(); ++itrValue) {
+				for (QVariantMap::const_iterator itrValue = this->mView->getPageValues().constBegin(); itrValue != this->mView->getPageValues().constEnd(); ++itrValue) {
 					// Add the value to the JSON object
 					qjoSubstitution.insert(itrValue.key(), QJsonValue(itrValue.value().toString()));
 				}
@@ -233,7 +233,7 @@ namespace HeimdallGI {
 				// Create the JSON document
 				QJsonDocument qjdSubstitution;
 				// Add the variable
-				qjoSubstitution.insert(qreJSON.match(strLine).captured(1), QJsonValue(this->mView->GetPageValue(qreJSON.match(strLine).captured(1).replace("$", "")).toString()));
+				qjoSubstitution.insert(qreJSON.match(strLine).captured(1), QJsonValue(this->mView->getPageValue(qreJSON.match(strLine).captured(1).replace("$", "")).toString()));
 				// Set the object into the document
 				qjdSubstitution.setObject(qjoSubstitution);
 				// Set an empty JSON object
@@ -259,7 +259,7 @@ namespace HeimdallGI {
 			// Iterate over the list
 			for (int intSubstitution = 0; intSubstitution < qslSubstitutions.size(); ++intSubstitution) {
 				// Add the value to the object
-				qjoSubstitutions.insert(qslSubstitutions.at(intSubstitution), QJsonValue(this->mView->GetPageValue(qslSubstitutions.at(intSubstitution)).toString()));
+				qjoSubstitutions.insert(qslSubstitutions.at(intSubstitution), QJsonValue(this->mView->getPageValue(qslSubstitutions.at(intSubstitution)).toString()));
 			}
 			// Set the object into the document
 			qjdSubstitutions.setObject(qjoSubstitutions);
@@ -268,17 +268,17 @@ namespace HeimdallGI {
 		}
 	}
 
-	void Template::DoMetaTags(QString &strLine) {
+	void Template::doMetaTags(QString &strLine) {
 		// Define the pattern
 		QRegularExpression qreMetaTags("<%\\s*?getMetaTags\\(\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches and replace them
 		while (qreMetaTags.match(strLine).hasMatch()) {
 			// Replace the styles
-			strLine.replace(qreMetaTags.match(strLine).captured(0), this->mView->GetMetaTags());
+			strLine.replace(qreMetaTags.match(strLine).captured(0), this->mView->getMetaTags());
 		}
 	}
 
-	void Template::DoScripts(QString &strLine) {
+	void Template::doScripts(QString &strLine) {
 		// Define the pattern
 		QRegularExpression qreScripts("<%\\s*?getScripts\\(\"(footer|header)\"\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches and replace them
@@ -286,33 +286,33 @@ namespace HeimdallGI {
 			// Check for header/footer
 			if (qreScripts.match(strLine).captured(1).toLower() == Template::Header) {
 				// Replace with header scripts
-				strLine.replace(qreScripts.match(strLine).captured(0), this->mView->GetScripts(true));
+				strLine.replace(qreScripts.match(strLine).captured(0), this->mView->getScripts(true));
 			} else {
 				// Replace with footer scripts
-				strLine.replace(qreScripts.match(strLine).captured(0), this->mView->GetScripts(false));
+				strLine.replace(qreScripts.match(strLine).captured(0), this->mView->getScripts(false));
 			}
 		}
 	}
 
-	void Template::DoStyles(QString &strLine) {
+	void Template::doStyles(QString &strLine) {
 		// Define the patter
 		QRegularExpression qreStyles("<%\\s*?getStyles\\(\\)\\s*?%>", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches and replace them
 		while (qreStyles.match(strLine).hasMatch()) {
 			// Replace the styles
-			strLine.replace(qreStyles.match(strLine).captured(0), this->mView->GetStyles());
+			strLine.replace(qreStyles.match(strLine).captured(0), this->mView->getStyles());
 		}
 	}
 
-	void Template::DoSubstitution(QString &strLine) {
+	void Template::doSubstitution(QString &strLine) {
 		// Define the pattern
 		QRegularExpression qreSubstitution("<%=\\s*?\\$([a-zA-Z0-9_-]+)->([a-zA-Z0-9_-]+)\\s*?%>", QRegularExpression::DotMatchesEverythingOption);
 		// Check for matches and replace them
 		while (qreSubstitution.match(strLine).hasMatch()) {
 			// Make sure the parent can convert
-			if (this->mView->GetPageValue(qreSubstitution.match(strLine).captured(1)).canConvert(QMetaType::QVariantMap)) {
+			if (this->mView->getPageValue(qreSubstitution.match(strLine).captured(1)).canConvert(QMetaType::QVariantMap)) {
 				// Localize the parent
-				QMap<QString, QVariant> qvmSubstitution = this->mView->GetPageValue(qreSubstitution.match(strLine).captured(1)).toMap();
+				QMap<QString, QVariant> qvmSubstitution = this->mView->getPageValue(qreSubstitution.match(strLine).captured(1)).toMap();
 				// Check for the child
 				if (qvmSubstitution.contains(qreSubstitution.match(strLine).captured(2))) {
 					// Make the replacement
@@ -331,7 +331,7 @@ namespace HeimdallGI {
 		// Check for matches and replace them
 		while (qreSubstitution.match(strLine).hasMatch()) {
 			// Grab the variable
-			QString strSubstitution = this->mView->GetPageValue(qreSubstitution.match(strLine).captured(1)).toString();
+			QString strSubstitution = this->mView->getPageValue(qreSubstitution.match(strLine).captured(1)).toString();
 			//
 			// Chec kfor a null variable
 			if (strSubstitution.isNull()) {
@@ -343,7 +343,7 @@ namespace HeimdallGI {
 		}
 	}
 
-	bool Template::IsBoolean(QString strVariable) {
+	bool Template::isBoolean(QString strVariable) {
 		// Create the pattern
 		QRegularExpression qreBooleanTest("^(false|true)$", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches
@@ -355,7 +355,7 @@ namespace HeimdallGI {
 		return false;
 	}
 
-	bool Template::IsFloat(QString strVariable) {
+	bool Template::isFloat(QString strVariable) {
 		// Create the pattern
 		QRegularExpression qreFloatTest("^([0-9]+\\.[0-9]+)$", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches
@@ -367,7 +367,7 @@ namespace HeimdallGI {
 		return false;
 	}
 
-	bool Template::IsInteger(QString strVariable) {
+	bool Template::isInteger(QString strVariable) {
 		// Create the pattern
 		QRegularExpression qreIntegerTest("^([0-9]+)$", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches
@@ -379,7 +379,7 @@ namespace HeimdallGI {
 		return false;
 	}
 
-	bool Template::IsNumeric(QString strVariable) {
+	bool Template::isNumeric(QString strVariable) {
 		// Create the pattern
 		QRegularExpression qreNumericTest("^[0-9]+\\.?[0-9]+?$", QRegularExpression::DotMatchesEverythingOption|QRegularExpression::CaseInsensitiveOption);
 		// Check for matches
@@ -391,16 +391,16 @@ namespace HeimdallGI {
 		return false;
 	}
 
-	bool Template::IsTrue(QString strPageValue, QString strOperator, QString strOperand) {
+	bool Template::isTrue(QString strPageValue, QString strOperator, QString strOperand) {
 		// Check for a variable notation
 		if (strOperand.at(0) == '$') {
 			// Reset the operand to the page value
-			strOperand = this->mView->GetPageValue(strOperand.replace("$", "")).toString();
+			strOperand = this->mView->getPageValue(strOperand.replace("$", "")).toString();
 		}
 		// Check the operand for the undefined keyword
 		if ((strOperand.toLower() == "undef") || (strOperand.toLower() == "undefined")) {
 			// Check to see if the page value exists
-			if (this->mView->GetPageValue(strPageValue).isNull()) {
+			if (this->mView->getPageValue(strPageValue).isNull()) {
 				// The page value is not defined
 				return ((strOperator == "eq" || strOperator == "==") ? true : false);
 			}
@@ -410,7 +410,7 @@ namespace HeimdallGI {
 		// Determine the operator
 		if ((strOperator == "eq") || (strOperator == "==")) {             // Equality
 			// Run the condition
-			if (this->mView->GetPageValue(strPageValue).toString() == strOperand) {
+			if (this->mView->getPageValue(strPageValue).toString() == strOperand) {
 				// Match
 				return true;
 			} else {
@@ -419,18 +419,18 @@ namespace HeimdallGI {
 			}
 		} else if ((strOperator == "gt") || (strOperator == ">")) {       // Greater Than
 			// Convert the type to Float
-			if (this->mView->GetPageValue(strPageValue).canConvert(QMetaType::Float)) {
+			if (this->mView->getPageValue(strPageValue).canConvert(QMetaType::Float)) {
 				// Run the condition
-				if (this->mView->GetPageValue(strPageValue).toFloat() > strOperand.toFloat()) {
+				if (this->mView->getPageValue(strPageValue).toFloat() > strOperand.toFloat()) {
 					// Match
 					return true;
 				} else {
 					// No match
 					return false;
 				}
-			} else if (this->mView->GetPageValue(strPageValue).canConvert(QMetaType::Int)) {
+			} else if (this->mView->getPageValue(strPageValue).canConvert(QMetaType::Int)) {
 				// Run the condition
-				if (this->mView->GetPageValue(strPageValue).toInt() > strOperand.toInt()) {
+				if (this->mView->getPageValue(strPageValue).toInt() > strOperand.toInt()) {
 					// Match
 					return true;
 				} else {
@@ -443,18 +443,18 @@ namespace HeimdallGI {
 			}
 		} else if ((strOperator == "gte") || (strOperator == ">=")) { // Greater Than or Equal To
 			// Convert the type to Float
-			if (this->mView->GetPageValue(strPageValue).canConvert(QMetaType::Float)) {
+			if (this->mView->getPageValue(strPageValue).canConvert(QMetaType::Float)) {
 				// Run the condition
-				if (this->mView->GetPageValue(strPageValue).toFloat() >= strOperand.toFloat()) {
+				if (this->mView->getPageValue(strPageValue).toFloat() >= strOperand.toFloat()) {
 					// Match
 					return true;
 				} else {
 					// No match
 					return false;
 				}
-			} else if (this->mView->GetPageValue(strPageValue).canConvert(QMetaType::Int)) {
+			} else if (this->mView->getPageValue(strPageValue).canConvert(QMetaType::Int)) {
 				// Run the condition
-				if (this->mView->GetPageValue(strPageValue).toInt() >= strOperand.toInt()) {
+				if (this->mView->getPageValue(strPageValue).toInt() >= strOperand.toInt()) {
 					// Match
 					return true;
 				} else {
@@ -467,18 +467,18 @@ namespace HeimdallGI {
 			}
 		} else if ((strOperator == "lt") || (strOperator == "<")) {   // Less Than
 			// Convert the type to Float
-			if (this->mView->GetPageValue(strPageValue).canConvert(QMetaType::Float)) {
+			if (this->mView->getPageValue(strPageValue).canConvert(QMetaType::Float)) {
 				// Run the condition
-				if (this->mView->GetPageValue(strPageValue).toFloat() < strOperand.toFloat()) {
+				if (this->mView->getPageValue(strPageValue).toFloat() < strOperand.toFloat()) {
 					// Match
 					return true;
 				} else {
 					// No match
 					return false;
 				}
-			} else if (this->mView->GetPageValue(strPageValue).canConvert(QMetaType::Int)) {
+			} else if (this->mView->getPageValue(strPageValue).canConvert(QMetaType::Int)) {
 				// Run the condition
-				if (this->mView->GetPageValue(strPageValue).toInt() < strOperand.toInt()) {
+				if (this->mView->getPageValue(strPageValue).toInt() < strOperand.toInt()) {
 					// Match
 					return true;
 				} else {
@@ -491,18 +491,18 @@ namespace HeimdallGI {
 			}
 		} else if ((strOperator == "lte") || (strOperator == "<=")) { // Less Than or Equal To
 			// Convert the type to Float
-			if (this->mView->GetPageValue(strPageValue).canConvert(QMetaType::Float)) {
+			if (this->mView->getPageValue(strPageValue).canConvert(QMetaType::Float)) {
 				// Run the condition
-				if (this->mView->GetPageValue(strPageValue).toFloat() <= strOperand.toFloat()) {
+				if (this->mView->getPageValue(strPageValue).toFloat() <= strOperand.toFloat()) {
 					// Match
 					return true;
 				} else {
 					// No match
 					return false;
 				}
-			} else if (this->mView->GetPageValue(strPageValue).canConvert(QMetaType::Int)) {
+			} else if (this->mView->getPageValue(strPageValue).canConvert(QMetaType::Int)) {
 				// Run the condition
-				if (this->mView->GetPageValue(strPageValue).toInt() <= strOperand.toInt()) {
+				if (this->mView->getPageValue(strPageValue).toInt() <= strOperand.toInt()) {
 					// Match
 					return true;
 				} else {
@@ -515,7 +515,7 @@ namespace HeimdallGI {
 			}
 		} else if ((strOperator == "neq") || (strOperator == "<>") || (strOperator == "!=")) { // Non-Equality
 			// Run the condition
-			if (this->mView->GetPageValue(strPageValue).toString() != strOperand) {
+			if (this->mView->getPageValue(strPageValue).toString() != strOperand) {
 				// Match
 				return true;
 			} else {
@@ -532,14 +532,14 @@ namespace HeimdallGI {
 	/// Public Methods ///////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Template* Template::Process(View* objView, QString strTemplate) {
+	Template* Template::process(View* objView, QString strTemplate) {
 		// Check for a provided view
 		if (objView) {
 			// Set the view into the instance
 			this->mView = objView;
 		}
 		// Determine the template path
-		this->DetermineTemplatePath(strTemplate);
+		this->determineTemplatePath(strTemplate);
 		// Define our handle
 		QFile qfTemplate(this->mTemplateFile);
 		// Try to open the file
@@ -547,7 +547,7 @@ namespace HeimdallGI {
 			// Execute the route
 			QMetaObject::invokeMethod(new ErrorController, "ServerFault", Qt::AutoConnection, Q_ARG(CGI*&, this->mRequest), Q_ARG(View*&, objView), Q_ARG(QString, QString("Unable to load view file:  %1").arg(this->mTemplateFile)));
 			// Set the template file
-			this->mTemplateFile = objView->GetTemplate();
+			this->mTemplateFile = objView->getTemplate();
 			// Process the error route
 			qfTemplate.setFileName(this->mTemplateFile);
 			// Open the file
@@ -563,30 +563,30 @@ namespace HeimdallGI {
 			this->mTemplate.append(strLine.append("\n"));
 		}
 		// Process variable assignments
-		this->DoAssignments(this->mTemplate);
+		this->doAssignments(this->mTemplate);
 		// Process comments
-		this->DoComments(this->mTemplate);
+		this->doComments(this->mTemplate);
 		// Process inclusions
-		this->DoInclusion(this->mTemplate);
+		this->doInclusion(this->mTemplate);
 		// Process foreach loops
-		this->DoForEach(this->mTemplate);
+		this->doForEach(this->mTemplate);
 		// Process conditionals
-		this->DoConditional(this->mTemplate);
+		this->doConditional(this->mTemplate);
 		// Process JSON requests
-		this->DoJSON(this->mTemplate);
+		this->doJSON(this->mTemplate);
 		// Process the meta tags
-		this->DoMetaTags(this->mTemplate);
+		this->doMetaTags(this->mTemplate);
 		// Process the scripts
-		this->DoScripts(this->mTemplate);
+		this->doScripts(this->mTemplate);
 		// Process the styles
-		this->DoStyles(this->mTemplate);
+		this->doStyles(this->mTemplate);
 		// Process the substitutions
-		this->DoSubstitution(this->mTemplate);
+		this->doSubstitution(this->mTemplate);
 		// We're done
 		return this;
 	}
 
-	Template* Template::ProcessString(QString strTemplate, View* objView) {
+	Template* Template::processString(QString strTemplate, View* objView) {
 		// Check for a view
 		if (objView) {
 			// Set the view into the instance
@@ -595,25 +595,25 @@ namespace HeimdallGI {
 		// Set the template into the instance
 		this->mTemplate = strTemplate;
 		// Process variable assignments
-		this->DoAssignments(this->mTemplate);
+		this->doAssignments(this->mTemplate);
 		// Process comments
-		this->DoComments(this->mTemplate);
+		this->doComments(this->mTemplate);
 		// Process inclusions
-		this->DoInclusion(this->mTemplate);
+		this->doInclusion(this->mTemplate);
 		// Process foreach loops
-		this->DoForEach(this->mTemplate);
+		this->doForEach(this->mTemplate);
 		// Process conditionals
-		this->DoConditional(this->mTemplate);
+		this->doConditional(this->mTemplate);
 		// Process JSON requests
-		this->DoJSON(this->mTemplate);
+		this->doJSON(this->mTemplate);
 		// Process the meta tags
-		this->DoMetaTags(this->mTemplate);
+		this->doMetaTags(this->mTemplate);
 		// Process the scripts
-		this->DoScripts(this->mTemplate);
+		this->doScripts(this->mTemplate);
 		// Process the styles
-		this->DoStyles(this->mTemplate);
+		this->doStyles(this->mTemplate);
 		// Process the substitutions
-		this->DoSubstitution(this->mTemplate);
+		this->doSubstitution(this->mTemplate);
 		// Return the instance
 		return this;
 	}
@@ -622,12 +622,12 @@ namespace HeimdallGI {
 	/// Getters //////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	QString Template::GetTemplate() {
+	QString Template::getTemplate() {
 		// Return the processed template from the instance
 		return this->mTemplate;
 	}
 
-	bool Template::GetTemplateReadStatus() {
+	bool Template::getTemplateReadStatus() {
 		// Return the template read failure flag
 		return this->mTemplateReadFailure;
 	}
@@ -636,21 +636,21 @@ namespace HeimdallGI {
 	/// Setters //////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Template* Template::SetLogger(Log* &objLogger) {
+	Template* Template::setLogger(Log* &objLogger) {
 		// Set the logger object into the instance
 		this->mLog = objLogger;
 		// Return the instance
 		return this;
 	}
 
-	Template* Template::SetRequest(CGI* objRequest) {
+	Template* Template::setRequest(CGI* objRequest) {
 		// Set the request object into the instance
 		this->mRequest = objRequest;
 		// Return the instance
 		return this;
 	}
 
-	Template* Template::SetView(View* objView) {
+	Template* Template::setView(View* objView) {
 		// Set the view object into the instance
 		this->mView = objView;
 		// Return the instance
