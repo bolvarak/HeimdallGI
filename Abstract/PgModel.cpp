@@ -61,7 +61,7 @@ namespace HeimdallGI
 				}
 			}
 			// Return the query
-			return QString("INSERT INTO \"%1\" (%2) VALUES (%3)").arg(this->mTable, qslColumns.join(", "), qslPlaceholders.join(", "));
+			return QString("INSERT INTO \"%1\" (%2) VALUES (%3) RETURNING \"%4\"").arg(this->mTable, qslColumns.join(", "), qslPlaceholders.join(", "), this->mPrimaryKey);
 		}
 
 		void PgModel::tableMetaData(bool blnCloseConnectionWhenDone)
@@ -238,6 +238,13 @@ namespace HeimdallGI
 			if (!qrySave->exec()) {
 				// We're done
 				std::cout << QString("Model Save:  %1").arg(qrySave->lastError().text()).toLatin1().constData() << std::endl;
+			}
+			// Check for an insert
+			if (this->mColumns.value(this->mPrimaryKey).toString().isEmpty() || this->mPrimaryKey.isEmpty()) {
+				// Seek the first record
+				qrySave->seek(0);
+				// Add the primary key to the instance
+				this->mColumns.insert(this->mPrimaryKey, qrySave->value(0));
 			}
 			// We're finished with the save statement
 			qrySave->finish();
