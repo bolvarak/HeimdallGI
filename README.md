@@ -10,11 +10,11 @@ QCA >= 2.0.0
 
 Ubuntu Installation (Requirements)
 ==================================
-```sudo apt-get install qt5-default libqt5sql5 libqt5sql5-mysql libqt5sql5-odbc libqt5sql5-psql libqt5sql5-sqlite libqt5sql5-tds geoip-database-contrib libgeoip-dev``` 
+```sudo apt-get install qt5-default libqt5sql5 libqt5sql5-mysql libqt5sql5-odbc libqt5sql5-psql libqt5sql5-sqlite libqt5sql5-tds geoip-database-contrib libgeoip-dev libqca-qt5-2 libqca-qt5-2-dev libqca-qt5-2-plugins``` 
 
 ArchLinux Installation (Requirements)
 =====================================
-```sudo pacman -S qt5 geoip geoip-database postgresql-libs mariadb-clients```
+```sudo pacman -S qt5 geoip geoip-database postgresql-libs mariadb-clients qca-qt5```
 
 Compiling
 =========

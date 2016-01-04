@@ -14,30 +14,32 @@
       <sourceFolder url="file://$USER_HOME$/.CLion12/system/cmake/generated/d26a9e0/d26a9e0/Release/app.hgi_automoc.cpp" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/CGI.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/DBI.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Configuration.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/DBI.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/View.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/ErrorController.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/CGI.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Abstract/Endpoint.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Abstract/Endpoint.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Abstract/PgModel.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Abstract/PgModel.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/DBI.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/View.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ErrorController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CGI.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CGI.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Log.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ErrorController.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Template.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/QtCrypto/CMakeLists.txt" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Configuration.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Cryptography/AES.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Cryptography/AES.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Template.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Log.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Router.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/HTML.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/QtCrypto/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Router.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/View.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/DBI.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Configuration.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Pool/Database.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Pool/Database.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/HTML.cpp" isTestSource="false" />

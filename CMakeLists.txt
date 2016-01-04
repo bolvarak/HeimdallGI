@@ -1,12 +1,7 @@
 ## Includes
-include_directories(/usr/include/x86_64-linux-gnu/qt5)
-
-link_libraries(
-	/usr/lib/x86_64-linux-gnu/qca-qt5/crypto/libqca-cyrus-sasl.so
-	/usr/lib/x86_64-linux-gnu/qca-qt5/crypto/libqca-gnupg.so
-	/usr/lib/x86_64-linux-gnu/qca-qt5/crypto/libqca-logger.so
-	/usr/lib/x86_64-linux-gnu/qca-qt5/crypto/libqca-ossl.so
-	/usr/lib/x86_64-linux-gnu/qca-qt5/crypto/libqca-softstore.so
+include_directories(
+	/usr/include/x86_64-linux-gnu/qt5
+		/usr/include/Qca-qt5/QtCrypto
 )
 
 ## Helpers
@@ -71,7 +66,7 @@ include(QtCrypto/CMakeLists.txt)
 set(SOURCE_FILES
 	./Abstract/Endpoint.h
 	./Abstract/PgModel.h
-#	./Cryptography/AES.h
+	./Cryptography/AES.h
 	./CGI.h
 	./Configuration.h
 	./DBI.h
@@ -85,7 +80,7 @@ set(SOURCE_FILES
 	./View.h
 	./Abstract/Endpoint.cpp
 	./Abstract/PgModel.cpp
-#	./Cryptography/AES.cpp
+	./Cryptography/AES.cpp
 	./CGI.cpp
 	./Configuration.cpp
 	./DBI.cpp
@@ -105,7 +100,6 @@ set(CMAKE_AUTOMOC ON)
 
 ## Qt5 Packages
 find_package(Qt5Core)
-#find_package(QtCrypto)
 find_package(Qt5Network)
 find_package(Qt5Sql)
 find_package(Qt5Xml)

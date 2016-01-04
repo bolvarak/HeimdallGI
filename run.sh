@@ -1,10 +1,13 @@
 #!/bin/bash
 
+## Clear Screen
+clear;
+
 ## Update
 git pull;
 
 ## Generate make file
-qmake;
+cmake .;
 
 ## Compile
 make && make clean;
@@ -13,5 +16,5 @@ make && make clean;
 rm -fr Makefile;
 
 ## Execute the application
-./Application.hgi
+./app.hgi
 
