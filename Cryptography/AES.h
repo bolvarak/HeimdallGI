@@ -9,12 +9,14 @@
 /// Headers //////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
+#include "iostream"
 #include "QtCore/QByteArray"
 #include "QtCore/QObject"
 #include "QtCore/QString"
 #include "QtCore/QStringList"
+#include "QtCore/QStringListIterator"
 #include "QtCore/QVariant"
-#include "QtCrypto"
+#include "Qca-qt5/QtCrypto/QtCrypto"
 
 ///////////////////////////////////////////////////////////////////////////////
 /// HeimdallGI Namespace /////////////////////////////////////////////////////
@@ -51,10 +53,10 @@ namespace HeimdallGI
 				/////////////////////////////////////////////////////////////
 
 
-				static QVariant decrypt(QString strHash, int intRecursion = 1);
+				static QVariant decrypt(QByteArray strHash, int intRecursion = 1);
 
 
-				static QString encrypt(QVariant mixData, int intRecursion = 1);
+				static QByteArray encrypt(QVariant mixData, int intRecursion = 1);
 		};
 
 	///////////////////////////////////////////////////////////////////////////

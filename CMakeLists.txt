@@ -1,8 +1,8 @@
 ## Includes
 include_directories(
 	/usr/include/x86_64-linux-gnu/qt5
-		/usr/include/Qca-qt5/QtCrypto
 )
+
 
 ## Helpers
 if(NOT WIN32)
@@ -57,10 +57,7 @@ cmake_minimum_required(VERSION 3.2)
 project(HeimdallGI)
 
 ## CMake Settings & Configuration
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=c++11")
-
-## Include our QCA sources
-include(QtCrypto/CMakeLists.txt)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=c++11 -F/usr/lib/x86_64-linux-gnu/qca-qt5/crypto")
 
 ## Source Headers & Files
 set(SOURCE_FILES
@@ -109,5 +106,5 @@ add_executable(app.hgi ${SOURCE_FILES})
 
 ## Links
 
-target_link_libraries(app.hgi Qt5::Core Qt5::Network Qt5::Sql)
+target_link_libraries(app.hgi Qt5::Core Qt5::Network Qt5::Sql qca-qt5)
 
