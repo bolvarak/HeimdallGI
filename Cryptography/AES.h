@@ -10,6 +10,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 #include "iostream"
+#include "../Configuration.h"
 #include "QtCore/QByteArray"
 #include "QtCore/QObject"
 #include "QtCore/QString"
@@ -52,11 +53,51 @@ namespace HeimdallGI
 				/// Static Methods ///////////////////////////////////////////
 				/////////////////////////////////////////////////////////////
 
+				/**
+				 * This method decrypts a single pass encrypted hash
+				 * @access public
+				 * @name HeimdallGI::Cryptography::AES::decrypt()
+				 * @param QByteArray strHash
+				 * @param bool blnFromBase64 [true]
+				 * @return QVariant
+				 * @static
+				 */
+				static QVariant decrypt(QByteArray strHash, bool blnFromBase64 = true);
 
-				static QVariant decrypt(QByteArray strHash, int intRecursion = 1);
+				/**
+				 * This method encrypts data with a single pass
+				 * @access public
+				 * @name HeimdallGI::Cryptography::AES::encrypt()
+				 * @param QVariant mixData
+				 * @param bool blnToBase64 [true]
+				 * @return QByteArray
+				 * @static
+				 */
+				static QByteArray encrypt(QVariant mixData, bool blnToBase64 = true);
 
+				/**
+				 * This method recursively decrypts a recursively encrypted hash
+				 * @access public
+				 * @name HeimdallGI::Cryptography::AES::recursiveDecrypt()
+				 * @param QByteArray strHash
+				 * @param int64_t intRecursion [10]
+				 * @param bool blnFromBase64 [true]
+				 * @return QVariant
+				 * @static
+				 */
+				static QVariant recursiveDecrypt(QByteArray strHash, int64_t intRecursion = 10, bool blnFromBase64 = true);
 
-				static QByteArray encrypt(QVariant mixData, int intRecursion = 1);
+				/**
+				 * This method recursively encrypts data
+				 * @access public
+				 * @name HeimdallGI::Cryptography::AES::recursiveEncrypt()
+				 * @param QVariant mixData
+				 * @param int64_t intRecursion [10]
+				 * @param bool blnToBase64 [true]
+				 * @return QByteArray
+				 * @static
+				 */
+				static QByteArray recursiveEncrypt(QVariant mixData, int64_t intRecursion = 10, bool blnToBase64 = true);
 		};
 
 	///////////////////////////////////////////////////////////////////////////

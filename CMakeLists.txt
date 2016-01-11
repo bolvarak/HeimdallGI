@@ -29,7 +29,7 @@ endif()
 cmake_policy(SET CMP0005 NEW)
 
 ## HeimdallGI File Paths
-set(HGI_Config_File        "/var/websites/tuxns/source/api/application.ini")
+set(HGI_Config_File        "/var/websites/HeimdallGI/Conf/hgi.conf")
 set(HGI_Static_Files       "/var/websites/tuxns/htdocs")
 set(HGI_Views              "/var/websites/tuxns/source/views")
 
